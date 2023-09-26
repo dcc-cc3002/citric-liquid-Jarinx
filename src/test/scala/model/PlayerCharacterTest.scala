@@ -15,7 +15,9 @@ class PlayerCharacterTest extends munit.FunSuite {
   private val defense = 1
   private val evasion = 1
   private val randomNumberGenerator = new Random(11)
-  /* Add any other constants you need here... */
+  private val currentHp = 10
+  private val stars = 2
+  private val wins = 6
 
   /*
   This is the object under test.
@@ -24,18 +26,12 @@ class PlayerCharacterTest extends munit.FunSuite {
   to worry about the state of the object between tests.
   */
   private var character: PlayerCharacter = _  // <- x = _ is the same as x = null
+  private var character2: PlayerCharacter = _
   /* Add any other variables you need here... */
 
   // This method is executed before each `test(...)` method.
   override def beforeEach(context: BeforeEach): Unit = {
-    character = new PlayerCharacter(
-      name,
-      maxHp,
-      attack,
-      defense,
-      evasion,
-      randomNumberGenerator
-    )
+    character = new PlayerCharacter(randomNumberGenerator)
   }
 
   test("A character should have correctly set their attributes") {
@@ -44,6 +40,9 @@ class PlayerCharacterTest extends munit.FunSuite {
     assertEquals(character.attack, attack)
     assertEquals(character.defense, defense)
     assertEquals(character.evasion, evasion)
+    assertEquals(character.currentHp, currentHp)
+    assertEquals(character.stars, stars)
+    assertEquals(character.wins, wins)
   }
 
   // Two ways to test randomness (you can use any of them):
@@ -60,9 +59,21 @@ class PlayerCharacterTest extends munit.FunSuite {
   // are always the same for the same seed.
   test("A character should be able to roll a dice with a fixed seed") {
     val other =
-      new PlayerCharacter(name, maxHp, attack, defense, evasion, new Random(11))
+      new PlayerCharacter(new Random(11))
     for (_ <- 1 to 10) {
       assertEquals(character.rollDice(), other.rollDice())
     }
+  }
+
+  test("A character can take a certain amount of damage"){
+    assertEquals(character.takeDmg(5), character2.doDmg(character))
+  }
+
+  test("A character can do damage to another player or wild unit"){
+    assertEquals(character.doDmg(character2), character2.takeDmg(5))
+  }
+
+  test("A character can battle against someone, and win"){
+    assertEquals(character.battle(character2), true)
   }
 }

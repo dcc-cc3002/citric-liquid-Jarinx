@@ -2,6 +2,7 @@ package cl.uchile.dcc.citric
 package model
 
 import scala.util.Random
+import cl.uchile.dcc.citric.model.Entity
 
 /** The `PlayerCharacter` class represents a character or avatar in the game, encapsulating
   * several attributes such as health points, attack strength, defense capability,
@@ -37,15 +38,16 @@ import scala.util.Random
   * @author [[https://github.com/Seivier/ Vicente González B.]]
   * @author [[https://github.com/~Your github account~/ ~Your Name~]]
   */
-class PlayerCharacter(val name: String,
-              val maxHp: Int,
-              val attack: Int,
-              val defense: Int,
-              val evasion: Int,
-              val randomNumberGenerator: Random = new Random()) {
+abstract class PlayerCharacter(
+              val name: String,
+              val randomNumberGenerator: Random = new Random(),
+              var stars: Int,
+              var wins: Int) extends Entity {
 
   /** Rolls a dice and returns a value between 1 to 6. */
   def rollDice(): Int = {
     randomNumberGenerator.nextInt(6) + 1
   }
+  def battle(someone: Entity): Boolean
+
 }
