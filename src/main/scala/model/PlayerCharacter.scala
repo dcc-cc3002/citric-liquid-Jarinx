@@ -40,14 +40,14 @@ import cl.uchile.dcc.citric.model.Entity
   */
 abstract class PlayerCharacter(
               val name: String,
+              val num: Int,
               val randomNumberGenerator: Random = new Random(),
               var stars: Int,
-              var wins: Int) extends Entity {
+              var wins: Int,
+              var norma: Norma) extends Entity {
 
   /** Rolls a dice and returns a value between 1 to 6. */
   def rollDice(): Int = {
     randomNumberGenerator.nextInt(6) + 1
   }
-  def battle(someone: Entity): Boolean
-
 }

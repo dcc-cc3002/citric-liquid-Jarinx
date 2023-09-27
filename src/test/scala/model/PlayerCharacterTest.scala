@@ -10,6 +10,7 @@ class PlayerCharacterTest extends munit.FunSuite {
   This will make your tests more readable, easier to maintain, and less error-prone.
   */
   private val name = "testPlayer"
+  private val num = 1
   private val maxHp = 10
   private val attack = 1
   private val defense = 1
@@ -35,6 +36,7 @@ class PlayerCharacterTest extends munit.FunSuite {
   }
 
   test("A character should have correctly set their attributes") {
+    assertEquals(character.name, name)
     assertEquals(character.name, name)
     assertEquals(character.maxHp, maxHp)
     assertEquals(character.attack, attack)
@@ -73,7 +75,4 @@ class PlayerCharacterTest extends munit.FunSuite {
     assertEquals(character.doDmg(character2), character2.takeDmg(5))
   }
 
-  test("A character can battle against someone, and win"){
-    assertEquals(character.battle(character2), true)
-  }
 }

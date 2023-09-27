@@ -51,33 +51,31 @@ trait Panel {
   def removeCharacter(player: PlayerCharacter): Unit
 }
 
-class neutralPanel(){
+abstract class NeutralPanel extends Panel{
 }
 
-class homePanel(){
-  /** atributos:
-   *  - owner: String -> de qué jugador es el panel
-   *  - number: Int -> el número asociado al player
-   *
-   *  métodos:
-   *  - restoreHP: Unit -> cada vez que se pasa por el panel se suma 1 al HP del jugador
-   *  - nomraCheck: Boolean -> se checkea si el jugador tiene las estrellas suficientes
-   */
+abstract class HomePanel(val owner: PlayerCharacter,
+                         val playerNum: Int) extends Panel{
+  def restoreHP: Unit = {
+  }
+  def normaCheck: Unit = {
+  }
 }
-class bonusPanel(){
-  /** métodos:
-   * - gainStars: Unit -> dependiendo del roll, gana 'x' estrellas
-   */
+abstract class bonusPanel extends Panel {
+  def gainStars(): Unit = {
+  }
 }
 
-class dropPanel(){
-  /** métodos:
-   * - loseStards: Unit -> dependiendo del roll, pierde 'y' estrellas
-   */
+abstract class dropPanel extends Panel {
+  def loseStars(): Unit = {
+  }
 }
 
-class encounterPanel(){
-  /** métodos:
-   * - battle: Boolean -> True si gana el jugador, False si gana el Wild Unit
-   */
+abstract class encounterPanel extends Panel {
+  def battle(): Unit{
+  }
+}
+
+abstract class board{
+  var panels: List[Panel]
 }
