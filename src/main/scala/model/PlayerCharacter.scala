@@ -38,15 +38,15 @@ import cl.uchile.dcc.citric.model.Entity
   * @author [[https://github.com/Seivier/ Vicente González B.]]
   * @author [[https://github.com/~Your github account~/ ~Your Name~]]
   */
-abstract class PlayerCharacter(
+class PlayerCharacter(
               val name: String,
               val num: Int,
               val randomNumberGenerator: Random = new Random(),
               var stars: Int,
               var wins: Int,
-              var norma: Norma) extends Entity {
+              var norma: Int) extends Entity {
 
-  /** Rolls a dice and returns a value between 1 to 6. */
+  /** Rolls a dice and returns a valuet between 1 to 6. */
   def rollDice(): Int = {
     randomNumberGenerator.nextInt(6) + 1
   }

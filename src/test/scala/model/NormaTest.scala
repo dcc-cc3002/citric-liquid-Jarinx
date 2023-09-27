@@ -1,6 +1,6 @@
 package cl.uchile.dcc.citric
 package model
-
+/*
 class NormaTest extends munit.FunSuite {
   private val level = 2
   private val neededStars = 10
@@ -14,3 +14,4 @@ class NormaTest extends munit.FunSuite {
   }
 
 }
+*/

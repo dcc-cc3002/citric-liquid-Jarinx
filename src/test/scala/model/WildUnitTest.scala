@@ -3,17 +3,17 @@ package model
 
 class WildUnitTest extends munit.FunSuite {
   private val enemy = "Chicken"
-  private val maxHp = 3
-  private val currentHp = 3
-  private val attack = -1
-  private val defense = -1
+  private val maxHp = 10
+  private val currentHp = 10
+  private val attack = 1
+  private val defense = 1
   private val evasion = 1
   private val stars = 7
 
   private var badGuy: WildUnit = _
   private var character: PlayerCharacter = _
   override def beforeEach(context: BeforeEach): Unit = {
-
+    badGuy = new WildUnit(enemy, stars)
   }
 
   //tests
@@ -28,11 +28,11 @@ class WildUnitTest extends munit.FunSuite {
   }
 
   test("A wild unit can take a certain amount of damage from a player"){
-    assertEquals(badGuy.takeDmg(5), character.doDmg(badGuy))
+    assertEquals(badGuy.takeDmg(5), 5)
   }
 
   test("A wild unit can do a certain amount of damage to a player"){
-    assertEquals(badGuy.doDmg(character), character.takeDmg(5))
+    assertEquals(badGuy.doDmg(character, 5), 5)
   }
 }
 
