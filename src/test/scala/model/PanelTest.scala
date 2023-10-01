@@ -2,6 +2,7 @@ package cl.uchile.dcc.citric
 package model
 
 import scala.collection.mutable.ArrayBuffer
+import scala.util.Random
 
 class PanelTest extends munit.FunSuite {
   private var player1: PlayerCharacter = _
@@ -14,10 +15,6 @@ class PanelTest extends munit.FunSuite {
   private val charactersEx = ArrayBuffer(player1, player2)
   private val nextPanelsEx = ArrayBuffer(panel1, panel2)
 
-  private val owner = player1
-  private val playerNum = 1
-
-
   override def beforeEach(context: BeforeEach): Unit = {
     panel1 = new Panel {
       override var panelType: String = panelTypeEx
@@ -28,6 +25,8 @@ class PanelTest extends munit.FunSuite {
     }
 
   }
+
+  // the next tests are for the Panel trait
 
   test("A panel has a type"){
     assertEquals(panel1.panelType, panelTypeEx)
@@ -44,10 +43,7 @@ class PanelTest extends munit.FunSuite {
   test("We can add or remove a player form a certain panel"){
     assertEquals(panel1.addCharacter(player1), panel1.removeCharacter(player1))
   }
-/*
-  test("In a Home Panel, a player restores 1 HP"){
-    assertEquals(panel1.restoreHP)
-  }
-  */
 
+  //the next tests are for the different types of panels
+  //IN PROGRESS
 }
