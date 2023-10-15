@@ -2,6 +2,7 @@ package cl.uchile.dcc.citric
 package model
 
 import scala.collection.mutable.ArrayBuffer
+import scala.math._
 
 /** Represents a single cell on a board, known as a Panel.
   *
@@ -18,14 +19,14 @@ import scala.collection.mutable.ArrayBuffer
 
 trait Panel {
 
-  var panelType: String /** corresponde al tipo del panel (neutral, home, bonus, drop o encounter) */
+  var panelType: String = panelType/** corresponde al tipo del panel (neutral, home, bonus, drop o encounter) */
 
   /** Array of the characters currently positioned on this panel.
     *
     * In the game, multiple characters might be on the same panel at once, e.g., if multiple players
     * land on the same space.
     */
-  val characters: ArrayBuffer[PlayerCharacter]
+  val characters: ArrayBuffer[PlayerCharacter] = characters
 
   /** An array of panels that are directly connected to this one.
    *
@@ -34,7 +35,7 @@ trait Panel {
    *
    * @return a List of Panel instances that are adjacent or connected to this panel.
    */
-  var nextPanels: ArrayBuffer[Panel]
+  var nextPanels: ArrayBuffer[Panel] = nextPanels
 
   /** Adds a character to the list of characters currently on this panel.
     *
@@ -54,6 +55,9 @@ trait Panel {
     */
   def removeCharacter(player: PlayerCharacter): Unit = {
     characters -= player
+  }
+
+  def apply(): Unit = {
   }
 }
 
@@ -106,12 +110,22 @@ abstract class HomePanel(private var _owner: PlayerCharacter,
  *
  *@author Julieta Ayelli
  */
-abstract class bonusPanel extends Panel {
-
+class BonusPanel extends Panel {
+  var player: PlayerCharacter = player
+  var rolled: Int = player.rollDice()
   /** Once any player ends up here, the gain a certain number of stars
    * Stars gained = min(roll * Norma, roll * 3)
    */
-  def gainStars(): Unit = {}
+  def gainStars(): Unit = {
+    var roll = rolled
+    var starsGained: Int = min(roll * player._norma, roll * 3)
+    var newStars = player.stars + starsGained
+    player.setStars(newStars)
+  }
+
+  override def apply(): Unit = {
+
+  }
 }
 
 /** A class that represents a Drop Panel
@@ -119,12 +133,19 @@ abstract class bonusPanel extends Panel {
  *
  *@author Julieta Ayelli
  */
-abstract class dropPanel extends Panel {
+class DropPanel extends Panel {
+  var player: PlayerCharacter = player
+  var rolled: Int = player.rollDice()
 
   /** Once any player ends up here, they lose a certain number of stars
    * Stars lost = roll * Norma
    */
-  def loseStars(): Unit = {}
+  def loseStars(): Unit = {
+    var roll = rolled
+    var starsLost: Int = roll * player._norma
+    var newStars = player.stars - starsLost
+    player.setStars(newStars)
+  }
 }
 
 /** A class that represents an Encounter Panel

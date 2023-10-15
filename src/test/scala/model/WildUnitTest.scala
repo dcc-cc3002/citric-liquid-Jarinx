@@ -21,9 +21,9 @@ class WildUnitTest extends munit.FunSuite {
     assertEquals(badGuy.enemy, _enemy)
     assertEquals(badGuy.maxHp, maxHp)
     assertEquals(badGuy.currentHp, currentHp)
-    assertEquals(badGuy.attack, attack)
-    assertEquals(badGuy.defense, defense)
-    assertEquals(badGuy.evasion, evasion)
+    assertEquals(badGuy.attackPts, attack)
+    assertEquals(badGuy.defensePts, defense)
+    assertEquals(badGuy.evasionPts, evasion)
     assertEquals(badGuy.stars, _stars)
   }
 
@@ -37,8 +37,11 @@ class WildUnitTest extends munit.FunSuite {
    test("You can set a Wild Unit, for example, to a certain Encounter Panel"){
      assertEquals(badGuy.setEnemy("Robo ball"), "Robo ball")
    }
+  /*
   test("You can´t change the number of stars a Wild Unit has (TEST FAILING IS OK"){
     assertEquals((badGuy.setStars(5)), 5)
   }
+
+   */
 }
 

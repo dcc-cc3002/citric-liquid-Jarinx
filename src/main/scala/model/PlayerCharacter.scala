@@ -86,7 +86,7 @@ class PlayerCharacter(
 
   /** sets (updates) the stars of a player
    * it's protected because only subclasses should access it to change it */
-  protected def setStars(newStars: Int): Int = {
+  def setStars(newStars: Int): Int = {
     _stars = newStars
     return _stars
   }

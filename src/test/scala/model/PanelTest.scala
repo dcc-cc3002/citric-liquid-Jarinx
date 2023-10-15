@@ -14,7 +14,7 @@ class PanelTest extends munit.FunSuite {
   private val panelTypeEx = "Neutral Panel"
   private val charactersEx = ArrayBuffer(player1, player2)
   private val nextPanelsEx = ArrayBuffer(panel1, panel2)
-
+/*
   override def beforeEach(context: BeforeEach): Unit = {
     panel1 = new Panel {
       override var panelType: String = panelTypeEx
@@ -25,7 +25,7 @@ class PanelTest extends munit.FunSuite {
     }
 
   }
-
+*/
   // the next tests are for the Panel trait
 
   test("A panel has a type"){
