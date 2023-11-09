@@ -1,6 +1,8 @@
 package cl.uchile.dcc.citric
 package model
 
+import cl.uchile.dcc.citric.model.gameunits.PlayerCharacter
+
 import scala.util.Random
 
 class PlayerCharacterTest extends munit.FunSuite {
@@ -9,17 +11,17 @@ class PlayerCharacterTest extends munit.FunSuite {
   tests, so you can change them in a single place.
   This will make your tests more readable, easier to maintain, and less error-prone.
   */
-  private val _name = "testPlayer1"
-  private val _num = 1
+  private val name = "LichKing"
+  private val num = 1
   private val maxHp = 10
   private val attack = 1
   private val defense = 1
   private val evasion = 1
-  private val _randomNumberGenerator = new Random(11)
+  private val randomNumberGenerator = new Random(11)
   private val currentHp = 10
-  private val _stars = 2
-  private val _wins = 6
-  private val _norma = 2
+  private val stars = 2
+  private val wins = 6
+  private val norma = 2
 
   /*
   This is the object under test.
@@ -33,19 +35,34 @@ class PlayerCharacterTest extends munit.FunSuite {
 
   // This method is executed before each `test(...)` method.
   override def beforeEach(context: BeforeEach): Unit = {
-    character = new PlayerCharacter(_name, _num, _randomNumberGenerator, _stars, _wins, _norma)
+    character = new PlayerCharacter(maxHp, attack, defense, evasion)
+    character2 = new PlayerCharacter(maxHp, attack, defense, evasion)
   }
 
+
   test("A character should have correctly set their attributes") {
-    assertEquals(character.name, _name)
-    assertEquals(character.name, _name)
-    assertEquals(character.maxHp, maxHp)
-    assertEquals(character.attackPts, attack)
-    assertEquals(character.defensePts, defense)
-    assertEquals(character.evasionPts, evasion)
-    assertEquals(character.currentHp, currentHp)
-    assertEquals(character.stars, _stars)
-    assertEquals(character.wins, _wins)
+    character.setName(name)
+    character.setCurrentHp(currentHp)
+    character.setStars(stars)
+    character.setWins(wins)
+    character.setNorma(norma)
+    character.setNum(num)
+    character.setRNG(randomNumberGenerator)
+    character.setMaxHp(maxHp)
+    character.setAttackPts(attack)
+    character.setDefensePts(defense)
+    character.setEvasionPts(evasion)
+    assertEquals(character.getName, name)
+    assertEquals(character.getMaxHp, maxHp)
+    assertEquals(character.getAttackPts, attack)
+    assertEquals(character.getDefensePts, defense)
+    assertEquals(character.getEvasionPts, evasion)
+    assertEquals(character.getCurrentHp, currentHp)
+    assertEquals(character.getStars, stars)
+    assertEquals(character.getWins, wins)
+    assertEquals(character.getNorma, norma)
+    assertEquals(character.getNum, num)
+    assertEquals(character.getRNG, randomNumberGenerator)
   }
 
   // Two ways to test randomness (you can use any of them):
@@ -58,11 +75,23 @@ class PlayerCharacterTest extends munit.FunSuite {
   }
 
   test("A character can take a certain amount of damage"){
-    assertEquals(character.takeDmg(5), 5)
+    character.takeDmg(5)
+    assertEquals(character.getCurrentHp, 5)
   }
 
   test("A character can do damage to another player or wild unit"){
-    assertEquals(character.doDmg(character2, 5), 5)
+    character.doDmg(character2, 5)
+    assertEquals(character2.getCurrentHp, 5)
+  }
+
+  test("A character can defend himself from another Entity's attack and survive"){
+    character.defend(character2, 3)
+    assertEquals(character.getCurrentHp, 7)
+  }
+
+  test("A character can defend himself form another Entity's attack and get K0'ed"){
+    character.defend(character2, 10)
+    assertEquals(character.getCurrentHp, 0)
   }
 
 }

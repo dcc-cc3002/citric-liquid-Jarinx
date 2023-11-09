@@ -1,47 +1,92 @@
 package cl.uchile.dcc.citric
 package model
 
-class WildUnitTest extends munit.FunSuite {
-  private val _enemy = "Chicken"
-  private val maxHp = 10
-  private val currentHp = 10
-  private val attack = 1
-  private val defense = 1
-  private val evasion = 1
-  private val _stars = 7
+import cl.uchile.dcc.citric.model.gameunits.PlayerCharacter
+import cl.uchile.dcc.citric.model.gameunits.wildunits.{Chicken, RoboBall, Seagull, WildUnit}
 
-  private var badGuy: WildUnit = _
+class WildUnitTest extends munit.FunSuite {
+  private val enemy = "Chicken"
+  private val maxHp = 3
+  private val currentHp = 3
+  private val attack = -1
+  private val defense = -1
+  private val evasion = 1
+  private val stars = 3
+  var wins = 0
+
+  private var badGuy: Chicken = _
+  private var angryBirb: Seagull = _
+  private var roundBoy: RoboBall = _
   private var character: PlayerCharacter = _
   override def beforeEach(context: BeforeEach): Unit = {
-    badGuy = new WildUnit(_enemy, _stars)
+    badGuy = new Chicken
+    angryBirb = new Seagull
+    roundBoy = new RoboBall
+    character = new PlayerCharacter(maxHp, attack, defense, evasion)
   }
 
   //tests
-  test("A wild unit should have correctly set their attributes"){
-    assertEquals(badGuy.enemy, _enemy)
-    assertEquals(badGuy.maxHp, maxHp)
-    assertEquals(badGuy.currentHp, currentHp)
-    assertEquals(badGuy.attackPts, attack)
-    assertEquals(badGuy.defensePts, defense)
-    assertEquals(badGuy.evasionPts, evasion)
-    assertEquals(badGuy.stars, _stars)
+  test("You can set the attributes of any wild unit, if needed"){
+    badGuy.setEnemy(enemy)
+    badGuy.setMaxHp(maxHp)
+    badGuy.setCurrentHp(currentHp)
+    angryBirb.setAttackPts(attack)
+    angryBirb.setDefensePts(defense)
+    angryBirb.setEvasionPts(evasion)
+    roundBoy.setStars(stars)
+    roundBoy.setWins(wins)
+    assertEquals(badGuy.getEnemy, enemy)
+    assertEquals(badGuy.getMaxHp, maxHp)
+    assertEquals(badGuy.getCurrentHp, currentHp)
+    assertEquals(badGuy.getAttackPts, attack)
+    assertEquals(badGuy.getDefensePts, defense)
+    assertEquals(badGuy.getEvasionPts, evasion)
+    assertEquals(badGuy.getStars, stars)
+    assertEquals(badGuy.getWins, 0)
   }
 
   test("A wild unit can take a certain amount of damage from a player"){
-    assertEquals(badGuy.takeDmg(5), 5)
+    badGuy.takeDmg(1)
+    assertEquals(badGuy.getCurrentHp, 2)
+  }
+
+  test("The amount of damage taken can't be under 0") {
+    val exception = intercept[IllegalArgumentException] {
+      angryBirb.takeDmg(-1)
+    }
+    assertEquals(exception.getMessage, "Quantity of damage must be non-negative")
   }
 
   test("A wild unit can do a certain amount of damage to a player"){
-    assertEquals(badGuy.doDmg(character, 5), 5)
-  }
-   test("You can set a Wild Unit, for example, to a certain Encounter Panel"){
-     assertEquals(badGuy.setEnemy("Robo ball"), "Robo ball")
-   }
-  /*
-  test("You can´t change the number of stars a Wild Unit has (TEST FAILING IS OK"){
-    assertEquals((badGuy.setStars(5)), 5)
+    badGuy.doDmg(character, 1)
+    assertEquals(character.getCurrentHp, 2)
   }
 
-   */
+  test("The amount of damage inflicted can't be under 0") {
+    val exception = intercept[IllegalArgumentException] {
+      angryBirb.doDmg(character, -1)
+    }
+    assertEquals(exception.getMessage, "Quantity of damage must be non-negative")
+  }
+
+  test("A wild unit can´t attack a player in Recovery state") {
+    character.setCurrentHp(0)
+    val exception = intercept[AssertionError] {
+      angryBirb.attack(character, 2)
+    }
+    assert(exception.getMessage.contains("Player is K.O."))
+  }
+
+  test("A wild unit can K0 a player (leave them with 0 HP)"){
+    character.setCurrentHp(4)
+    angryBirb.attack(character, 5)
+    assertEquals(character.currentHp, 0)
+  }
+
+  test("A wild unit can evade a player's attack"){
+    roundBoy.evade(character, 2)
+  }
+
+
 }
 
