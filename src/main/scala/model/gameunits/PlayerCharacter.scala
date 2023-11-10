@@ -25,9 +25,9 @@ import scala.util.Random
   *
   * @param name The name of the player. This is an identifier and should be unique.
   * @param maxHp The maximum health points a player can have. It represents the player's endurance.
-  * @param attack The player's capability to deal damage to opponents.
-  * @param defense The player's capability to resist or mitigate damage from opponents.
-  * @param evasion The player's skill to completely avoid certain attacks.
+  * @param attackPts The player's capability to deal damage to opponents.
+  * @param defensePts The player's capability to resist or mitigate damage from opponents.
+  * @param evasionPts The player's skill to completely avoid certain attacks.
   * @param randomNumberGenerator A utility to generate random numbers. Defaults to a new `Random`
   *                              instance.
  * @author [[https://github.com/danielRamirezL/ Daniel Ramírez L.]]
