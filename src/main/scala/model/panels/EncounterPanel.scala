@@ -6,25 +6,27 @@ import cl.uchile.dcc.citric.model.gameunits.wildunits.WildUnit
 
 import scala.collection.mutable.ArrayBuffer
 
-/** A class that represents an Encounter Panel
- * Players that end up here will fight with a random Wild Unit;
- * if the win, they'll win stars, and if they lose, they'll lose stars.
- * The stars won depends on how many stars the Wild Unit has accumulated
- * by fighting other players.
+/**
+ * Represents an encounter panel on the game board.
+ * An encounter panel is a type of space where players can engage with a wild unit enemy.
  *
- * @param enemy: the Wild Unit that will be randomly generated on this panel
- * @author Julieta Ayelli
+ * @constructor Create a new encounter panel with a specified type.
+ * @param panelType The type of the panel, which should be "encounter" for this class.
  */
 class EncounterPanel(panelType: String) extends Panels(panelType) {
 
-  var enemy: WildUnit = _
+  var enemy: WildUnit = _  // The wild unit enemy associated with this encounter panel.
 
-  /** gets the current enemy of a certain Encounter Panel */
+  /** Retrieves the wild unit enemy associated with this encounter panel.
+   *
+   * @return The WildUnit enemy present on this panel.
+   */
   def getEnemy: WildUnit = enemy
 
-  /** sets (updates) the enemy of a certain Encounter Panel
-   * it's private because each Encounter Panel will have a specific Wild Unit,
-   * therefore it SHOULD NOT be changed throughout the match*/
+  /** Sets the wild unit enemy for this encounter panel.
+   *
+   * @param newEnemy The WildUnit to set as the enemy on this panel.
+   */
   def setEnemy(newEnemy: WildUnit): Unit = {
     enemy = newEnemy
   }

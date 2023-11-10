@@ -18,12 +18,9 @@ import scala.math._
   * @author [[https://github.com/r8vnhill Ignacio Slater M.]]
   * @author [[https://github.com/Jarinx Julieta Ayelli]]
   */
-
-
 trait Panel {
 
-  /** corresponde al tipo del panel (neutral, home, bonus, drop o encounter) */
-  var panelType: String
+  var panelType: String // The type of the panel (e.g., neutral, home, bonus, drop, encounter).
 
   /** Array of the characters currently positioned on this panel.
     *
@@ -41,31 +38,56 @@ trait Panel {
    */
   var nextPanels: ArrayBuffer[Panel]
 
-  /** Adds a character to the list of characters currently on this panel.
-    *
-    * This might be invoked when a player moves to this panel or starts their turn on it.
-    *
-    * @param player The player character to add to this panel.
-    */
-
+  /** Returns the type of this panel.
+   *
+   * @return A string representing the panel type.
+   */
   def getPanelType: String = panelType
 
+  /** Returns the characters currently on this panel.
+   *
+   * @return An ArrayBuffer of PlayerCharacter instances on this panel.
+   */
   def getCharacters: ArrayBuffer[PlayerCharacter] = characters
 
+  /*** Returns the panels directly connected to this one.
+   *
+   * @return An ArrayBuffer of Panel instances that are adjacent to this panel.
+   */
   def getNextPanels: ArrayBuffer[Panel] = nextPanels
 
+  /** Sets the type of this panel.
+   *
+   * @param newType The new type for the panel.
+   */
   def setPanelType(newType: String): Unit
 
+  /** Adds a character to this panel.
+   * This method is called when a character lands on or passes through this panel.
+   *
+   * @param player The PlayerCharacter to add to this panel.
+   */
   def addCharacter(player: PlayerCharacter): Unit
 
-  /** Removes a character from the list of characters currently on this panel.
-    *
-    * This might be invoked when a player moves off this panel.
-    *
-    * @param player The player character to remove from this panel.
-    */
+  /** Removes a character from this panel.
+   * This method is called when a character leaves this panel.
+   *
+   * @param player The PlayerCharacter to remove from this panel.
+   */
   def removeCharacter(player: PlayerCharacter): Unit
+
+  /** Adds a connection to another panel.
+   * This method is used to link this panel to another, allowing for movement between them.
+   *
+   * @param panel The Panel to connect to this one.
+   */
   def addPanel(panel: Panel): Unit
+
+  /** Removes a connection to another panel.
+   * This method is used to unlink this panel from another, disallowing movement between them.
+   *
+   * @param panel The Panel to disconnect from this one.
+   */
   def removePanel(panel: Panel): Unit
 
 //  def apply(): Unit = {

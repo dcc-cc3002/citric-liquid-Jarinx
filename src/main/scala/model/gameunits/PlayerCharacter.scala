@@ -39,44 +39,40 @@ import scala.util.Random
 class PlayerCharacter(maxHp: Int, attackPts: Int, defensePts: Int, evasionPts: Int)
                        extends Entities(maxHp, attackPts, defensePts, evasionPts) {
 
-  var randomNumberGenerator: Random = new Random()
-  var name: String = _
-  var num: Int = _
-  var norma: Int = _
+  var randomNumberGenerator: Random = new Random() // Random number generator for dice rolls.
+  var name: String = _ // The name of the player character.
+  var num: Int = _  // The unique number associated with the player character.
+  var norma: Int = _ // The current norma level of the player character.
 
-  /** gets the name of the player */
+  /** Retrieves the name of the player character. */
   def getName: String = name
 
-  /** gets the number associated with the player */
+  /** Retrieves the unique number associated with the player character. */
   def getNum: Int = num
 
-  /** gets the roll number (1 to 6) */
+  /** Retrieves the random number generator for dice rolls. */
   def getRNG: Random = randomNumberGenerator
 
-  /** gets the current norma of the player */
+  /** Retrieves the current norma level of the player character. */
   def getNorma: Int = norma
 
-  /** sets (updates) the name of a player
-   * it's protected because it shouldn't change throughout the match */
+  /** Sets the name of the player character */
   def setName(newName: String): Unit = {
     name = newName
   }
 
-  /** sets (updates) the number associated with a player
-   * it's protected because it shouldn't change throughout the match */
+  /** Sets the unique number associated with the player character. */
   def setNum(newNum: Int): Unit = {
     num = newNum
   }
 
-  /** sets (updates) the roll number of a player
-   * it's protected because it shouldn't change once the dice is thrown */
+  /** Sets the random number generator for dice rolls. */
   def setRNG(newRNG: Random): Unit = {
     randomNumberGenerator = newRNG
   }
 
 
-  /** sets (updates) the norma number of a player
-   * it's protected because only subclasses should access it to change it */
+  /** Sets the current norma level of the player character. */
   def setNorma(newNorma: Int): Unit = {
     norma = newNorma
   }

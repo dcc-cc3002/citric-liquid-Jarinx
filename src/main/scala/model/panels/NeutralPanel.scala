@@ -4,9 +4,10 @@ package model.panels
 import cl.uchile.dcc.citric.model.gameunits.PlayerCharacter
 import scala.collection.mutable.ArrayBuffer
 
-/** A class that represents a Neutral Panel
- * Nothing happens when a player ends up here
+/** Represents a neutral panel on the game board.
+ * A neutral panel is a basic type of space that does not have any special effects on the player.
  *
- * @author Julieta Ayelli
+ * @constructor Create a new neutral panel with a specified type.
+ * @param panelType The type of the panel, which should be "neutral" for this class.
  */
 class NeutralPanel (panelType: String) extends Panels(panelType) {}
