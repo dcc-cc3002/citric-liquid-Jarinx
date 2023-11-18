@@ -23,3 +23,10 @@ contributions, the design decisions you've made, and any other information you d
 This project is licensed under the [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
 
 ---
+## State Diagram (version 1.0)
+![Diagrama de estados](docs/diagrama-estados.png)
+
+This diagram shows the overall game flow, but from the perspective of ONE player, this means that this flow repeats for each player in the match. 
+
+
+---
