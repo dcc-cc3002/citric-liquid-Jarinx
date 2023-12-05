@@ -19,13 +19,11 @@ class BonusPanel (panelType: String) extends Panels(panelType) {
    * @param player The player character who lands on this panel.
    * @param roll   The result of the dice roll.
    */
-  def gainStars(player: PlayerCharacter, roll: Int): Unit = {
-    // var roll = player.rollDice()
-    var starsGained: Int = min(roll * player.norma, roll * 3)
+
+  override def apply(player: PlayerCharacter, roll: Int): Unit = {
+    val starsGained = math.min(roll * player.norma, roll * 3)
     var newStars = player.stars + starsGained
-    player.setStars(newStars)
+    player.stars_(newStars)
   }
 
-//  override def apply(): Unit = {
-//  }
 }

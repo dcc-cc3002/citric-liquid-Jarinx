@@ -34,32 +34,32 @@ class NormaTest extends munit.FunSuite {
 
   // in this test I check for methods normaCheck and normaClear
   test("To level up to Norma 2, a player needs a certain amount of stars (10) or wins (1)"){
-    player.setStars(stars)
-    player.setWins(wins)
+    player.stars_(stars)
+    player.wins_(wins)
     norma2.normaClear(player.getStars, player.getWins)
     player.setNorma(2)
-    assertEquals(player.getNorma, 2)
+    assertEquals(player.norma, 2)
   }
 
   test("A player may not meet the conditions to level up their Norma"){
-    player.setStars(5)
-    player.setWins(0)
+    player.stars_(5)
+    player.wins_(0)
     assert(!norma2.normaClear(player.getStars, player.getWins))
   }
 
   test("You can get the attributes"){
-    assertEquals(norma2.getNumber, number)
-    assertEquals(norma2.getNeededStars, neededStars)
-    assertEquals(norma2.getNeededWins, neededWins)
+    assertEquals(norma2.number, number)
+    assertEquals(norma2.neededStars, neededStars)
+    assertEquals(norma2.neededWins, neededWins)
   }
 
   test("You can set the attributes, if needed (although this shouldn´t happen), and then get them"){
-    norma2.setNumber(3)
-    norma2.setNeedStars(30)
-    norma2.setNeedWins(3)
-    assertEquals(norma2.getNumber, number+1)
-    assertEquals(norma2.getNeededStars, neededStars+20)
-    assertEquals(norma2.getNeededWins, neededWins+2)
+    norma2.number_(3)
+    norma2.needStars_(30)
+    norma2.needWins_(3)
+    assertEquals(norma2.number, number+1)
+    assertEquals(norma2.neededStars, neededStars+20)
+    assertEquals(norma2.neededWins, neededWins+2)
   }
 
 }

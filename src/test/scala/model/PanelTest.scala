@@ -96,27 +96,27 @@ class PanelTest extends munit.FunSuite {
   // tests for Home Panel
 
   test("A Home Panel has an owner, whose name you can retrieve"){
-    panel2.setOwner(player1)
+    panel2.owner(player1)
+    assertEquals(panel2._owner, player1)
     assertEquals(panel2.owner, player1)
-    assertEquals(panel2.getOwner, player1)
   }
 
   test("A Home Panel associates a number to its owner, which you can retrieve") {
-    panel2.setPlayerNum(1)
+    panel2.playerNum_(1)
+    assertEquals(panel2._playerNum, 1)
     assertEquals(panel2.playerNum, 1)
-    assertEquals(panel2.getPlayerNum, 1)
   }
 
   test("Once any player end up in a Home Panel, they get restored 1 HP"){
-    player1.setCurrentHp(5)
+    player1.currentHp_(5)
     panel2.restoreHP(player1)
-    assertEquals(player1.getCurrentHp, 6)
+    assertEquals(player1.currentHp, 6)
   }
 
   // tests for Bonus Panel
 
   test("Once a player falls in a Bonus Panel, they gain stars"){
-    player1.setStars(stars)
+    player1.stars_(stars)
     player1.setNorma(norma)
     panel3.gainStars(player1, roll)
     assertEquals(player1.getStars, 10)
@@ -125,14 +125,14 @@ class PanelTest extends munit.FunSuite {
   // tests for Drop Panel
 
   test("Once a player falls in a Drop Panel, they lose stars") {
-    player1.setStars(10)
+    player1.stars_(10)
     player1.setNorma(norma)
     panel4.loseStars(player1, roll)
     assertEquals(player1.getStars, 2)
   }
 
   test("A player can't end up with a negative number of stars"){
-    player1.setStars(stars)
+    player1.stars_(stars)
     player1.setNorma(norma)
     panel4.loseStars(player1, roll)
     assertEquals(player1.getStars, 0)

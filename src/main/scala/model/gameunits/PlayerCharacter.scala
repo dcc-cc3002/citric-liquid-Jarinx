@@ -1,6 +1,9 @@
 package cl.uchile.dcc.citric
 package model.gameunits
 
+import cl.uchile.dcc.citric.model.gameunits.wildunits.WildUnit
+import cl.uchile.dcc.citric.model.norma.{Norma, Norma1, Norma2}
+
 import scala.util.Random
 
 /** The `PlayerCharacter` class represents a character or avatar in the game, encapsulating
@@ -39,46 +42,51 @@ import scala.util.Random
 class PlayerCharacter(maxHp: Int, attackPts: Int, defensePts: Int, evasionPts: Int)
                        extends Entities(maxHp, attackPts, defensePts, evasionPts) {
 
-  var randomNumberGenerator: Random = new Random() // Random number generator for dice rolls.
-  var name: String = _ // The name of the player character.
-  var num: Int = _  // The unique number associated with the player character.
-  var norma: Int = _ // The current norma level of the player character.
+  var _name: String = _ // The name of the player character.
+  var _num: Int = _  // The unique number associated with the player character.
+  var _norma: Norma = new Norma1() // The current norma level of the player character.
+  override var _stars: Int = 0
+  override var _wins: Int = 0
 
   /** Retrieves the name of the player character. */
-  def getName: String = name
+  def name: String = _name
 
   /** Retrieves the unique number associated with the player character. */
-  def getNum: Int = num
+  def num: Int = _num
 
   /** Retrieves the random number generator for dice rolls. */
-  def getRNG: Random = randomNumberGenerator
+  def rng: Random = randomNumberGenerator
 
   /** Retrieves the current norma level of the player character. */
-  def getNorma: Int = norma
+  def norma: Norma = _norma
 
   /** Sets the name of the player character */
-  def setName(newName: String): Unit = {
-    name = newName
+  def name_(newName: String): Unit = {
+    _name = newName
   }
 
   /** Sets the unique number associated with the player character. */
-  def setNum(newNum: Int): Unit = {
-    num = newNum
+  def num_(newNum: Int): Unit = {
+    _num = newNum
   }
 
   /** Sets the random number generator for dice rolls. */
-  def setRNG(newRNG: Random): Unit = {
+  def rng_(newRNG: Random): Unit = {
     randomNumberGenerator = newRNG
   }
 
-
   /** Sets the current norma level of the player character. */
-  def setNorma(newNorma: Int): Unit = {
-    norma = newNorma
+  def setNorma(newNorma: Norma): Unit = {
+    _norma = newNorma
   }
 
-  /** Rolls a dice and returns a value between 1 to 6. */
-  def rollDice(): Int = {
-    randomNumberGenerator.nextInt(6) + 1
+  override protected def transferStarsAndWins(attacker: GameEntity, victim: GameEntity): Unit = {
+    victim.stars_(victim.stars - (victim.stars / 2))
+    attacker.stars_(attacker.stars + this.stars)
+    attacker.wins_(attacker.wins + 2)
   }
+
+
+
+
 }

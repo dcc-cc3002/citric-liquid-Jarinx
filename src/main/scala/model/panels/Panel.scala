@@ -90,16 +90,11 @@ trait Panel {
    */
   def removePanel(panel: Panel): Unit
 
-//  def apply(): Unit = {
-//  }
-}
+  /** Applies the panel effect on the player.
+   *
+   * @param player The character to whom the panel effect will be applied.
+   * @param roll   Dice roll.
+   */
+  def apply(player: PlayerCharacter, roll: Int): Unit
 
-///** A class that represent the overall board
-// * It´s a combination of the different panels, arranged in a certain manner.
-// * Could always be the same, or have a few different ones, like "Map Types" (IN EVALUATION)
-// *
-// *@author Julieta Ayelli
-// */
-//abstract class board{
-//  var panels: List[Panel]
-//}
+}

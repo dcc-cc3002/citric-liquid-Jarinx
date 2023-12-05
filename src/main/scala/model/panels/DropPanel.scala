@@ -19,15 +19,10 @@ class DropPanel (panelType: String) extends Panels(panelType) {
    * @param player The player character who lands on this panel.
    * @param roll   The result of the dice roll.
    */
-  def loseStars(player: PlayerCharacter, roll: Int): Unit = {
-    var starsLost: Int = roll * player.getNorma
-    var newStars = player.getStars - starsLost
-    // ¿player.setStars(math.max(newStars, 0))?
-    if(newStars < 0){
-      player.setStars(0)
-    }
-    else{
-      player.setStars(newStars)
-    }
+  override def apply(player: PlayerCharacter, roll: Int): Unit = {
+    val starsLost = roll * player.norma
+    val newStars = math.max(player.getStars - starsLost, 0)
+    player.stars_(newStars)
   }
+
 }

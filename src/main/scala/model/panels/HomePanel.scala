@@ -13,44 +13,34 @@ import scala.collection.mutable.ArrayBuffer
  */
 class HomePanel(panelType: String) extends Panels(panelType) {
 
-  var owner: PlayerCharacter = _ // The player character who owns this home panel.
-  var playerNum: Int = _ // The number associated with the player and this home panel.
+  var _owner: PlayerCharacter = _ // The player character who owns this home panel.
 
   /** Returns the owner of this home panel.
    *
    * @return The PlayerCharacter who owns this panel.
    */
-  def getOwner: PlayerCharacter = owner
-
-  /** Returns the number associated with the player and this home panel.
-   *
-   * @return An integer representing the player number.
-   */
-  def getPlayerNum: Int = playerNum
+  def owner: PlayerCharacter = _owner
 
   /** Sets the owner of this home panel.
    *
    * @param newOwner The PlayerCharacter to set as the new owner.
    */
-  def setOwner(newOwner: PlayerCharacter): Unit = {
-    owner = newOwner
+  def owner(newOwner: PlayerCharacter): Unit = {
+    _owner = newOwner
   }
 
-  /** Sets the number associated with the player for this home panel.
+  /** Applies the panel effect on the player.
    *
-   * @param newPlayerNum The new player number.
+   * @param player The character to whom the panel effect will be applied.
+   * @param roll   Dice roll.
    */
-  def setPlayerNum(newPlayerNum: Int): Unit = {
-    playerNum = newPlayerNum
-  }
+  override def apply(player: PlayerCharacter, roll: Int): Unit = {
+    player.currentHp_(player.currentHp + 1)
 
-  /** Restores 1 HP to a player character when they land on this home panel.
-   *
-   * @param player The PlayerCharacter who lands on this panel.
-   */
-  def restoreHP(player: PlayerCharacter): Unit = {
-    var currentHp = player.getCurrentHp
-    player.setCurrentHp(currentHp + 1)
+    if (player.norma.normaClear(player.stars, player.wins)) {
+      println(s"${player.name} has leveled up their Norma!")
+      // Lógica adicional para efectos de subida de nivel si es necesario
+    }
   }
 }
 

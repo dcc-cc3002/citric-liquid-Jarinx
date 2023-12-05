@@ -6,5 +6,6 @@ package model.norma
  *
  * @constructor Create a new Norma level 2 with predefined conditions.
  */
-class Norma2 extends Normas (number = 2, neededStars = 10, neededWins = 1){
+class Norma2 extends Normas (_number = 2, _neededStars = 10, _neededWins = 1){
+  override def nextNorma: Norma = new Norma3()
 }

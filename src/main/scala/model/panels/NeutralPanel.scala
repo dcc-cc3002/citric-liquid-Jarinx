@@ -10,4 +10,14 @@ import scala.collection.mutable.ArrayBuffer
  * @constructor Create a new neutral panel with a specified type.
  * @param panelType The type of the panel, which should be "neutral" for this class.
  */
-class NeutralPanel (panelType: String) extends Panels(panelType) {}
+class NeutralPanel (panelType: String) extends Panels(panelType) {
+
+  /** Applies the panel effect on the player.
+   *
+   * @param player The character to whom the panel effect will be applied.
+   * @param roll   Dice roll.
+   */
+  override def apply(player: PlayerCharacter, roll: Int): Unit = {
+    // Este método puede estar vacío por ahora.
+  }
+}

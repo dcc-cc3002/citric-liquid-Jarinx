@@ -5,35 +5,33 @@ package model.norma
  * A Norma level is associated with certain conditions based on stars and wins that a player must meet to advance.
  *
  * @constructor Create a new set of Norma conditions with specified initial values.
- * @param number The initial Norma level.
- * @param neededStars The initial number of stars required to level up the Norma.
- * @param neededWins The initial number of wins required to level up the Norma.
+ * @param _number The initial Norma level.
+ * @param _neededStars The initial number of stars required to level up the Norma.
+ * @param _neededWins The initial number of wins required to level up the Norma.
  */
-abstract class Normas(var number: Int, var neededStars: Int, var neededWins: Int) extends Norma {
+abstract class Normas(var _number: Int, var _neededStars: Int, var _neededWins: Int) extends Norma {
 
-  /** Sets the Norma level of the player.
-   *
-   * @param newNumber The new Norma level.
-   */
-  override def setNumber(newNumber: Int): Unit = {
-    number =  newNumber
-  }
+  override def number: Int = _number
 
-  /** Sets the number of stars needed for the player to level up the Norma.
-   *
-   * @param newNeedStars The new number of needed stars.
-   */
-  override def setNeedStars(newNeedStars: Int): Unit = {
-    neededStars = newNeedStars
-  }
+  override def neededStars: Int = _neededStars
 
-  /** Sets the number of wins needed for the player to level up the Norma.
-   *
-   * @param newNeedWins The new number of needed wins.
-   */
-  override def setNeedWins(newNeedWins: Int): Unit = {
-    neededWins = newNeedWins
-  }
+  override def neededWins: Int = _neededWins
+
+//  /** Sets the number of stars needed for the player to level up the Norma.
+//   *
+//   * @param newNeedStars The new number of needed stars.
+//   */
+//  override def needStars_(newNeedStars: Int): Unit = {
+//    _neededStars = newNeedStars
+//  }
+//
+//  /** Sets the number of wins needed for the player to level up the Norma.
+//   *
+//   * @param newNeedWins The new number of needed wins.
+//   */
+//  override def needWins_(newNeedWins: Int): Unit = {
+//    _neededWins = newNeedWins
+//  }
 
   /** Checks if the player meets the conditions to level up their Norma based on stars or wins.
    *
@@ -42,7 +40,7 @@ abstract class Normas(var number: Int, var neededStars: Int, var neededWins: Int
    * @return True if the player meets the conditions, false otherwise.
    */
   override def normaCheck(playerStars: Int, playerWins: Int): Boolean = {
-    playerStars >= neededStars || playerWins >= neededWins
+    playerStars >= _neededStars || playerWins >= _neededWins
   }
 
   /** Levels up the player's Norma if they meet the conditions specified by `normaCheck`.
@@ -54,7 +52,6 @@ abstract class Normas(var number: Int, var neededStars: Int, var neededWins: Int
    */
   override def normaClear(playerStars: Int, playerWins: Int): Boolean = {
     if (normaCheck(playerStars, playerWins)) {
-      setNumber(getNumber + 1) // Increment the Norma level.
       // logic to change players norma
       true
     }
@@ -64,4 +61,12 @@ abstract class Normas(var number: Int, var neededStars: Int, var neededWins: Int
     }
 
   }
+
+  /** Provides the next Norma level for a player character.
+   * This method is intended to be used when a player successfully clears their current Norma level,
+   * allowing them to advance to the next level with new goals.
+   *
+   * @return An instance of the next Norma level, advancing the player's progression in the game.
+   */
+  override def nextNorma: Norma
 }

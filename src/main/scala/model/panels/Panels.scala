@@ -62,4 +62,12 @@ abstract class Panels (var panelType: String) extends Panel {
   override def removePanel(panel: Panel): Unit = {
     nextPanels -= panel
   }
+
+  /** Default implementation of the apply method.
+   * Will be overridden by subclasses for their specific cases.
+   *
+   * @param player The character to whom the panel effect will be applied
+   * @param roll   Dice roll.
+   * */
+  override def apply(player: PlayerCharacter, roll: Int): Unit = {}
 }

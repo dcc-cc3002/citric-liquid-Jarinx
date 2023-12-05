@@ -5,48 +5,42 @@ package model.norma
  * Norma conditions typically involve accumulating a certain number of stars or achieving a number of wins.
  */
 trait Norma {
-  var number: Int          // The current Norma level of the player.
-  var neededStars: Int     // The number of stars needed to reach the next Norma level.
-  var neededWins: Int      // The number of wins needed to reach the next Norma level.
+  var _number: Int          // The current Norma level of the player.
+  var _neededStars: Int     // The number of stars needed to reach the next Norma level.
+  var _neededWins: Int      // The number of wins needed to reach the next Norma level.
 
   /** Returns the current Norma level of the player.
    *
    * @return The current Norma level.
    */
-  def getNumber: Int = number
+  def number: Int = _number
 
   /** Returns the number of stars needed for the player to level up the Norma.
    *
    * @return The number of needed stars.
    */
-  def getNeededStars: Int = neededStars
+  def neededStars: Int = _neededStars
 
   /** Returns the number of wins needed for the player to level up the Norma.
    *
    * @return The number of needed wins.
    */
-  def getNeededWins: Int = neededWins
+  def neededWins: Int = _neededWins
 
-  /** Sets the Norma level of the player.
-   * This is typically updated when the player meets the conditions of a Norma Check.
-   *
-   * @param newNumber The new Norma level.
-   */
-  def setNumber(newNumber: Int): Unit
 
-  /** Sets the number of stars needed for the player to level up the Norma.
-   * This is typically updated when the player meets the conditions of a Norma Check.
-   *
-   * @param newNeedStars The new number of needed stars.
-   */
-  def setNeedStars(newNeedStars: Int): Unit
-
-  /** Sets the number of wins needed for the player to level up the Norma.
-   * This is typically updated when the player meets the conditions of a Norma Check.
-   *
-   * @param newNeedWins The new number of needed wins.
-   */
-  def setNeedWins(newNeedWins: Int): Unit
+//  /** Sets the number of stars needed for the player to level up the Norma.
+//   * This is typically updated when the player meets the conditions of a Norma Check.
+//   *
+//   * @param newNeedStars The new number of needed stars.
+//   */
+//  def needStars_(newNeedStars: Int): Unit
+//
+//  /** Sets the number of wins needed for the player to level up the Norma.
+//   * This is typically updated when the player meets the conditions of a Norma Check.
+//   *
+//   * @param newNeedWins The new number of needed wins.
+//   */
+//  def needWins_(newNeedWins: Int): Unit
 
   /** Checks if the player meets the conditions to level up their Norma.
    *
@@ -63,5 +57,13 @@ trait Norma {
    * @return True if the Norma level was increased, false otherwise.
    */
   def normaClear(playerStars: Int, playerWins: Int): Boolean
+
+  /** Provides the next Norma level for a player character.
+   * This method is intended to be used when a player successfully clears their current Norma level,
+   * allowing them to advance to the next level with new goals.
+   *
+   * @return An instance of the next Norma level, advancing the player's progression in the game.
+   */
+  def nextNorma: Norma
 
 }

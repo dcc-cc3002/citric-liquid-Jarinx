@@ -9,6 +9,7 @@ package model.gameunits.wildunits
  * @constructor Create a new Seagull with predefined stats.
  */
 class Seagull extends WildUnit(maxHp = 3, attackPts = 1, defensePts = -1, evasionPts = -1) {
-  override var enemy: String = "Seagull" // The type of enemy is set to "Seagull".
-  stars = 2 // Initializes the Seagull with 2 stars.
+  override var _enemy: String = "Seagull" // The type of enemy is set to "Seagull".
+  override var _bonusStars: Int = 2
+  this.bonusStars_(_bonusStars)
 }
