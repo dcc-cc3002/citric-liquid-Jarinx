@@ -20,8 +20,8 @@ class DropPanel (panelType: String) extends Panels(panelType) {
    * @param roll   The result of the dice roll.
    */
   override def apply(player: PlayerCharacter, roll: Int): Unit = {
-    val starsLost = roll * player.norma
-    val newStars = math.max(player.getStars - starsLost, 0)
+    val starsLost = roll * player.norma._number
+    val newStars = math.max(player.stars - starsLost, 0)
     player.stars_(newStars)
   }
 

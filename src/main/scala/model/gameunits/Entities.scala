@@ -56,7 +56,6 @@ abstract class Entities (var _maxHp: Int, var _attackPts: Int, var _defensePts: 
    */
   override def currentHp_(newCurrentHp: Int): Unit = {
     if (newCurrentHp < 0) {
-      throw new InvalidStatException("HP cannot be negative.")
       _currentHp = 0
     }
     else {
@@ -124,28 +123,28 @@ abstract class Entities (var _maxHp: Int, var _attackPts: Int, var _defensePts: 
   override def takeDmg(qty: Int): Unit = {
     if (qty < 0) {
       throw new InvalidStatException("Quantity of damage must be non-negative")
+      this.currentHp_(this.currentHp)
     }
     this.currentHp_(this.currentHp - qty)
   }
 
-//  /** Inflicts damage on another entity.
-//   *
-//   * @param someone The entity to do damage to.
-//   * @param qty     The quantity of damage to inflict.
-//   * @throws InvalidStatException If the damage quantity is negative.
-//   */
-//  override def doDmg(someone: GameEntity, qty: Int): Unit = {
-//    if (qty < 0) {
-//      throw new InvalidStatException("Quantity of damage must be non-negative")
-//    }
-//    someone.currentHp_(-qty)
-//  }
-
+  /** An entity calls this method to define the results based on
+   * the type of the attacker
+   *
+   * @param attacker The entity that attacks
+   * @param qty      The roll
+   */
   override def attackedBy(attacker: GameEntity, qty: Int): Unit = {
     require(qty >= 0, "Damage cannot be negative.")
     handleAttack(this, attacker, qty)
   }
 
+  /** Handles how the attack happens between the victim and the attacker.
+   *
+   * @param victim The entity getting attacked
+   * @param attacker The entity that attacks the victim
+   * @param qty The qty of the damage done
+   */
   protected def handleAttack(victim: GameEntity, attacker: GameEntity, qty: Int): Unit = {
     if (victim.currentHp == 0) {
       throw new InvalidStatException("You cannot attack a unit that is already K0'd.")
@@ -153,20 +152,19 @@ abstract class Entities (var _maxHp: Int, var _attackPts: Int, var _defensePts: 
     else if (attacker.currentHp == 0) {
       throw new InvalidStatException("A K0'd unit cannot attack.")
     }
-    this.takeDmg(qty)
-    if (this.currentHp == 0) {
-      transferStarsAndWins(attacker, this)
-    }
-    else {
-      this.attack(attacker)
+    victim.takeDmg(qty)
+    if (victim.currentHp == 0) {
+      transferStarsAndWins(attacker, victim)
     }
   }
 
-  protected def transferStarsAndWins(attacker: GameEntity, victim: GameEntity): Unit = {
-    victim.stars_(victim.stars - (victim.stars / 2))
-    attacker.stars_(attacker.stars + (this.stars / 2))
-  }
-
+  /** Base method for handling the transfer of stars and wins
+   * between the winning and loosing entities
+   *
+   * @param attacker The entity that wins
+   * @param victim The entity that looses
+   */
+  protected def transferStarsAndWins(attacker: GameEntity, victim: GameEntity): Unit
 
   /** Performs an attack on another entity.
    *
@@ -174,15 +172,9 @@ abstract class Entities (var _maxHp: Int, var _attackPts: Int, var _defensePts: 
    * @param qty     The rolled amount
    * @throws InvalidStatException If the target entity is already knocked out.
    */
-  override def attack(someone: GameEntity): Int = {
-    if (someone.currentHp <= 0) {
-      throw new InvalidStatException("You cannot attack a unit that is already K0'd.")
-    }
-    else if (this.currentHp == 0) {
-      throw new InvalidStatException("A K0'd unit cannot attack.")
-    }
+  override def attack(someone: GameEntity): Unit = {
     var totalDamage: Int = this.attackPts + this.rollDice()
-    return totalDamage
+    someone.attackedBy(this, totalDamage)
   }
 
   /** Defends against an attack from another entity.
@@ -194,9 +186,7 @@ abstract class Entities (var _maxHp: Int, var _attackPts: Int, var _defensePts: 
     val atkRoll = fromSomeone.rollDice()
     val defRoll = this.rollDice()
     val damageReceived = math.max(atkRoll + fromSomeone.attackPts - (defRoll + this.defensePts), 1) // Asegura un daño mínimo de 1
-
-    this.attackedBy(fromSomeone, atkRoll + fromSomeone.attackPts)
-
+    this.attackedBy(fromSomeone, damageReceived)
   }
 
     /** Attempts to evade an attack from another entity.
@@ -211,8 +201,8 @@ abstract class Entities (var _maxHp: Int, var _attackPts: Int, var _defensePts: 
       this.takeDmg(0)
     }
     else {
-      // Evade failed: Take full damage
-      this.attackedBy(fromSomeone, fromSomeone.attackPts + atkRoll)
+      var totalDamage: Int = fromSomeone.attackPts + fromSomeone.rollDice()
+      this.attackedBy(fromSomeone, totalDamage)
 
     }
   }

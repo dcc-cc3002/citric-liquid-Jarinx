@@ -3,6 +3,7 @@ package model
 
 import cl.uchile.dcc.citric.model.gameunits.PlayerCharacter
 import cl.uchile.dcc.citric.model.gameunits.wildunits.{Chicken, Seagull, WildUnit}
+import cl.uchile.dcc.citric.model.norma.Norma2
 import cl.uchile.dcc.citric.model.panels.{BonusPanel, DropPanel, EncounterPanel, HomePanel, NeutralPanel, Panel, Panels}
 
 import scala.collection.mutable.ArrayBuffer
@@ -32,6 +33,8 @@ class PanelTest extends munit.FunSuite {
   private var charactersEx: ArrayBuffer[PlayerCharacter] = _
   private var nextPanelsEx: ArrayBuffer[Panel] = ArrayBuffer[Panel](panel1, panel2)
 
+  private var norma2: Norma2 = _
+
   override def beforeEach(context: BeforeEach): Unit = {
     panel1 = new NeutralPanel(panelTypeEx)
 
@@ -47,6 +50,8 @@ class PanelTest extends munit.FunSuite {
     panel4 = new DropPanel("Drop")
 
     panel5 = new EncounterPanel("Encounter")
+
+    norma2 = new Norma2()
   }
 
   // the next tests are for the Panel trait and abstract class Panels
@@ -91,25 +96,28 @@ class PanelTest extends munit.FunSuite {
 
   //the next tests are for the different types of panels
 
-  //  no tests for Neutral Panel (yet)
+  // tests for neutral panel
+
+  test("Nothing happens in a neutral panel"){
+    panel1.apply(player1, roll)
+  }
 
   // tests for Home Panel
 
   test("A Home Panel has an owner, whose name you can retrieve"){
-    panel2.owner(player1)
+    panel2.owner_(player1)
     assertEquals(panel2._owner, player1)
     assertEquals(panel2.owner, player1)
   }
 
   test("A Home Panel associates a number to its owner, which you can retrieve") {
-    panel2.playerNum_(1)
-    assertEquals(panel2._playerNum, 1)
-    assertEquals(panel2.playerNum, 1)
+    panel2.owner_(player1)
+    assertEquals(panel2.owner, player1)
   }
 
   test("Once any player end up in a Home Panel, they get restored 1 HP"){
     player1.currentHp_(5)
-    panel2.restoreHP(player1)
+    panel2.apply(player1, roll)
     assertEquals(player1.currentHp, 6)
   }
 
@@ -117,25 +125,25 @@ class PanelTest extends munit.FunSuite {
 
   test("Once a player falls in a Bonus Panel, they gain stars"){
     player1.stars_(stars)
-    player1.setNorma(norma)
-    panel3.gainStars(player1, roll)
-    assertEquals(player1.getStars, 10)
+    player1.norma_(norma2)
+    panel3.apply(player1, roll)
+    assertEquals(player1.stars, 10)
   }
 
   // tests for Drop Panel
 
   test("Once a player falls in a Drop Panel, they lose stars") {
     player1.stars_(10)
-    player1.setNorma(norma)
-    panel4.loseStars(player1, roll)
-    assertEquals(player1.getStars, 2)
+    player1.norma_(norma2)
+    panel4.apply(player1, roll)
+    assertEquals(player1.stars, 2)
   }
 
   test("A player can't end up with a negative number of stars"){
     player1.stars_(stars)
-    player1.setNorma(norma)
-    panel4.loseStars(player1, roll)
-    assertEquals(player1.getStars, 0)
+    player1.norma_(norma2)
+    panel4.apply(player1, roll)
+    assertEquals(player1.stars, 0)
   }
 
   // tests for Encounter Panel
@@ -149,5 +157,9 @@ class PanelTest extends munit.FunSuite {
     var rudeBirb = new Seagull
     panel5.setEnemy(rudeBirb)
     assertEquals(panel5.getEnemy, rudeBirb)
+  }
+
+  test("Nothing happens in an encounter panel yet") {
+    panel5.apply(player1, roll)
   }
 }

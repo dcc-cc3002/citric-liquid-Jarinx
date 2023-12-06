@@ -76,10 +76,16 @@ class PlayerCharacter(maxHp: Int, attackPts: Int, defensePts: Int, evasionPts: I
   }
 
   /** Sets the current norma level of the player character. */
-  def setNorma(newNorma: Norma): Unit = {
+  def norma_(newNorma: Norma): Unit = {
     _norma = newNorma
   }
 
+  /** method for handling the transfer of stars and wins
+   * between the winning and loosing entities
+   *
+   * @param attacker The entity that wins
+   * @param victim   The entity that looses
+   */
   override protected def transferStarsAndWins(attacker: GameEntity, victim: GameEntity): Unit = {
     victim.stars_(victim.stars - (victim.stars / 2))
     attacker.stars_(attacker.stars + this.stars)

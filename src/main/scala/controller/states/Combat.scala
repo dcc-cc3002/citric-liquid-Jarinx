@@ -16,7 +16,7 @@ class CombatState(controller: GameController) extends GameState(controller) {
     // Lógica para evadir
   }
 
-  override def endCombat(): Unit = {
-    controller.changeState(new WaitState(controller))
-  }
+//  override def endCombat(): Unit = {
+//    controller.changeState(new WaitState(controller))
+//  }
 }

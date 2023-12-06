@@ -1,9 +1,10 @@
 package cl.uchile.dcc.citric
 package model
 
+import cl.uchile.dcc.citric.exceptions.InvalidStatException
 import cl.uchile.dcc.citric.model.gameunits.PlayerCharacter
 import cl.uchile.dcc.citric.model.gameunits.wildunits.{Chicken, WildUnit}
-import cl.uchile.dcc.citric.model.norma.Norma2
+import cl.uchile.dcc.citric.model.norma.{Norma2, Norma6}
 
 import scala.util.Random
 
@@ -24,6 +25,8 @@ class PlayerCharacterTest extends munit.FunSuite {
   private val stars = 2
   private val wins = 6
   private val norma = new Norma2()
+  val norma6 = new Norma6()
+  norma6.nextNorma
 
   /*
   This is the object under test.
@@ -49,7 +52,7 @@ class PlayerCharacterTest extends munit.FunSuite {
     character.currentHp_(currentHp)
     character.stars_(stars)
     character.wins_(wins)
-    character.setNorma(norma)
+    character.norma_(norma)
     character.num_(num)
     character.rng_(randomNumberGenerator)
     character.maxHp_(maxHp)
@@ -62,16 +65,22 @@ class PlayerCharacterTest extends munit.FunSuite {
     assertEquals(character.defensePts, defense)
     assertEquals(character.evasionPts, evasion)
     assertEquals(character.currentHp, currentHp)
-    assertEquals(character.getStars, stars)
-    assertEquals(character.getWins, wins)
+    assertEquals(character.stars, stars)
+    assertEquals(character.wins, wins)
     assertEquals(character.norma, norma)
     assertEquals(character.num, num)
     assertEquals(character.rng, randomNumberGenerator)
   }
 
-  // Two ways to test randomness (you can use any of them):
+  test("The amount of stars set can't be negative"){
+    val exception = intercept[InvalidStatException] {
+      character.stars_(-3)
+    }
+    assertEquals(exception.getMessage, "An invalid stat was found -- Star count cannot be negative.")
 
-  // 1. Test invariant properties, e.g. the result is always between 1 and 6.
+  }
+
+
   test("A character should be able to roll a dice") {
     for (_ <- 1 to 10) {
       assert(character.rollDice >= 1 && character.rollDice <= 6)
@@ -83,46 +92,59 @@ class PlayerCharacterTest extends munit.FunSuite {
     assertEquals(character.currentHp, 5)
   }
 
-  test("A character can do damage to another player or wild unit"){
-    character.doDmg(character2, 5)
-    assertEquals(character2.currentHp, 5)
+  test("The amount of damage taken cannot be negative"){
+    val exception = intercept[InvalidStatException] {
+      character.takeDmg(-3)
+    }
+    assertEquals(exception.getMessage, "An invalid stat was found -- Quantity of damage must be non-negative")
+
   }
+
 
   test("A character can defend himself from another Entity's attack and survive"){
-    character.defend(character2, 3)
-    assertEquals(character.currentHp, 7)
+    character.defend(character2)
+    assert(character.currentHp < currentHp)
   }
 
-  test("A character can defend himself form another Entity's attack and get K0'ed"){
-    character.defend(character2, 10)
-    assertEquals(character.currentHp, 0)
+  test("A character can defend himself form another Entity's attack and get K0'd"){
+    character.currentHp_(1)
+    character.defend(character2)
+    assert(character.currentHp == 0)
   }
 
-  // tests for combat methods
-
-  test("A player can attack another Game Unit"){
-    character.attack(character2, 3)
-    assertEquals(character2.currentHp, 7)
-
-    character.attack(enemy, 2)
-    assertEquals(enemy.currentHp, 1)
+  test("An entity can't attack a K0'd entity"){
+    val exception = intercept[InvalidStatException] {
+      character.currentHp_(0)
+      character.defend(character2)
+    }
+    assertEquals(exception.getMessage, "An invalid stat was found -- You cannot attack a unit that is already K0'd.")
   }
 
-  test("A player cannot attack a K0'd Game Unit"){
-    character2.currentHp_(0)
-//    assert(character.attack(character2, 3))
-
+  test("A K0'd entity cannot attack") {
+    val exception = intercept[InvalidStatException] {
+      character.currentHp_(0)
+      character.attack(character2)
+    }
+    assertEquals(exception.getMessage, "An invalid stat was found -- A K0'd unit cannot attack.")
   }
 
-  test("A player cannot deal a negative amount of damage"){
-
+  test("An entity can evade another entity's attack"){
+    character.evasionPts_(6)
+    character.evade(character2)
+    assertEquals(character.currentHp, currentHp)
   }
 
-  test("A player can K0 another Game Unit"){
-    // daño justo para dejar en 0: qty=10
-
-    // daño mayor a currentHP: qty=11
+  test("An entity might attempt to evade but fail"){
+    character2.attackPts_(10)
+    character.evade(character2)
+    assertEquals(character.currentHp,  0)
   }
 
+  test("If an entity looses, their stars and wins change"){
+    character.attackPts_(10)
+    character.attack(character2)
+    assert(character2.stars != stars)
+    assert(character2.wins != wins)
+  }
 
 }

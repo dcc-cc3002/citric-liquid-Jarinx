@@ -15,7 +15,7 @@ import scala.collection.mutable.ArrayBuffer
  */
 class EncounterPanel(panelType: String) extends Panels(panelType) {
 
-  var enemy: WildUnit = _  // The wild unit enemy associated with this encounter panel.
+  var enemy: WildUnit = _ // The wild unit enemy associated with this encounter panel.
 
   /** Retrieves the wild unit enemy associated with this encounter panel.
    *
@@ -31,11 +31,6 @@ class EncounterPanel(panelType: String) extends Panels(panelType) {
     enemy = newEnemy
   }
 
-  /** The battle between players and wild units
-   * The player attacks, and the wild unit can evade or defend themselves
-   * Later, the wild unit attacks, and the player needs to evade or defend himself
-   *
-   * @return
-   */
-  //def battle(): Unit{}
+  override def apply(player: PlayerCharacter, roll: Int): Unit = {}
+
 }

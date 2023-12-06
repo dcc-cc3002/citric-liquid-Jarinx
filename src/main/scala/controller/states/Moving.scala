@@ -4,9 +4,9 @@ package controller.states
 import controller.{GameController, GameState}
 
 class MovingState(controller: GameController) extends GameState(controller) {
-  override def stopMovement(): Unit = {
-    controller.changeState(new LandingPanelState(controller))
-  }
+//  override def stopMovement(): Unit = {
+//    controller.changeState(new LandingPanelState(controller))
+//  }
 
   override def outOfMovements(): Unit = {
     controller.changeState(new CombatState(controller))

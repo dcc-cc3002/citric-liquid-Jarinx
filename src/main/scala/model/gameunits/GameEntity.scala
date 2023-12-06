@@ -90,34 +90,30 @@ trait GameEntity {
    */
   def takeDmg(qty: Int): Unit
 
-  /** Inflicts a certain amount of damage on another game entity.
-   *
-   * @param someone The entity to do damage to.
-   * @param qty     The quantity of damage to inflict.
-   */
-  def doDmg(someone: GameEntity, qty: Int): Unit
-
   /** Performs an attack on another game entity.
    *
    * @param someone The entity to attack.
-   * @param qty     The quantity of the attack.
    */
-  def attack(someone: GameEntity): Int
+  def attack(someone: GameEntity): Unit
 
   /** Defends against an attack from another game entity.
    *
    * @param fromSomeone The entity from which to defend.
-   * @param qty         The quantity of the damage.
    */
   def defend(fromSomeone: GameEntity): Unit
 
   /** Attempts to evade an attack from another game entity.
    *
    * @param formSomeone The entity from which to evade.
-   * @param qty         The quantity of the damage.
    */
   def evade(formSomeone: GameEntity): Unit
 
+  /** An entity calls this method to define the results based on
+   * the type of the attacker
+   *
+   * @param attacker The entity that attacks
+   * @param qty The roll
+   */
   def attackedBy(attacker: GameEntity, qty: Int): Unit
 
 

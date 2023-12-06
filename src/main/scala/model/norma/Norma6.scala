@@ -8,5 +8,6 @@ import model.gameunits.PlayerCharacter
  * @constructor Create a new Norma level 6 with predefined conditions.
  */
 class Norma6 extends Normas (_number = 6, _neededStars = 200, _neededWins = 14){
-  override def nextNorma: Norma = _
+  println("Game Over!")
+  override def nextNorma: Norma = this
 }

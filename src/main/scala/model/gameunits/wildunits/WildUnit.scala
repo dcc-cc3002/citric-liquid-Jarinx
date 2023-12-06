@@ -71,6 +71,12 @@ abstract class WildUnit (maxHp: Int, attackPts: Int, defensePts: Int, evasionPts
     stars + newStars
   }
 
+  /** Base method for handling the transfer of stars and wins
+   * between the winning and loosing entities
+   *
+   * @param attacker The entity that wins
+   * @param victim   The entity that looses
+   */
   override protected def transferStarsAndWins(attacker: GameEntity, victim: GameEntity): Unit = {
     victim.stars_(victim.stars - (victim.stars / 2))
     attacker.stars_(attacker.stars + victim.stars)

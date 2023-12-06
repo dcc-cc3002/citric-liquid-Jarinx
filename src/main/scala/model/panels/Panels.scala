@@ -69,5 +69,5 @@ abstract class Panels (var panelType: String) extends Panel {
    * @param player The character to whom the panel effect will be applied
    * @param roll   Dice roll.
    * */
-  override def apply(player: PlayerCharacter, roll: Int): Unit = {}
+  override def apply(player: PlayerCharacter, roll: Int): Unit
 }

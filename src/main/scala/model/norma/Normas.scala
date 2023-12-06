@@ -1,5 +1,6 @@
 package cl.uchile.dcc.citric
 package model.norma
+import cl.uchile.dcc.citric.model.gameunits.PlayerCharacter
 
 /** Abstract class that defines the structure and behavior of Norma levels in the game.
  * A Norma level is associated with certain conditions based on stars and wins that a player must meet to advance.
@@ -17,21 +18,6 @@ abstract class Normas(var _number: Int, var _neededStars: Int, var _neededWins: 
 
   override def neededWins: Int = _neededWins
 
-//  /** Sets the number of stars needed for the player to level up the Norma.
-//   *
-//   * @param newNeedStars The new number of needed stars.
-//   */
-//  override def needStars_(newNeedStars: Int): Unit = {
-//    _neededStars = newNeedStars
-//  }
-//
-//  /** Sets the number of wins needed for the player to level up the Norma.
-//   *
-//   * @param newNeedWins The new number of needed wins.
-//   */
-//  override def needWins_(newNeedWins: Int): Unit = {
-//    _neededWins = newNeedWins
-//  }
 
   /** Checks if the player meets the conditions to level up their Norma based on stars or wins.
    *
@@ -50,9 +36,9 @@ abstract class Normas(var _number: Int, var _neededStars: Int, var _neededWins: 
    * @param playerWins  The current number of wins the player has.
    * @return True if the Norma level was increased, false otherwise.
    */
-  override def normaClear(playerStars: Int, playerWins: Int): Boolean = {
+  override def normaClear(playerStars: Int, playerWins: Int, player: PlayerCharacter): Boolean = {
     if (normaCheck(playerStars, playerWins)) {
-      // logic to change players norma
+      player.norma_(nextNorma)
       true
     }
     else{
@@ -69,4 +55,5 @@ abstract class Normas(var _number: Int, var _neededStars: Int, var _neededWins: 
    * @return An instance of the next Norma level, advancing the player's progression in the game.
    */
   override def nextNorma: Norma
+
 }

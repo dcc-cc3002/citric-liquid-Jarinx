@@ -21,7 +21,7 @@ class BonusPanel (panelType: String) extends Panels(panelType) {
    */
 
   override def apply(player: PlayerCharacter, roll: Int): Unit = {
-    val starsGained = math.min(roll * player.norma, roll * 3)
+    val starsGained = math.min(roll * player.norma._number, roll * 3)
     var newStars = player.stars + starsGained
     player.stars_(newStars)
   }

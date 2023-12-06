@@ -25,7 +25,7 @@ class HomePanel(panelType: String) extends Panels(panelType) {
    *
    * @param newOwner The PlayerCharacter to set as the new owner.
    */
-  def owner(newOwner: PlayerCharacter): Unit = {
+  def owner_(newOwner: PlayerCharacter): Unit = {
     _owner = newOwner
   }
 
@@ -37,7 +37,7 @@ class HomePanel(panelType: String) extends Panels(panelType) {
   override def apply(player: PlayerCharacter, roll: Int): Unit = {
     player.currentHp_(player.currentHp + 1)
 
-    if (player.norma.normaClear(player.stars, player.wins)) {
+    if (player.norma.normaClear(player.stars, player.wins, player)) {
       println(s"${player.name} has leveled up their Norma!")
       // Lógica adicional para efectos de subida de nivel si es necesario
     }
