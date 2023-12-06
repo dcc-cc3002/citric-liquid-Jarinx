@@ -1,43 +1,36 @@
 package cl.uchile.dcc.citric
 package controller
 
-class WrongStateException extends Exception("Wrong State!")
+abstract class GameState(controller: GameController) {
+  def startGame(): Unit = {}
 
-trait GameState[T] {
-  def doDmg(t: T): Unit
-  def giveStars(t: T): Unit
-  def ko(t: T): Unit
+  def newChapter(): Unit= {}
 
-  def isAlive(): Boolean
-  def isKo(): Boolean
-  def isFighting(): Boolean
-}
-abstract class AbstractGameState[T <: HasState[T]] extends GameState[T] {
-  def error = throw new WrongStateException()
+  def playTurn(): Unit = {}
+  def rollDice(): Unit = {}
 
-  def doDmg(t: T): Unit = error
-  def giveStars(t: T): Unit = error
-  def ko(t: T): Unit = error
+  def doEffect(): Unit= {}
 
-  def isAlive(): Boolean = false
-  def isKo(): Boolean = false
-  def isFighting(): Boolean = false
+  def move(): Unit= {}
+  def choosePath(): Unit= {}
+  def stopMoving(): Unit= {}
+  def outOfMovements(): Unit= {}
 
-  protected def changeState(t: T, s: GameState[T]) = t.setState(s)
-}
-class Alive[T <: HasState[T]] extends AbstractGameState[T] {
-  override def doDmg(t: T): Unit =
-    changeState(t, new Ko())
-  override def isAlive() = true
-}
+  def combat(): Unit= {}
+  def attack(): Unit= {}
+  def defend(): Unit= {}
+  def evade(): Unit= {}
 
-class Ko[T <: HasState[T]] extends AbstractGameState[T] {
-  override def giveStars(t: T): Unit =
-    changeState(t, new Fighting())
-  override def isKo() = true
-}
-class Fighting[T <: HasState[T]] extends AbstractGameState[T] {
-  override def ko(t: T): Unit =
-    changeState(t, new Alive())
-  override def isFighting() = true
+  def sufficientRoll(): Unit= {}
+
+  def insufficientRoll(): Unit= {}
+
+  def isKo(): Unit= {}
+
+  def norma6Reached(): Unit= {}
+
+  def waiting(): Unit={0
+
+  }
+
 }

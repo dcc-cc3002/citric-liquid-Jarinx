@@ -1,20 +1,25 @@
 package cl.uchile.dcc.citric
 package controller
 
+import controller.states.PreGameState
+
+// Controlador principal del juego
 class GameController {
-  // Estado actual del juego
-  var state: GameState[Alive[Null]] = new Alive
+  var state: GameState = new PreGameState(this)
 
-  def startGame(): Unit = {
-    state.isAlive()
-    /* ... */
+  def changeState(newState: GameState): Unit = {
+    state = newState
   }
 
-  def rollDice(): Unit = {
-    /* ... */
-  }
+  def startGame(): Unit = state.startGame()
 
-  def doEffect(): Unit = {
-    /* ... */
-  }
+  def playTurn(): Unit = state.playTurn()
+
+  def rollDice(): Unit = state.rollDice()
+
+  def move(): Unit = state.move()
+
+  def combat(): Unit = state.combat()
+
+
 }
