@@ -53,3 +53,8 @@ My code is structured with the best design practices in mind. First of all, Scal
 ---
 ## Design Patterns
 Two designs patters were implemented: **State** and **Observer**. The State Pattern was used because this project consist of various different states which need to be propperly separated and controlled. The Observer Pattern was used because the game needs to know when the match began and when victory was aquired by a player. 
+---
+## My Board
+![Board](docs/board.png)
+
+This is how I designed the board for my game, with the letters representing the type of panel.
