@@ -1,7 +1,8 @@
 package cl.uchile.dcc.citric
 package controller
 
-import controller.states.PreGameState
+import controller.states.{EndGameState, PreGameState}
+import controller.observer.{Game, Observer, Subject, VictoryChecker}
 
 // Controlador principal del juego
 class GameController {
@@ -21,5 +22,14 @@ class GameController {
 
   def combat(): Unit = state.combat()
 
+  def update(subject: Subject): Unit = {
+    subject match {
+      case game: Game if game.gameOver =>
+        // Manejar el fin del juego
+        println("Game over. Processing end game state...")
+        state = new EndGameState(this)
+      case _ =>
+    }
+  }
 
 }

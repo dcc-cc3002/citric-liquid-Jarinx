@@ -37,28 +37,28 @@ class NormaTest extends munit.FunSuite {
     player.stars_(stars)
     player.wins_(wins)
     norma2.normaClear(player.stars, player.wins, player)
-    assertEquals(player.norma._number, 3)
+    assertEquals(player.norma.number, 3)
   }
 
   test("To level up to Norma 4, a player needs a certain amount of stars (70) or wins (6)") {
     player.stars_(70)
     player.wins_(6)
     norma3.normaClear(player.stars, player.wins, player)
-    assertEquals(player.norma._number, 4)
+    assertEquals(player.norma.number, 4)
   }
 
   test("To level up to Norma 5, a player needs a certain amount of stars (120) or wins (10)") {
     player.stars_(120)
     player.wins_(10)
     norma4.normaClear(player.stars, player.wins, player)
-    assertEquals(player.norma._number, 5)
+    assertEquals(player.norma.number, 5)
   }
 
   test("To level up to Norma 6, a player needs a certain amount of stars (200) or wins (14)") {
     player.stars_(200)
     player.wins_(14)
     norma5.normaClear(player.stars, player.wins, player)
-    assertEquals(player.norma._number, 6)
+    assertEquals(player.norma.number, 6)
   }
 
   test("A player may not meet the conditions to level up their Norma"){

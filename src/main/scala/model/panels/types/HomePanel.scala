@@ -1,8 +1,8 @@
 package cl.uchile.dcc.citric
-package model.panels
+package model.panels.types
 
-import cl.uchile.dcc.citric.model.gameunits.PlayerCharacter
-import scala.collection.mutable.ArrayBuffer
+import model.gameunits.PlayerCharacter
+import model.panels.Panels
 
 /** A class that represent a Home Panel
  * The owner of the Home Panel can stop here even if they have moves left, other players can´t.

@@ -4,7 +4,8 @@ package model
 import cl.uchile.dcc.citric.model.gameunits.PlayerCharacter
 import cl.uchile.dcc.citric.model.gameunits.wildunits.{Chicken, Seagull, WildUnit}
 import cl.uchile.dcc.citric.model.norma.Norma2
-import cl.uchile.dcc.citric.model.panels.{BonusPanel, DropPanel, EncounterPanel, HomePanel, NeutralPanel, Panel, Panels}
+import cl.uchile.dcc.citric.model.panels.types.{BonusPanel, DropPanel, EncounterPanel, HomePanel, NeutralPanel}
+import cl.uchile.dcc.citric.model.panels.{Panel, Panels}
 
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Random

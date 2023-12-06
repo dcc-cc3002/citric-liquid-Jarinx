@@ -1,10 +1,9 @@
 package cl.uchile.dcc.citric
-package model.panels
+package model.panels.types
 
-import cl.uchile.dcc.citric.model.gameunits.PlayerCharacter
-import cl.uchile.dcc.citric.model.gameunits.wildunits.WildUnit
-
-import scala.collection.mutable.ArrayBuffer
+import model.gameunits.PlayerCharacter
+import model.gameunits.wildunits.WildUnit
+import model.panels.Panels
 
 /**
  * Represents an encounter panel on the game board.

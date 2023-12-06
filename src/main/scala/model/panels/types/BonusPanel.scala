@@ -1,9 +1,8 @@
 package cl.uchile.dcc.citric
-package model.panels
+package model.panels.types
 
-import cl.uchile.dcc.citric.model.gameunits.PlayerCharacter
-import scala.collection.mutable.ArrayBuffer
-import scala.math.min
+import model.gameunits.PlayerCharacter
+import model.panels.Panels
 
 /** Represents a bonus panel on the game board.
  * A bonus panel is a type of space where players can gain additional stars based on a dice roll.
