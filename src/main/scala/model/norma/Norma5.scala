@@ -7,5 +7,5 @@ import model.gameunits.PlayerCharacter
  *
  * @constructor Create a new Norma level 5 with predefined conditions.
  */
-class Norma5 extends Normas (number = 5, neededStars = 120, neededWins = 10){
+class Norma5 extends Normas (5, 120, 10){
 }

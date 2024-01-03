@@ -20,14 +20,14 @@ import scala.math._
   */
 trait Panel {
 
-  var panelType: String // The type of the panel (e.g., neutral, home, bonus, drop, encounter).
+  val _panelType: String // The type of the panel (e.g., neutral, home, bonus, drop, encounter).
 
   /** Array of the characters currently positioned on this panel.
     *
     * In the game, multiple characters might be on the same panel at once, e.g., if multiple players
     * land on the same space.
     */
-  var characters: ArrayBuffer[PlayerCharacter]
+  var _characters: ArrayBuffer[PlayerCharacter]
 
   /** An array of panels that are directly connected to this one.
    *
@@ -36,31 +36,25 @@ trait Panel {
    *
    * @return a List of Panel instances that are adjacent or connected to this panel.
    */
-  var nextPanels: ArrayBuffer[Panel]
+  var _nextPanels: ArrayBuffer[Panel]
 
   /** Returns the type of this panel.
    *
    * @return A string representing the panel type.
    */
-  def getPanelType: String = panelType
+  def panelType: String = _panelType
 
   /** Returns the characters currently on this panel.
    *
    * @return An ArrayBuffer of PlayerCharacter instances on this panel.
    */
-  def getCharacters: ArrayBuffer[PlayerCharacter] = characters
+  def characters: ArrayBuffer[PlayerCharacter] = _characters
 
   /*** Returns the panels directly connected to this one.
    *
    * @return An ArrayBuffer of Panel instances that are adjacent to this panel.
    */
-  def getNextPanels: ArrayBuffer[Panel] = nextPanels
-
-  /** Sets the type of this panel.
-   *
-   * @param newType The new type for the panel.
-   */
-  def setPanelType(newType: String): Unit
+  def nextPanels: ArrayBuffer[Panel] = _nextPanels
 
   /** Adds a character to this panel.
    * This method is called when a character lands on or passes through this panel.
@@ -90,16 +84,5 @@ trait Panel {
    */
   def removePanel(panel: Panel): Unit
 
-//  def apply(): Unit = {
-//  }
+  def apply(): Unit
 }
-
-///** A class that represent the overall board
-// * It´s a combination of the different panels, arranged in a certain manner.
-// * Could always be the same, or have a few different ones, like "Map Types" (IN EVALUATION)
-// *
-// *@author Julieta Ayelli
-// */
-//abstract class board{
-//  var panels: List[Panel]
-//}

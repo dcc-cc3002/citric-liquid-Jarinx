@@ -28,26 +28,26 @@ class WildUnitTest extends munit.FunSuite {
   //tests
   test("You can set the attributes of any wild unit, if needed"){
     badGuy.setEnemy(enemy)
-    badGuy.setMaxHp(maxHp)
-    badGuy.setCurrentHp(currentHp)
-    angryBirb.setAttackPts(attack)
-    angryBirb.setDefensePts(defense)
-    angryBirb.setEvasionPts(evasion)
-    roundBoy.setStars(stars)
-    roundBoy.setWins(wins)
-    assertEquals(badGuy.getEnemy, enemy)
-    assertEquals(badGuy.getMaxHp, maxHp)
-    assertEquals(badGuy.getCurrentHp, currentHp)
-    assertEquals(badGuy.getAttackPts, attack)
-    assertEquals(badGuy.getDefensePts, defense)
-    assertEquals(badGuy.getEvasionPts, evasion)
-    assertEquals(badGuy.getStars, stars)
-    assertEquals(badGuy.getWins, 0)
+    badGuy.maxHp_(maxHp)
+    badGuy.currentHp_(currentHp)
+    angryBirb.attackPts_(attack)
+    angryBirb.defensePts_(defense)
+    angryBirb.evasionPts_(evasion)
+    roundBoy.stars_(stars)
+    roundBoy.wins_(wins)
+    assertEquals(badGuy.enemy, enemy)
+    assertEquals(badGuy.maxHp, maxHp)
+    assertEquals(badGuy.currentHp, currentHp)
+    assertEquals(badGuy.attackPts, attack)
+    assertEquals(badGuy.defensePts, defense)
+    assertEquals(badGuy.evasionPts, evasion)
+    assertEquals(badGuy.stars, stars)
+    assertEquals(badGuy.wins, 0)
   }
 
   test("A wild unit can take a certain amount of damage from a player"){
     badGuy.takeDmg(1)
-    assertEquals(badGuy.getCurrentHp, 2)
+    assertEquals(badGuy.currentHp, 2)
   }
 
   test("The amount of damage taken can't be under 0") {
@@ -59,7 +59,7 @@ class WildUnitTest extends munit.FunSuite {
 
   test("A wild unit can do a certain amount of damage to a player"){
     badGuy.doDmg(character, 1)
-    assertEquals(character.getCurrentHp, 2)
+    assertEquals(character.currentHp, 2)
   }
 
   test("The amount of damage inflicted can't be under 0") {
@@ -70,7 +70,7 @@ class WildUnitTest extends munit.FunSuite {
   }
 
   test("A wild unit can´t attack a player in Recovery state") {
-    character.setCurrentHp(0)
+    character.currentHp_(0)
     val exception = intercept[AssertionError] {
       angryBirb.attack(character, 2)
     }
@@ -78,9 +78,9 @@ class WildUnitTest extends munit.FunSuite {
   }
 
   test("A wild unit can K0 a player (leave them with 0 HP)"){
-    character.setCurrentHp(4)
+    character.currentHp_(4)
     angryBirb.attack(character, 5)
-    assertEquals(character.currentHp, 0)
+    assertEquals(character._currentHp, 0)
   }
 
   test("A wild unit can evade a player's attack"){

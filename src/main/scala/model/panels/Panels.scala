@@ -9,23 +9,15 @@ import scala.collection.mutable.ArrayBuffer
  * and the connections to other panels.
  *
  * @constructor Create a base panel with a specified type.
- * @param panelType The type of the panel (e.g., neutral, home, bonus, drop, encounter).
+ * @param _panelType The type of the panel (e.g., neutral, home, bonus, drop, encounter).
  */
-abstract class Panels (var panelType: String) extends Panel {
+abstract class Panels (val _panelType: String) extends Panel {
 
   // Buffer holding the characters currently on this panel.
-  var characters: ArrayBuffer[PlayerCharacter] = ArrayBuffer.empty[PlayerCharacter]
+  var _characters: ArrayBuffer[PlayerCharacter] = ArrayBuffer.empty[PlayerCharacter]
 
   // Buffer holding the panels that are directly connected to this one.
-  var nextPanels: ArrayBuffer[Panel] = ArrayBuffer.empty[Panel]
-
-  /** Sets the type of this panel.
-   *
-   * @param newType The new type for the panel.
-   */
-  override def setPanelType(newType: String): Unit = {
-    panelType = newType
-  }
+  var _nextPanels: ArrayBuffer[Panel] = ArrayBuffer.empty[Panel]
 
   /** Adds a character to this panel.
    * This method is called when a character lands on or passes through this panel.
@@ -33,7 +25,7 @@ abstract class Panels (var panelType: String) extends Panel {
    * @param player The PlayerCharacter to add to this panel.
    */
   override def addCharacter(player: PlayerCharacter): Unit = {
-    characters += player
+    _characters += player
   }
 
   /** Removes a character from this panel.
@@ -42,7 +34,7 @@ abstract class Panels (var panelType: String) extends Panel {
    * @param player The PlayerCharacter to remove from this panel.
    */
   override def removeCharacter(player: PlayerCharacter): Unit = {
-    characters -= player
+    _characters -= player
   }
 
   /** Adds a connection to another panel.
@@ -51,7 +43,7 @@ abstract class Panels (var panelType: String) extends Panel {
    * @param panel The Panel to connect to this one.
    */
   override def addPanel(panel: Panel): Unit = {
-    nextPanels += panel
+    _nextPanels += panel
   }
 
   /** Removes a connection to another panel.
@@ -60,6 +52,6 @@ abstract class Panels (var panelType: String) extends Panel {
    * @param panel The Panel to disconnect from this one.
    */
   override def removePanel(panel: Panel): Unit = {
-    nextPanels -= panel
+    _nextPanels -= panel
   }
 }

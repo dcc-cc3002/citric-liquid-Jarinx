@@ -54,18 +54,18 @@ class PanelTest extends munit.FunSuite {
   test("A panel has a type"){
     panel1.setPanelType("Neutral")
     panelTypeEx = "Neutral"
-    assertEquals(panel1.getPanelType, panelTypeEx)
+    assertEquals(panel1.panelType, panelTypeEx)
   }
 
   test("A panel has 1 or more players currently in it"){
     panel1.addCharacter(player1)
     panel1.addCharacter(player2)
-    assertEquals(panel1.characters, charactersEx)
+    assertEquals(panel1._characters, charactersEx)
   }
 
   test("A panel can have 1 or more adjacent panels"){
     panel1.addPanel(panel2)
-    assert(panel1.nextPanels.contains(panel2))
+    assert(panel1._nextPanels.contains(panel2))
   }
 
   test("We can add or remove a player form a certain panel"){
@@ -79,14 +79,14 @@ class PanelTest extends munit.FunSuite {
   test("We can retrieve the array of players in a panel"){
     panel1.addCharacter(player1)
     panel1.addCharacter(player2)
-    assertEquals(panel1.getCharacters, charactersEx)
+    assertEquals(panel1.characters, charactersEx)
   }
 
   test("We can retrieve the array of adjacent panels of a certain panel"){
     nextPanelsEx= ArrayBuffer[Panel](panel2, panel3)
     panel1.addPanel(panel2)
     panel1.addPanel(panel3)
-    assertEquals(panel1.getNextPanels, nextPanelsEx)
+    assertEquals(panel1.nextPanels, nextPanelsEx)
   }
 
   //the next tests are for the different types of panels
@@ -96,9 +96,9 @@ class PanelTest extends munit.FunSuite {
   // tests for Home Panel
 
   test("A Home Panel has an owner, whose name you can retrieve"){
-    panel2.setOwner(player1)
+    panel2.owner_(player1)
+    assertEquals(panel2._owner, player1)
     assertEquals(panel2.owner, player1)
-    assertEquals(panel2.getOwner, player1)
   }
 
   test("A Home Panel associates a number to its owner, which you can retrieve") {
@@ -108,46 +108,46 @@ class PanelTest extends munit.FunSuite {
   }
 
   test("Once any player end up in a Home Panel, they get restored 1 HP"){
-    player1.setCurrentHp(5)
+    player1.currentHp_(5)
     panel2.restoreHP(player1)
-    assertEquals(player1.getCurrentHp, 6)
+    assertEquals(player1.currentHp, 6)
   }
 
   // tests for Bonus Panel
 
   test("Once a player falls in a Bonus Panel, they gain stars"){
-    player1.setStars(stars)
+    player1.stars_(stars)
     player1.setNorma(norma)
     panel3.gainStars(player1, roll)
-    assertEquals(player1.getStars, 10)
+    assertEquals(player1.stars, 10)
   }
 
   // tests for Drop Panel
 
   test("Once a player falls in a Drop Panel, they lose stars") {
-    player1.setStars(10)
+    player1.stars_(10)
     player1.setNorma(norma)
     panel4.loseStars(player1, roll)
-    assertEquals(player1.getStars, 2)
+    assertEquals(player1.stars, 2)
   }
 
   test("A player can't end up with a negative number of stars"){
-    player1.setStars(stars)
+    player1.stars_(stars)
     player1.setNorma(norma)
     panel4.loseStars(player1, roll)
-    assertEquals(player1.getStars, 0)
+    assertEquals(player1.stars, 0)
   }
 
   // tests for Encounter Panel
 
   test("An Encounter Panel has a Wild Unit waiting to fight in it, which type you can retrieve"){
-    panel5.setEnemy(angryBirb)
-    assertEquals(panel5.getEnemy, angryBirb)
+    panel5.enemy_(angryBirb)
+    assertEquals(panel5.enemy, angryBirb)
   }
 
   test("You can set a new Wild Unit in the Encounter Panel"){
     var rudeBirb = new Seagull
-    panel5.setEnemy(rudeBirb)
-    assertEquals(panel5.getEnemy, rudeBirb)
+    panel5.enemy_(rudeBirb)
+    assertEquals(panel5.enemy, rudeBirb)
   }
 }

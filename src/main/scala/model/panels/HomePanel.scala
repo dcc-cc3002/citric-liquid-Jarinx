@@ -11,37 +11,22 @@ import scala.collection.mutable.ArrayBuffer
  * @constructor Create a new home panel with a specified type.
  * @param panelType The type of the panel, which should be "home" for this class.
  */
-class HomePanel(panelType: String) extends Panels(panelType) {
+class HomePanel extends Panels("Home") {
 
-  var owner: PlayerCharacter = _ // The player character who owns this home panel.
-  var playerNum: Int = _ // The number associated with the player and this home panel.
+  var _owner: PlayerCharacter = _ // The player character who owns this home panel.
 
   /** Returns the owner of this home panel.
    *
    * @return The PlayerCharacter who owns this panel.
    */
-  def getOwner: PlayerCharacter = owner
-
-  /** Returns the number associated with the player and this home panel.
-   *
-   * @return An integer representing the player number.
-   */
-  def getPlayerNum: Int = playerNum
+  def owner: PlayerCharacter = _owner
 
   /** Sets the owner of this home panel.
    *
    * @param newOwner The PlayerCharacter to set as the new owner.
    */
-  def setOwner(newOwner: PlayerCharacter): Unit = {
-    owner = newOwner
-  }
-
-  /** Sets the number associated with the player for this home panel.
-   *
-   * @param newPlayerNum The new player number.
-   */
-  def setPlayerNum(newPlayerNum: Int): Unit = {
-    playerNum = newPlayerNum
+  def owner_(newOwner: PlayerCharacter): Unit = {
+    _owner = newOwner
   }
 
   /** Restores 1 HP to a player character when they land on this home panel.
@@ -49,8 +34,8 @@ class HomePanel(panelType: String) extends Panels(panelType) {
    * @param player The PlayerCharacter who lands on this panel.
    */
   def restoreHP(player: PlayerCharacter): Unit = {
-    var currentHp = player.getCurrentHp
-    player.setCurrentHp(currentHp + 1)
+    var currentHp = player.currentHp
+    player.currentHp_(currentHp + 1)
   }
 }
 

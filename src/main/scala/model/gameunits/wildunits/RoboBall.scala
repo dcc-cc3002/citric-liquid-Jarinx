@@ -8,7 +8,6 @@ package model.gameunits.wildunits
  *
  * @constructor Create a new Robo Ball with predefined stats.
  */
-class RoboBall extends WildUnit(maxHp = 3, attackPts = -1, defensePts = 1, evasionPts = -1) {
-  override var enemy: String = "Robo Ball" // The type of enemy is set to "Robo Ball".
-  stars = 2 // Initializes the Robo Ball with 2 stars.
+class RoboBall extends WildUnit(3, -1,  1, -1, "RoboBall") {
+  _stars = 2 // Initializes the Robo Ball with 2 stars.
 }

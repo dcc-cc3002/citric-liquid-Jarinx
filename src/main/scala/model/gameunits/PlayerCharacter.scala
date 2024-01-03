@@ -23,12 +23,12 @@ import scala.util.Random
   * an instance of the `Random` class but can be replaced if different random
   * generation behaviors are desired.
   *
-  * @param name The name of the player. This is an identifier and should be unique.
-  * @param maxHp The maximum health points a player can have. It represents the player's endurance.
-  * @param attackPts The player's capability to deal damage to opponents.
-  * @param defensePts The player's capability to resist or mitigate damage from opponents.
-  * @param evasionPts The player's skill to completely avoid certain attacks.
-  * @param randomNumberGenerator A utility to generate random numbers. Defaults to a new `Random`
+  * @param _name The name of the player. This is an identifier and should be unique.
+  * @param _maxHp The maximum health points a player can have. It represents the player's endurance.
+  * @param _attackPts The player's capability to deal damage to opponents.
+  * @param _defensePts The player's capability to resist or mitigate damage from opponents.
+  * @param _evasionPts The player's skill to completely avoid certain attacks.
+  * @param _randomNumberGenerator A utility to generate random numbers. Defaults to a new `Random`
   *                              instance.
  * @author [[https://github.com/danielRamirezL/ Daniel Ramírez L.]]
   * @author [[https://github.com/joelriquelme/ Joel Riquelme P.]]
@@ -36,49 +36,34 @@ import scala.util.Random
   * @author [[https://github.com/Seivier/ Vicente González B.]]
   * @author [[https://github.com/~Your github account~/ Julieta Ayelli]]
   */
-class PlayerCharacter(maxHp: Int, attackPts: Int, defensePts: Int, evasionPts: Int)
-                       extends Entities(maxHp, attackPts, defensePts, evasionPts) {
+class PlayerCharacter(var _name: String,
+                      override val _maxHp: Int,
+                      override val _attackPts: Int,
+                      override val _defensePts: Int,
+                      override val _evasionPts: Int,
+                      var _randomNumberGenerator: Random = new Random())
+                      extends Entities(_maxHp, _attackPts, _defensePts, _evasionPts){
 
-  var randomNumberGenerator: Random = new Random() // Random number generator for dice rolls.
-  var name: String = _ // The name of the player character.
   var num: Int = _  // The unique number associated with the player character.
-  var norma: Int = _ // The current norma level of the player character.
 
-  /** Retrieves the name of the player character. */
-  def getName: String = name
+  /** Gets the name of the player character. */
+  def name: String = _name
 
-  /** Retrieves the unique number associated with the player character. */
-  def getNum: Int = num
-
-  /** Retrieves the random number generator for dice rolls. */
-  def getRNG: Random = randomNumberGenerator
-
-  /** Retrieves the current norma level of the player character. */
-  def getNorma: Int = norma
+  /** Getts the random number generator for dice rolls. */
+  def rng: Random = _randomNumberGenerator
 
   /** Sets the name of the player character */
-  def setName(newName: String): Unit = {
-    name = newName
-  }
-
-  /** Sets the unique number associated with the player character. */
-  def setNum(newNum: Int): Unit = {
-    num = newNum
+  def name_(newName: String): Unit = {
+    _name = newName
   }
 
   /** Sets the random number generator for dice rolls. */
-  def setRNG(newRNG: Random): Unit = {
-    randomNumberGenerator = newRNG
-  }
-
-
-  /** Sets the current norma level of the player character. */
-  def setNorma(newNorma: Int): Unit = {
-    norma = newNorma
+  def rng_(newRNG: Random): Unit = {
+    _randomNumberGenerator = newRNG
   }
 
   /** Rolls a dice and returns a value between 1 to 6. */
   def rollDice(): Int = {
-    randomNumberGenerator.nextInt(6) + 1
+    _randomNumberGenerator.nextInt(6) + 1
   }
 }

@@ -41,28 +41,28 @@ class PlayerCharacterTest extends munit.FunSuite {
 
 
   test("A character should have correctly set their attributes") {
-    character.setName(name)
-    character.setCurrentHp(currentHp)
-    character.setStars(stars)
-    character.setWins(wins)
+    character.name_(name)
+    character.currentHp_(currentHp)
+    character.stars_(stars)
+    character.wins_(wins)
     character.setNorma(norma)
     character.setNum(num)
-    character.setRNG(randomNumberGenerator)
-    character.setMaxHp(maxHp)
-    character.setAttackPts(attack)
-    character.setDefensePts(defense)
-    character.setEvasionPts(evasion)
-    assertEquals(character.getName, name)
-    assertEquals(character.getMaxHp, maxHp)
-    assertEquals(character.getAttackPts, attack)
-    assertEquals(character.getDefensePts, defense)
-    assertEquals(character.getEvasionPts, evasion)
-    assertEquals(character.getCurrentHp, currentHp)
-    assertEquals(character.getStars, stars)
-    assertEquals(character.getWins, wins)
+    character.rng_(randomNumberGenerator)
+    character.maxHp_(maxHp)
+    character.attackPts_(attack)
+    character.defensePts_(defense)
+    character.evasionPts_(evasion)
+    assertEquals(character.name, name)
+    assertEquals(character._maxHp, maxHp)
+    assertEquals(character._attackPts, attack)
+    assertEquals(character._defensePts, defense)
+    assertEquals(character._evasionPts, evasion)
+    assertEquals(character.currentHp, currentHp)
+    assertEquals(character.stars, stars)
+    assertEquals(character.wins, wins)
     assertEquals(character.getNorma, norma)
     assertEquals(character.getNum, num)
-    assertEquals(character.getRNG, randomNumberGenerator)
+    assertEquals(character.rng, randomNumberGenerator)
   }
 
   // Two ways to test randomness (you can use any of them):
@@ -76,22 +76,22 @@ class PlayerCharacterTest extends munit.FunSuite {
 
   test("A character can take a certain amount of damage"){
     character.takeDmg(5)
-    assertEquals(character.getCurrentHp, 5)
+    assertEquals(character.currentHp, 5)
   }
 
   test("A character can do damage to another player or wild unit"){
     character.doDmg(character2, 5)
-    assertEquals(character2.getCurrentHp, 5)
+    assertEquals(character2.currentHp, 5)
   }
 
   test("A character can defend himself from another Entity's attack and survive"){
     character.defend(character2, 3)
-    assertEquals(character.getCurrentHp, 7)
+    assertEquals(character.currentHp, 7)
   }
 
   test("A character can defend himself form another Entity's attack and get K0'ed"){
     character.defend(character2, 10)
-    assertEquals(character.getCurrentHp, 0)
+    assertEquals(character.currentHp, 0)
   }
 
 }

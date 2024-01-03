@@ -7,7 +7,6 @@ package model.gameunits.wildunits
  *
  * @constructor Create a new Chicken with predefined stats.
  */
-class Chicken extends WildUnit(maxHp = 3, attackPts = -1, defensePts = -1, evasionPts = 1) {
-  override var enemy: String = "Chicken" // The type of enemy is set to "Chicken".
-  stars = 3 // Initializes the Chicken with 3 stars.
+class Chicken extends WildUnit(3, -1, -1, 1, "Chicken") {
+  _stars = 3 // Initializes the Chicken with 3 stars.
 }
