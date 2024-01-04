@@ -1,6 +1,8 @@
 package cl.uchile.dcc.citric
 package model.gameunits
 
+import scala.util.Random
+
 /**
  * Represents a game entity with various stats and abilities.
  *
@@ -13,6 +15,7 @@ trait GameEntity {
   val _attackPts: Int  // The attack points of the entity.
   val _defensePts: Int // The defense points of the entity.
   val _evasionPts: Int // The evasion points of the entity.
+  var _randomNumberGenerator: Random // For the dice rolls.
   var _stars: Int      // The number of stars associated with the entity.
   var _wins: Int       // The number of wins the entity has achieved.
 
@@ -38,22 +41,31 @@ trait GameEntity {
   def wins: Int = _wins
 
   /** Sets the current health points of the entity.
+   * An entity cannot have below 0 HP's.
    *
    * @param newCurrentHp The new current health points.
+   * @throws InvalidStatException if 'newCurrentHp' is below 0 and over '_maxHp'.
    */
   def currentHp_(newCurrentHp: Int): Unit
 
   /**  Sets the number of stars of the entity.
+   * An entity cannot have below 0 stars.
    *
    * @param newStars The new number of stars.
+   * @throws InvalidStatException if 'newStars' is below 0.
    */
   def stars_(newStars: Int): Unit
 
   /** Sets the number of wins of the entity.
+   * An entity cannot have below 0 wins.
    *
    * @param newWins The new number of wins.
+   * @throws InvalidStatException if 'newWins' is below 0.
    */
   def wins_(newWins: Int): Unit
+
+  /** Rolls a dice and returns a value between 1 to 6. */
+  def rollDice(): Int
 
 //  /** Reduces the current health points by the damage quantity specified.
 //   *

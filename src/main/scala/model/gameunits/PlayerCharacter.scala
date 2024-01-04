@@ -40,30 +40,16 @@ class PlayerCharacter(var _name: String,
                       override val _maxHp: Int,
                       override val _attackPts: Int,
                       override val _defensePts: Int,
-                      override val _evasionPts: Int,
-                      var _randomNumberGenerator: Random = new Random())
+                      override val _evasionPts: Int)
                       extends Entities(_maxHp, _attackPts, _defensePts, _evasionPts){
-
-  var num: Int = _  // The unique number associated with the player character.
 
   /** Gets the name of the player character. */
   def name: String = _name
-
-  /** Getts the random number generator for dice rolls. */
-  def rng: Random = _randomNumberGenerator
 
   /** Sets the name of the player character */
   def name_(newName: String): Unit = {
     _name = newName
   }
 
-  /** Sets the random number generator for dice rolls. */
-  def rng_(newRNG: Random): Unit = {
-    _randomNumberGenerator = newRNG
-  }
 
-  /** Rolls a dice and returns a value between 1 to 6. */
-  def rollDice(): Int = {
-    _randomNumberGenerator.nextInt(6) + 1
-  }
 }
