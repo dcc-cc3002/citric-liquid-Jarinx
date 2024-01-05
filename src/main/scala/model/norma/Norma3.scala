@@ -7,5 +7,8 @@ import model.gameunits.PlayerCharacter
  *
  * @constructor Create a new Norma level 3 with predefined conditions.
  */
-class Norma3 extends Normas (3, 30, 3){
+class Norma3 extends Normas (70, 6){
+
+  override def nextNorma: Norma = new Norma4
+
 }

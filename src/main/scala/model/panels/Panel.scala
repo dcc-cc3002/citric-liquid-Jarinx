@@ -84,5 +84,9 @@ trait Panel {
    */
   def removePanel(panel: Panel): Unit
 
-  def apply(): Unit
+  /** Function with unique effects based on the class that is called upon
+   *
+   * @param player The player affected
+   */
+  def apply(player: PlayerCharacter): Unit
 }

@@ -11,9 +11,7 @@ import scala.collection.mutable.ArrayBuffer
  * @constructor Create a new home panel with a specified type.
  * @param panelType The type of the panel, which should be "home" for this class.
  */
-class HomePanel extends Panels("Home") {
-
-  var _owner: PlayerCharacter = _ // The player character who owns this home panel.
+class HomePanel(val _owner: PlayerCharacter) extends Panels("Home") {
 
   /** Returns the owner of this home panel.
    *
@@ -21,21 +19,10 @@ class HomePanel extends Panels("Home") {
    */
   def owner: PlayerCharacter = _owner
 
-  /** Sets the owner of this home panel.
-   *
-   * @param newOwner The PlayerCharacter to set as the new owner.
-   */
-  def owner_(newOwner: PlayerCharacter): Unit = {
-    _owner = newOwner
+  override def apply(player: PlayerCharacter): Unit = {
+    player.currentHp_(player.currentHp + 1)
+    player.normaClear(player)
   }
 
-  /** Restores 1 HP to a player character when they land on this home panel.
-   *
-   * @param player The PlayerCharacter who lands on this panel.
-   */
-  def restoreHP(player: PlayerCharacter): Unit = {
-    var currentHp = player.currentHp
-    player.currentHp_(currentHp + 1)
-  }
 }
 

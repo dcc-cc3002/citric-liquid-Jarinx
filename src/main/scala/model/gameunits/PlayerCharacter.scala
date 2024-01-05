@@ -1,6 +1,8 @@
 package cl.uchile.dcc.citric
 package model.gameunits
 
+import cl.uchile.dcc.citric.model.norma.{Norma, Norma1}
+
 import scala.util.Random
 
 /** The `PlayerCharacter` class represents a character or avatar in the game, encapsulating
@@ -43,6 +45,17 @@ class PlayerCharacter(var _name: String,
                       override val _evasionPts: Int)
                       extends Entities(_maxHp, _attackPts, _defensePts, _evasionPts){
 
+  /** The player starts with Norma 1. */
+  var _norma: Norma = new Norma1
+
+  /** Gets the current player's Norma */
+  def norma: Norma = _norma
+
+  /** Sets the player's Norma */
+  def norma_(newNorma: Norma) : Unit = {
+    _norma = newNorma
+  }
+
   /** Gets the name of the player character. */
   def name: String = _name
 
@@ -51,5 +64,18 @@ class PlayerCharacter(var _name: String,
     _name = newName
   }
 
+  /** Checks if the player can level up their Norma.
+   *
+   * @param player The player which Norma will be checked
+   * @return true if the player can level up, false otherwise
+   */
+  def normaClear(player: PlayerCharacter): Boolean = {
+    if (player.norma.normaClear(player)) {
+      player.norma_(player.norma.nextNorma)
+      true
+    }
+    else
+      false
+  }
 
 }
