@@ -44,7 +44,6 @@ trait GameEntity {
    * An entity cannot have below 0 HP's.
    *
    * @param newCurrentHp The new current health points.
-   * @throws InvalidStatException if 'newCurrentHp' is below 0 and over '_maxHp'.
    */
   def currentHp_(newCurrentHp: Int): Unit
 
@@ -52,7 +51,6 @@ trait GameEntity {
    * An entity cannot have below 0 stars.
    *
    * @param newStars The new number of stars.
-   * @throws InvalidStatException if 'newStars' is below 0.
    */
   def stars_(newStars: Int): Unit
 
@@ -60,45 +58,38 @@ trait GameEntity {
    * An entity cannot have below 0 wins.
    *
    * @param newWins The new number of wins.
-   * @throws InvalidStatException if 'newWins' is below 0.
    */
   def wins_(newWins: Int): Unit
 
   /** Rolls a dice and returns a value between 1 to 6. */
   def rollDice(): Int
 
-//  /** Reduces the current health points by the damage quantity specified.
-//   *
-//   * @param qty The quantity of damage to take.
-//   */
-//  def takeDmg(qty: Int): Unit
-//
-//  /** Inflicts a certain amount of damage on another game entity.
-//   *
-//   * @param someone The entity to do damage to.
-//   * @param qty     The quantity of damage to inflict.
-//   */
-//  def doDmg(someone: GameEntity, qty: Int): Unit
+  /** Reduces the current health points by the damage quantity specified.
+   *
+   * @param qty The quantity of damage to take.
+   * @throws IllegalArgumentException If the damage quantity is negative.
+   */
+  def takeDmg(qty: Int): Unit
+
+
 
   /** Performs an attack on another game entity.
    *
    * @param someone The entity to attack.
-   * @param qty     The quantity of the attack.
+   * @throws IllegalArgumentException If the attacked entity is KO'd.
    */
-  def attack(someone: GameEntity, qty: Int): Unit
+  def attack(someone: GameEntity): Unit
 
   /** Defends against an attack from another game entity.
    *
-   * @param fromSomeone The entity from which to defend.
-   * @param qty         The quantity of the damage.
+   * @param qty The quantity of the damage.
    */
-  def defend(fromSomeone: GameEntity, qty: Int): Unit
+  def defend(qty: Int): Unit
 
   /** Attempts to evade an attack from another game entity.
    *
-   * @param formSomeone The entity from which to evade.
-   * @param qty         The quantity of the damage.
+   * @param qty The quantity of the damage.
    */
-  def evade(formSomeone: GameEntity, qty: Int): Unit
+  def evade(qty: Int): Unit
 
 }

@@ -25,78 +25,68 @@ abstract class Entities (val _maxHp: Int,
   var _wins: Int = 0 // The number of wins the entity has achieved (uninitialized).
 
   override def currentHp_(newCurrentHp: Int): Unit = {
-    _currentHp = Require.Stat(newCurrentHp, "Current HP").in(0 to _maxHp)
+    _currentHp = math.min(0, newCurrentHp)
   }
 
   override def stars_(newStars: Int): Unit = {
-    _stars = Require.Stat(newStars, "Stars").atLeast(0)
+    _stars = math.min(0, newStars)
   }
 
   override def wins_(newWins: Int): Unit = {
-    _wins = Require.Stat(newWins, "Wins").atLeast(0)
+    _wins = math.min(0, newWins)
   }
 
   override def rollDice(): Int = {
     _randomNumberGenerator.nextInt(6) + 1
   }
 
-//  /** Reduces the current health points by the damage quantity specified.
-//   *
-//   * @param qty The quantity of damage to take.
-//   * @throws IllegalArgumentException If the damage quantity is negative.
-//   */
-//  override def takeDmg(qty: Int): Unit = {
-//    if (qty < 0) {
-//      throw new IllegalArgumentException("Quantity of damage must be non-negative")
-//    }
-//    _currentHp -= qty
-//  }
-//
-//  /** Inflicts damage on another entity.
-//   *
-//   * @param someone The entity to do damage to.
-//   * @param qty     The quantity of damage to inflict.
-//   * @throws IllegalArgumentException If the damage quantity is negative.
-//   */
-//  def doDmg(someone: Entities, qty: Int): Unit = {
-//    if (qty < 0) {
-//      throw new IllegalArgumentException("Quantity of damage must be non-negative")
-//    }
-//    someone._currentHp -= qty
-//  }
 
-  override def attack(someone: GameEntity, qty: Int): Unit = {
-    assert(someone._currentHp > 0, "Player is K.O.")
-
-    //qty of dmg done code here
-
-//    doDmg(someone, qty)
-    if (someone._currentHp <= 0) {
-      someone.currentHp_(0)
-      //goes to K0 state
-    }
-  }
-
-  def defend(fromSomeone: GameEntity, qty: Int): Unit = {
-    //qty of dmg taken (while defending) code here
-    //qty can´t be less than 1
-//    takeDmg(qty)
-    if (_currentHp <= 0) {
-      currentHp_(0)
-      //goes to K0 state
-    }
-  }
-
-  def evade(formSomeone: GameEntity, qty: Int): Unit = {
-    if (true) {
-//      takeDmg(0)
+  override def takeDmg(qty: Int): Unit = {
+    if (qty < 0) {
+      throw new IllegalArgumentException("Quantity of damage must be non-negative")
     }
     else {
-      //qty of dmg taken (while evading) code here
-//      takeDmg(qty)
-      if (_currentHp <= 0) {
-        //goes to K0 state
-//        takeDmg(qty)
+      val roll = rollDice()
+      if (roll > 3) {
+        defend(qty)
+      }
+      else {
+        evade(qty)
+      }
+    }
+  }
+
+  override def attack(someone: GameEntity): Unit = {
+    if (this.currentHp == 0) { // if the attacker is KO'd
+      throw new IllegalArgumentException("You're in Recovery State (Unable to attack)")
+    }
+    else if (someone.currentHp == 0){ // if the attacked entity is KO'd
+      throw new IllegalArgumentException("You can´t attack a KO'd entity")
+    }
+    else {
+      val totalAtkPts: Int = attackPts + rollDice()
+      someone.takeDmg(totalAtkPts)
+    }
+  }
+
+  override def defend(qty: Int): Unit = {
+    val dmgReceived: Int = math.max(1, qty - (rollDice() + this.defensePts))
+    this.currentHp_(this.currentHp - dmgReceived)
+    if (this.currentHp == 0) {
+      // recovery
+    }
+  }
+
+  override def evade(qty: Int): Unit = {
+    val roll: Int = rollDice()
+    val eva: Int = roll + this.evasionPts
+    if (eva > qty) {
+      takeDmg(0)
+    }
+    else {
+      takeDmg(qty)
+      if (this.currentHp == 0){
+        //recovery
       }
     }
   }
