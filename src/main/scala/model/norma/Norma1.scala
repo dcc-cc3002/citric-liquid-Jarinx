@@ -7,6 +7,7 @@ import model.gameunits.PlayerCharacter
  *
  */
 class Norma1 extends Normas (10, 1) {
+  override var _number: Int = 1
 
   override def nextNorma: Norma = new Norma2
 

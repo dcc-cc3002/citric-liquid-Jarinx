@@ -14,18 +14,14 @@ import scala.math.min
 class BonusPanel extends Panels("Bonus") {
 
   /** Grants stars to a player character based on a dice roll when they land on this bonus panel.
-   * The number of stars gained is: min(roll * player.norma, roll * 3) .
    *
    * @param player The player character who lands on this panel.
-   * @param roll   The result of the dice roll.
    */
-  def gainStars(player: PlayerCharacter, roll: Int): Unit = {
-    // var roll = player.rollDice()
-    var starsGained: Int = min(roll * player.norma, roll * 3)
-    var newStars = player._stars + starsGained
+  override def apply(player: PlayerCharacter): Unit = {
+    var roll = player.rollDice()
+    var starsGained: Int = min(roll * player.norma._number, roll * 3)
+    var newStars = player.stars + starsGained
     player.stars_(newStars)
   }
 
-//  override def apply(): Unit = {
-//  }
 }

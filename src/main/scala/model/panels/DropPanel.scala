@@ -1,7 +1,9 @@
 package cl.uchile.dcc.citric
 package model.panels
 
+import cl.uchile.dcc.citric.exceptions.InvalidStatException
 import cl.uchile.dcc.citric.model.gameunits.PlayerCharacter
+
 import scala.collection.mutable.ArrayBuffer
 
 /** Represents a drop panel on the game board.
@@ -13,21 +15,18 @@ import scala.collection.mutable.ArrayBuffer
 class DropPanel extends Panels("Drop") {
 
   /** Deducts stars from a player character based on a dice roll when they land on this drop panel.
-   * The number of stars lost is: roll * player.getNorma.
    * If the loss results in a negative star count, the player's stars are set to zero.
    *
    * @param player The player character who lands on this panel.
-   * @param roll   The result of the dice roll.
    */
-  def loseStars(player: PlayerCharacter, roll: Int): Unit = {
-    var starsLost: Int = roll * player.getNorma
-    var newStars = player.stars - starsLost
-    // ¿player.setStars(math.max(newStars, 0))?
-    if(newStars < 0){
-      player.stars_(0)
-    }
-    else{
+
+  override def apply(player: PlayerCharacter): Unit = {
+    try {
+      var roll = player.rollDice()
+      var starsLost: Int = roll * player.norma._number
+      var newStars = player.stars - starsLost
       player.stars_(newStars)
+    } catch {
+      case _: InvalidStatException => player.stars_(0)
     }
-  }
 }

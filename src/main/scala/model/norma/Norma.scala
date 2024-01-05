@@ -7,22 +7,23 @@ import model.gameunits.PlayerCharacter
  * Norma conditions typically involve accumulating a certain number of stars or achieving a number of wins.
  */
 trait Norma {
+  var _number: Int          // The level number
   var _neededStars: Int     // The number of stars needed to reach the next Norma level.
   var _neededWins: Int      // The number of wins needed to reach the next Norma level.
-  var _target: Option[Int]          // The target set for leveling up by the player.
+  var _target: Option[Int]  // The target set for leveling up by the player.
 
 
-  /** Returns the number of stars needed for the player to level up the Norma.
-   *
-   * @return The number of needed stars.
-   */
-  def neededStars: Int = _neededStars
-
-  /** Returns the number of wins needed for the player to level up the Norma.
-   *
-   * @return The number of needed wins.
-   */
-  def neededWins: Int = _neededWins
+//  /** Returns the number of stars needed for the player to level up the Norma.
+//   *
+//   * @return The number of needed stars.
+//   */
+//  def neededStars: Int
+//
+//  /** Returns the number of wins needed for the player to level up the Norma.
+//   *
+//   * @return The number of needed wins.
+//   */
+//  def neededWins: Int = _neededWins
 
   /** Checks if the player meets the conditions to level up their Norma.
    *

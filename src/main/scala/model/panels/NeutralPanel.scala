@@ -10,4 +10,6 @@ import scala.collection.mutable.ArrayBuffer
  * @constructor Create a new neutral panel with a specified type.
  * @param panelType The type of the panel, which should be "neutral" for this class.
  */
-class NeutralPanel extends Panels("Neutral") {}
+class NeutralPanel extends Panels("Neutral") {
+  override def apply(player: PlayerCharacter): Unit = {}
+}
