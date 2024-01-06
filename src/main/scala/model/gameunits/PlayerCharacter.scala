@@ -1,6 +1,7 @@
 package cl.uchile.dcc.citric
 package model.gameunits
 
+import cl.uchile.dcc.citric.model.gameunits.wildunits.{TWildUnit, WildUnit}
 import cl.uchile.dcc.citric.model.norma.{Norma, Norma1}
 
 import scala.util.Random
@@ -76,6 +77,23 @@ class PlayerCharacter(var _name: String,
     }
     else
       false
+  }
+
+  override def overthrownBy(attacker: GameEntity): Unit = {
+    attacker.rewardFromPlayer(this)
+  }
+
+  override def rewardFromPlayer(player: PlayerCharacter): Unit = {
+    this.wins_(this.wins + 2)
+    this.stars_(this.stars + player.stars / 2)
+    player.stars_(player.stars - player.stars / 2)
+
+  }
+
+  override def rewardFromWU(wildUnit: TWildUnit): Unit = {
+    this.wins_(this.wins + 1)
+    this.stars_(this.stars + wildUnit.stars + wildUnit.bonusStars)
+    wildUnit.stars_(0)
   }
 
 }

@@ -1,6 +1,8 @@
 package cl.uchile.dcc.citric
 package model.gameunits
 
+import cl.uchile.dcc.citric.model.gameunits.wildunits.{TWildUnit, WildUnit}
+
 import scala.util.Random
 
 /**
@@ -18,6 +20,7 @@ trait GameEntity {
   var _randomNumberGenerator: Random // For the dice rolls.
   var _stars: Int      // The number of stars associated with the entity.
   var _wins: Int       // The number of wins the entity has achieved.
+  var _alive: Boolean  // true if the entity is alive, false if it's 'dead'
 
   /** Returns the maximum health points of the entity. */
   def maxHp: Int = _maxHp
@@ -64,14 +67,18 @@ trait GameEntity {
   /** Rolls a dice and returns a value between 1 to 6. */
   def rollDice(): Int
 
+  /** Tells if the entity is in recovery state, i.e., has 0 HP
+   *
+   * @return true if it's KO'd, false otherwise
+   */
+  def inRecovery: Boolean
+
   /** Reduces the current health points by the damage quantity specified.
    *
    * @param qty The quantity of damage to take.
    * @throws IllegalArgumentException If the damage quantity is negative.
    */
   def takeDmg(qty: Int): Unit
-
-
 
   /** Performs an attack on another game entity.
    *
@@ -91,5 +98,35 @@ trait GameEntity {
    * @param qty The quantity of the damage.
    */
   def evade(qty: Int): Unit
+
+  /** When an entity defeats a player, they'll get rewarded
+   * a certain amount of stars and wins from the player.
+   *
+   * Used for Double Dispatch Pattern.
+   *
+   * @param player the player overthrown
+   *
+   */
+  def rewardFromPlayer(player: PlayerCharacter): Unit
+
+  /** When an entity defeats a wild unit, they'll get
+   * rewarded a certain amount of stars and wins form
+   * the wild unit.
+   *
+   * Used for Double Dispatch Pattern.
+   *
+   * @param wildUnit the wild unit defeated
+   */
+  def rewardFromWU(wildUnit: TWildUnit): Unit
+
+  /** When an entity loses against another. The result of this
+   * defeat depends on who got attacked and who got attacked.
+   * The attacker gets a reward for overthrowing the entity.
+   *
+   * Used for Double Dispatch Pattern.
+   *
+   * @param attacker the entity attacking
+   */
+  def overthrownBy(attacker: GameEntity): Unit
 
 }

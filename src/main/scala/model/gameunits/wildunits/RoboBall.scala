@@ -9,5 +9,5 @@ package model.gameunits.wildunits
  * @constructor Create a new Robo Ball with predefined stats.
  */
 class RoboBall extends WildUnit(3, -1,  1, -1, "RoboBall") {
-  _stars = 2 // Initializes the Robo Ball with 2 stars.
+  override var _bonusStars = 2 // Initializes the Robo Ball with 2 stars.
 }

@@ -8,5 +8,5 @@ package model.gameunits.wildunits
  * @constructor Create a new Chicken with predefined stats.
  */
 class Chicken extends WildUnit(3, -1, -1, 1, "Chicken") {
-  _stars = 3 // Initializes the Chicken with 3 stars.
+  override var _bonusStars = 3 // Initializes the Chicken with 3 stars.
 }

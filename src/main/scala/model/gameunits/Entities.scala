@@ -2,6 +2,7 @@ package cl.uchile.dcc.citric
 package model.gameunits
 
 import cl.uchile.dcc.citric.exceptions.Require
+import cl.uchile.dcc.citric.model.gameunits.wildunits.{TWildUnit, WildUnit}
 
 import scala.util.Random
 
@@ -20,12 +21,19 @@ abstract class Entities (val _maxHp: Int,
                          var _randomNumberGenerator: Random = new Random())
                         extends GameEntity {
 
-  var _currentHp: Int = _maxHp // Initializes current health points to the maximum.
-  var _stars: Int = 0 // The number of stars associated with the entity (uninitialized).
-  var _wins: Int = 0 // The number of wins the entity has achieved (uninitialized).
+  override var _currentHp: Int = _maxHp
+  override var _stars: Int = 0
+  override var _wins: Int = 0
+  override var _alive: Boolean = false
 
   override def currentHp_(newCurrentHp: Int): Unit = {
     _currentHp = math.min(0, newCurrentHp)
+    if (_currentHp == 0) {
+      _alive = false
+    }
+    else {
+      _alive = true
+    }
   }
 
   override def stars_(newStars: Int): Unit = {
@@ -40,6 +48,7 @@ abstract class Entities (val _maxHp: Int,
     _randomNumberGenerator.nextInt(6) + 1
   }
 
+  override def inRecovery: Boolean = _alive
 
   override def takeDmg(qty: Int): Unit = {
     if (qty < 0) {
@@ -72,9 +81,6 @@ abstract class Entities (val _maxHp: Int,
   override def defend(qty: Int): Unit = {
     val dmgReceived: Int = math.max(1, qty - (rollDice() + this.defensePts))
     this.currentHp_(this.currentHp - dmgReceived)
-    if (this.currentHp == 0) {
-      // recovery
-    }
   }
 
   override def evade(qty: Int): Unit = {
@@ -85,9 +91,12 @@ abstract class Entities (val _maxHp: Int,
     }
     else {
       takeDmg(qty)
-      if (this.currentHp == 0){
-        //recovery
-      }
     }
   }
+
+  override def rewardFromPlayer(player: PlayerCharacter): Unit
+
+  override def rewardFromWU(wildUnit: TWildUnit): Unit
+
+  override def overthrownBy(attacker: GameEntity): Unit
 }
