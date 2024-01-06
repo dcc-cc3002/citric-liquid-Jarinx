@@ -1,8 +1,9 @@
 package cl.uchile.dcc.citric
-package model.panels
+package model.panels.concretepanels
 
-import cl.uchile.dcc.citric.model.gameunits.PlayerCharacter
-import scala.collection.mutable.ArrayBuffer
+import model.gameunitstests.playercharacter.PlayerCharacter
+import model.panels.Panels
+
 import scala.math.min
 
 /** Represents a bonus panel on the game board.

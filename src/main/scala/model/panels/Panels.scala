@@ -1,7 +1,7 @@
 package cl.uchile.dcc.citric
 package model.panels
 
-import cl.uchile.dcc.citric.model.gameunits.PlayerCharacter
+import cl.uchile.dcc.citric.model.gameunitstests.playercharacter.PlayerCharacter
 import scala.collection.mutable.ArrayBuffer
 
 /** Abstract class that serves as a base for different types of panels on the game board.

@@ -1,8 +1,8 @@
 package cl.uchile.dcc.citric
 package model.panels
 
-import cl.uchile.dcc.citric.model.gameunits.PlayerCharacter
-import cl.uchile.dcc.citric.model.gameunits.wildunits.WildUnit
+import cl.uchile.dcc.citric.model.gameunitstests.playercharacter.PlayerCharacter
+import cl.uchile.dcc.citric.model.gameunitstests.wildunits.WildUnit
 
 import scala.collection.mutable.ArrayBuffer
 import scala.math._

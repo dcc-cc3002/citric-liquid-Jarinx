@@ -1,8 +1,8 @@
 package cl.uchile.dcc.citric
-package model.panels
+package model.panels.concretepanels
 
-import cl.uchile.dcc.citric.model.gameunits.PlayerCharacter
-import scala.collection.mutable.ArrayBuffer
+import model.gameunitstests.playercharacter.PlayerCharacter
+import model.panels.Panels
 
 /** Represents a neutral panel on the game board.
  * A neutral panel is a basic type of space that does not have any special effects on the player.

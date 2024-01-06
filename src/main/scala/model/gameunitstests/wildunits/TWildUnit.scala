@@ -1,7 +1,7 @@
 package cl.uchile.dcc.citric
-package model.gameunits.wildunits
+package model.gameunitstests.wildunits
 
-import model.gameunits.GameEntity
+import model.gameunitstests.GameEntity
 
 trait TWildUnit extends GameEntity {
   var _bonusStars: Int // the star bonus.

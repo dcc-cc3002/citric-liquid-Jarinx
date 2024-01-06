@@ -1,9 +1,8 @@
 package cl.uchile.dcc.citric
-package model
+package model.normatests
 
-import model.norma.{Norma, Norma2, Norma3, Norma4, Norma5, Norma6}
-
-import cl.uchile.dcc.citric.model.gameunits.PlayerCharacter
+import model.gameunitstests.playercharacter.PlayerCharacter
+import model.norma.concretenormas._
 
 class NormaTest extends munit.FunSuite {
   val number = 2

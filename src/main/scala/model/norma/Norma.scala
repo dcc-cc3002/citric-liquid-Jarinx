@@ -1,7 +1,7 @@
 package cl.uchile.dcc.citric
 package model.norma
 
-import model.gameunits.PlayerCharacter
+import cl.uchile.dcc.citric.model.gameunitstests.playercharacter.PlayerCharacter
 
 /** Trait representing the Norma condition in the game, which is a set of requirements a player must meet to level up.
  * Norma conditions typically involve accumulating a certain number of stars or achieving a number of wins.

@@ -1,5 +1,7 @@
 package cl.uchile.dcc.citric
-package model.gameunits.wildunits
+package model.gameunitstests.wildunits.concretewu
+
+import model.gameunitstests.wildunits.WildUnit
 
 /** Represents a Seagull wild unit with predefined stats.
  * Seagulls have a standard health level and are characterized by their offensive capabilities,

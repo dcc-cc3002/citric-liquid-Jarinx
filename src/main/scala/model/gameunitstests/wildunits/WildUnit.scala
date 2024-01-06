@@ -1,8 +1,9 @@
 package cl.uchile.dcc.citric
-package model.gameunits.wildunits
+package model.gameunitstests.wildunits
 
 import cl.uchile.dcc.citric.exceptions.WildUnitException
-import cl.uchile.dcc.citric.model.gameunits.{Entities, GameEntity, PlayerCharacter}
+import cl.uchile.dcc.citric.model.gameunitstests.playercharacter.PlayerCharacter
+import cl.uchile.dcc.citric.model.gameunitstests.{Entities, GameEntity}
 
 /** Abstract class representing a wild unit in the game with specific stats and an enemy type.
  *

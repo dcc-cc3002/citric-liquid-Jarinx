@@ -1,7 +1,7 @@
 package cl.uchile.dcc.citric
 package model.norma
 
-import model.gameunits.PlayerCharacter
+import cl.uchile.dcc.citric.model.gameunitstests.playercharacter.PlayerCharacter
 
 /** Abstract class that defines the structure and behavior of Norma levels in the game.
  * A Norma level is associated with certain conditions based on stars and wins that a player must meet to advance.

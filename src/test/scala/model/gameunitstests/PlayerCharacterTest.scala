@@ -1,7 +1,7 @@
 package cl.uchile.dcc.citric
-package model
+package model.gameunitstests
 
-import cl.uchile.dcc.citric.model.gameunits.PlayerCharacter
+import model.gameunitstests.playercharacter.PlayerCharacter
 
 import scala.util.Random
 

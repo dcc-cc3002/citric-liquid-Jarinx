@@ -1,5 +1,7 @@
 package cl.uchile.dcc.citric
-package model.gameunits.wildunits
+package model.gameunitstests.wildunits.concretewu
+
+import model.gameunitstests.wildunits.WildUnit
 
 /** Represents a Chicken wild unit with predefined stats.
  * Chickens have low health and negative stats for attack and defense, but a slight evasion bonus.

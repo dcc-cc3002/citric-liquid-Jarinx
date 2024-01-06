@@ -1,8 +1,8 @@
 package cl.uchile.dcc.citric
-package model
+package model.gameunitstests
 
-import cl.uchile.dcc.citric.model.gameunits.PlayerCharacter
-import cl.uchile.dcc.citric.model.gameunits.wildunits.{Chicken, RoboBall, Seagull, WildUnit}
+import model.gameunitstests.playercharacter.PlayerCharacter
+import model.gameunitstests.wildunits.concretewu.{Chicken, RoboBall, Seagull}
 
 class WildUnitTest extends munit.FunSuite {
   private val enemy = "Chicken"

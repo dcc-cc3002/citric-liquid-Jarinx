@@ -1,10 +1,10 @@
 package cl.uchile.dcc.citric
-package model.gameunits
+package model.gameunitstests.playercharacter
 
-import cl.uchile.dcc.citric.model.gameunits.wildunits.{TWildUnit, WildUnit}
-import cl.uchile.dcc.citric.model.norma.{Norma, Norma1}
-
-import scala.util.Random
+import model.gameunitstests.wildunits.TWildUnit
+import model.gameunitstests.{Entities, GameEntity}
+import model.norma.Norma
+import cl.uchile.dcc.citric.model.norma.concretenormas.Norma1
 
 /** The `PlayerCharacter` class represents a character or avatar in the game, encapsulating
   * several attributes such as health points, attack strength, defense capability,

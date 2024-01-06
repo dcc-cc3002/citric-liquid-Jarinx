@@ -1,14 +1,14 @@
 package cl.uchile.dcc.citric
-package model
+package model.panelstests
 
-import cl.uchile.dcc.citric.model.gameunits.PlayerCharacter
-import cl.uchile.dcc.citric.model.gameunits.wildunits.{Chicken, Seagull, WildUnit}
-import cl.uchile.dcc.citric.model.panels.{BonusPanel, DropPanel, EncounterPanel, HomePanel, NeutralPanel, Panel, Panels}
+import model.gameunitstests.playercharacter.PlayerCharacter
+import model.gameunitstests.wildunits.concretewu.{Chicken, Seagull}
+import model.panels.Panel
+import model.panels.concretepanels._
 
 import scala.collection.mutable.ArrayBuffer
-import scala.util.Random
 
-class PanelTest extends munit.FunSuite {
+class GeneralPanelTest extends munit.FunSuite {
   private val maxHp = 10
   private val attack = 1
   private val defense = 1

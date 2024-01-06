@@ -1,7 +1,8 @@
 package cl.uchile.dcc.citric
-package model.gameunits
+package model.gameunitstests
 
-import cl.uchile.dcc.citric.model.gameunits.wildunits.{TWildUnit, WildUnit}
+import cl.uchile.dcc.citric.model.gameunitstests.playercharacter.PlayerCharacter
+import cl.uchile.dcc.citric.model.gameunitstests.wildunits.{TWildUnit, WildUnit}
 
 import scala.util.Random
 

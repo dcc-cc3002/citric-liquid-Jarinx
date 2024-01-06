@@ -1,7 +1,7 @@
 package cl.uchile.dcc.citric
-package model.norma
+package model.norma.concretenormas
 
-import model.gameunits.PlayerCharacter
+import model.norma.{Norma, Normas}
 
 /** Represents the fifth Norma level with specific conditions that a player must meet to advance.
  *

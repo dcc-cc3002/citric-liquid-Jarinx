@@ -1,5 +1,7 @@
 package cl.uchile.dcc.citric
-package model.gameunits.wildunits
+package model.gameunitstests.wildunits.concretewu
+
+import model.gameunitstests.wildunits.WildUnit
 
 /** Represents a Robo Ball wild unit with predefined stats.
  * Robo Balls have a balanced health and a defensive orientation with their stats,
