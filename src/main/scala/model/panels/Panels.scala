@@ -1,7 +1,7 @@
 package cl.uchile.dcc.citric
 package model.panels
 
-import cl.uchile.dcc.citric.model.gameunitstests.playercharacter.PlayerCharacter
+import cl.uchile.dcc.citric.model.gameunits.playercharacter.PlayerCharacter
 import scala.collection.mutable.ArrayBuffer
 
 /** Abstract class that serves as a base for different types of panels on the game board.
@@ -13,6 +13,7 @@ import scala.collection.mutable.ArrayBuffer
  */
 abstract class Panels (val _panelType: String) extends Panel {
 
+  override def panelType: String = _panelType
   // Buffer holding the characters currently on this panel.
   var _characters: ArrayBuffer[PlayerCharacter] = ArrayBuffer.empty[PlayerCharacter]
 
@@ -42,7 +43,7 @@ abstract class Panels (val _panelType: String) extends Panel {
    *
    * @param panel The Panel to connect to this one.
    */
-  override def addPanel(panel: Panel): Unit = {
+  override def addNextPanel(panel: Panel): Unit = {
     _nextPanels += panel
   }
 
@@ -51,7 +52,19 @@ abstract class Panels (val _panelType: String) extends Panel {
    *
    * @param panel The Panel to disconnect from this one.
    */
-  override def removePanel(panel: Panel): Unit = {
+  override def removeNextPanel(panel: Panel): Unit = {
     _nextPanels -= panel
   }
+
+  override def containsPlayer(player: PlayerCharacter): Boolean = {
+    _characters.contains(player)
+  }
+
+  override def containsNextPanel(nextPanel: Panel): Boolean = {
+    _nextPanels.contains(nextPanel)
+  }
+
+  override def nextPanelsAmount: Int = _nextPanels.size
+
+  override def charactersAmount: Int = _characters.size
 }

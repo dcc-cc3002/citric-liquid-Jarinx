@@ -7,8 +7,6 @@ import model.norma.{Norma, Normas}
  *
  */
 class Norma1 extends Normas (10, 1) {
-  override var _number: Int = 1
-
+  override val _number: Int = 1
   override def nextNorma: Norma = new Norma2
-
 }

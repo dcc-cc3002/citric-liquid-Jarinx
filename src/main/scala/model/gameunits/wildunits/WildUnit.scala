@@ -1,9 +1,9 @@
 package cl.uchile.dcc.citric
-package model.gameunitstests.wildunits
+package model.gameunits.wildunits
 
 import cl.uchile.dcc.citric.exceptions.WildUnitException
-import cl.uchile.dcc.citric.model.gameunitstests.playercharacter.PlayerCharacter
-import cl.uchile.dcc.citric.model.gameunitstests.{Entities, GameEntity}
+import cl.uchile.dcc.citric.model.gameunits.playercharacter.PlayerCharacter
+import cl.uchile.dcc.citric.model.gameunits.{Entities, GameEntity}
 
 /** Abstract class representing a wild unit in the game with specific stats and an enemy type.
  *
@@ -16,12 +16,12 @@ import cl.uchile.dcc.citric.model.gameunitstests.{Entities, GameEntity}
  * @author Julieta Ayelli
  */
 abstract class WildUnit (maxHp: Int,
-               attackPts: Int,
-               defensePts: Int,
-               evasionPts: Int,
-               var _enemy: String)
-                extends Entities(maxHp, attackPts, defensePts, evasionPts)
-                with TWildUnit {
+                         attackPts: Int,
+                         defensePts: Int,
+                         evasionPts: Int,
+                         var _enemy: String)
+                        extends Entities(maxHp, attackPts, defensePts, evasionPts)
+                        with TWildUnit {
 
   def bonusStars: Int = _bonusStars
 
@@ -47,7 +47,7 @@ abstract class WildUnit (maxHp: Int,
    *
    */
   override def rewardFromWU(wildUnit: TWildUnit): Unit = {
-    throw new WildUnitException("A Wild Unit cannot fight another Wild Unit.")
+    throw new WildUnitException("A Wild Unit cannot fight another Wild Unit")
   }
 
 }

@@ -1,7 +1,7 @@
 package cl.uchile.dcc.citric
 package model.norma
 
-import cl.uchile.dcc.citric.model.gameunitstests.playercharacter.PlayerCharacter
+import cl.uchile.dcc.citric.model.gameunits.playercharacter.PlayerCharacter
 
 /** Abstract class that defines the structure and behavior of Norma levels in the game.
  * A Norma level is associated with certain conditions based on stars and wins that a player must meet to advance.
@@ -14,7 +14,9 @@ abstract class Normas(val _neededStars: Int,
                       val _neededWins: Int)
                       extends Norma {
 
-  override var _target: Option[Int] = None
+  override def neededStars: Int = _neededStars
+
+  override def neededWins: Int = _neededWins
 
   override def normaCheckStars(player: PlayerCharacter): Boolean = {
     player.stars >= _neededStars
@@ -25,32 +27,13 @@ abstract class Normas(val _neededStars: Int,
   }
 
   override def normaClear(player: PlayerCharacter): Boolean = {
-    if (_target.contains(1)) {
+    if (player.target.contains(1)) {
       normaCheckStars(player)
     }
-    else if (_target.contains(2)) {
+    else {
       normaCheckWins(player)
     }
-    else
-      false
-  }
-
-  override def target: Option[Int] = _target
-
-  override def target_(newTarget: Option[Int]): Boolean = {
-    if (_target.isDefined) false
-    else if (newTarget.contains(1)){
-      _target = newTarget
-      true
-    }
-    else if (newTarget.contains(2)){
-      _target = newTarget
-      true
-    }
-    else
-      false
   }
 
   override def nextNorma: Norma
-
 }

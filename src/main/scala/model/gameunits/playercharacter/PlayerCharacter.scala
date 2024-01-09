@@ -1,10 +1,13 @@
 package cl.uchile.dcc.citric
-package model.gameunitstests.playercharacter
+package model.gameunits.playercharacter
 
-import model.gameunitstests.wildunits.TWildUnit
-import model.gameunitstests.{Entities, GameEntity}
+import model.gameunits.wildunits.TWildUnit
+import model.gameunits.{Entities, GameEntity}
 import model.norma.Norma
+
 import cl.uchile.dcc.citric.model.norma.concretenormas.Norma1
+
+import scala.util.Random
 
 /** The `PlayerCharacter` class represents a character or avatar in the game, encapsulating
   * several attributes such as health points, attack strength, defense capability,
@@ -43,11 +46,14 @@ class PlayerCharacter(var _name: String,
                       override val _maxHp: Int,
                       override val _attackPts: Int,
                       override val _defensePts: Int,
-                      override val _evasionPts: Int)
-                      extends Entities(_maxHp, _attackPts, _defensePts, _evasionPts){
+                      override val _evasionPts: Int,
+                      _randomNumberGenerator: Random = new Random())
+                      extends Entities(_maxHp, _attackPts, _defensePts, _evasionPts, _randomNumberGenerator){
 
   /** The player starts with Norma 1. */
   var _norma: Norma = new Norma1
+
+  var _target: Option[Int] = None // The target set for leveling up by the player; 1 for stars, 2 for wins
 
   /** Gets the current player's Norma */
   def norma: Norma = _norma
@@ -60,19 +66,15 @@ class PlayerCharacter(var _name: String,
   /** Gets the name of the player character. */
   def name: String = _name
 
-  /** Sets the name of the player character */
-  def name_(newName: String): Unit = {
-    _name = newName
-  }
 
   /** Checks if the player can level up their Norma.
    *
    * @param player The player which Norma will be checked
    * @return true if the player can level up, false otherwise
    */
-  def normaClear(player: PlayerCharacter): Boolean = {
-    if (player.norma.normaClear(player)) {
-      player.norma_(player.norma.nextNorma)
+  def normaClear(): Boolean = {
+    if (this.norma.normaClear(this)) {
+      this.norma_(this.norma.nextNorma)
       true
     }
     else
@@ -82,7 +84,6 @@ class PlayerCharacter(var _name: String,
   override def overthrownBy(attacker: GameEntity): Unit = {
     attacker.rewardFromPlayer(this)
   }
-
   override def rewardFromPlayer(player: PlayerCharacter): Unit = {
     this.wins_(this.wins + 2)
     this.stars_(this.stars + player.stars / 2)
@@ -94,6 +95,39 @@ class PlayerCharacter(var _name: String,
     this.wins_(this.wins + 1)
     this.stars_(this.stars + wildUnit.stars + wildUnit.bonusStars)
     wildUnit.stars_(0)
+  }
+
+  /** To check if a player can recover themselves
+   *
+   * @param requirement min dice roll
+   */
+  def recover(requirement: Int): Unit = {
+    if(rollDice() >= requirement){
+      _dead = false
+    }
+    else {
+      _dead = true
+    }
+  }
+  /** Gets the target chosen by the player.
+   *
+   * @return Some(1) if player chose Stars, Some(2) if player chose Wins
+   */
+  def target: Option[Int] = _target
+
+  /** Updates the target chosen by the player upon leveling up their Norma.
+   *
+   * @param newTarget Some(1) if player chose Stars, Some(2) if player chose Wins
+   * @return true if the player chose a new target, false otherwise.
+   */
+  def target_(newTarget: Option[Int]): Boolean = {
+    if (_target.isDefined) false
+    else if (newTarget.contains(1) || newTarget.contains(2)){
+      _target = newTarget
+      true
+    }
+    else
+      false
   }
 
 }

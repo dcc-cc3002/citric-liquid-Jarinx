@@ -1,39 +1,40 @@
 package cl.uchile.dcc.citric
 package model.panels.concretepanels
 
-import model.gameunitstests.wildunits.WildUnit
+import model.gameunits.wildunits.WildUnit
 import model.panels.Panels
 
-/**
- * Represents an encounter panel on the game board.
+import cl.uchile.dcc.citric.model.gameunits.playercharacter.PlayerCharacter
+import cl.uchile.dcc.citric.model.gameunits.wildunits.concretewu.{Chicken, RoboBall, Seagull}
+
+import scala.util.Random
+
+/** Represents an encounter panel on the game board.
  * An encounter panel is a type of space where players can engage with a wild unit enemy.
- *
- * @constructor Create a new encounter panel with a specified type.
- * @param panelType The type of the panel, which should be "encounter" for this class.
  */
 class EncounterPanel extends Panels("Encounter") {
 
-  var _enemy: WildUnit = _  // The wild unit enemy associated with this encounter panel.
+  var _enemy: Option[WildUnit] = None  // The wild unit enemy associated with this encounter panel.
 
   /** Retrieves the wild unit enemy associated with this encounter panel.
    *
    * @return The WildUnit enemy present on this panel.
    */
-  def enemy: WildUnit = _enemy
+  def enemy: Option[WildUnit] = _enemy
 
-  /** Sets the wild unit enemy for this encounter panel.
-   *
-   * @param newEnemy The WildUnit to set as the enemy on this panel.
-   */
-  def enemy_(newEnemy: WildUnit): Unit = {
-    _enemy = newEnemy
+  /** Sets the wild unit enemy for this encounter panel randomly. */
+  def enemy_(): Unit = {
+    var randEnemy: Int = (new Random().nextInt(3))
+    if (randEnemy == 0) {
+      _enemy = Some(new Chicken)
+    }
+    else if (randEnemy == 1){
+      _enemy = Some(new Seagull)
+    }
+    else {
+      _enemy = Some(new RoboBall)
+    }
   }
 
-  /** The battle between players and wild units
-   * The player attacks, and the wild unit can evade or defend themselves
-   * Later, the wild unit attacks, and the player needs to evade or defend himself
-   *
-   * @return
-   */
-  //def battle(): Unit{}
+  override def apply(player: PlayerCharacter): Unit = {}
 }

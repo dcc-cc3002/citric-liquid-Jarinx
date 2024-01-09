@@ -1,8 +1,8 @@
 package cl.uchile.dcc.citric
-package model.gameunitstests
+package model.gameunits
 
-import cl.uchile.dcc.citric.model.gameunitstests.playercharacter.PlayerCharacter
-import cl.uchile.dcc.citric.model.gameunitstests.wildunits.{TWildUnit, WildUnit}
+import cl.uchile.dcc.citric.model.gameunits.playercharacter.PlayerCharacter
+import cl.uchile.dcc.citric.model.gameunits.wildunits.{TWildUnit, WildUnit}
 
 import scala.util.Random
 
@@ -21,7 +21,7 @@ trait GameEntity {
   var _randomNumberGenerator: Random // For the dice rolls.
   var _stars: Int      // The number of stars associated with the entity.
   var _wins: Int       // The number of wins the entity has achieved.
-  var _alive: Boolean  // true if the entity is alive, false if it's 'dead'
+  var _dead: Boolean  // true if the entity is alive, false if it's 'dead'
 
   /** Returns the maximum health points of the entity. */
   def maxHp: Int = _maxHp
@@ -79,14 +79,14 @@ trait GameEntity {
    * @param qty The quantity of damage to take.
    * @throws IllegalArgumentException If the damage quantity is negative.
    */
-  def takeDmg(qty: Int): Unit
+  def takeDmg(qty: Int, option: Int): Unit
 
   /** Performs an attack on another game entity.
    *
    * @param someone The entity to attack.
    * @throws IllegalArgumentException If the attacked entity is KO'd.
    */
-  def attack(someone: GameEntity): Unit
+  def attack(someone: GameEntity): Int
 
   /** Defends against an attack from another game entity.
    *

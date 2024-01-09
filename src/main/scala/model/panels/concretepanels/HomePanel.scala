@@ -1,15 +1,14 @@
 package cl.uchile.dcc.citric
 package model.panels.concretepanels
 
-import model.gameunitstests.playercharacter.PlayerCharacter
+import model.gameunits.playercharacter.PlayerCharacter
 import model.panels.Panels
 
 /** A class that represent a Home Panel
  * The owner of the Home Panel can stop here even if they have moves left, other players can´t.
- * When any player ends up here, Norma Check is performed and 1 HP is restored.
+ * When any player ends up here, NormaCheck is performed and 1 HP is restored.
  *
- * @constructor Create a new home panel with a specified type.
- * @param panelType The type of the panel, which should be "home" for this class.
+ * @param _owner the owner of the Home Panel
  */
 class HomePanel(val _owner: PlayerCharacter) extends Panels("Home") {
 
@@ -21,7 +20,7 @@ class HomePanel(val _owner: PlayerCharacter) extends Panels("Home") {
 
   override def apply(player: PlayerCharacter): Unit = {
     player.currentHp_(player.currentHp + 1)
-    player.normaClear(player)
+    player.normaClear()
   }
 
 }

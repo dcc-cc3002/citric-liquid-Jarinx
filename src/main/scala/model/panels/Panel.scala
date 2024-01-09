@@ -1,8 +1,8 @@
 package cl.uchile.dcc.citric
 package model.panels
 
-import cl.uchile.dcc.citric.model.gameunitstests.playercharacter.PlayerCharacter
-import cl.uchile.dcc.citric.model.gameunitstests.wildunits.WildUnit
+import cl.uchile.dcc.citric.model.gameunits.playercharacter.PlayerCharacter
+import cl.uchile.dcc.citric.model.gameunits.wildunits.WildUnit
 
 import scala.collection.mutable.ArrayBuffer
 import scala.math._
@@ -42,19 +42,7 @@ trait Panel {
    *
    * @return A string representing the panel type.
    */
-  def panelType: String = _panelType
-
-  /** Returns the characters currently on this panel.
-   *
-   * @return An ArrayBuffer of PlayerCharacter instances on this panel.
-   */
-  def characters: ArrayBuffer[PlayerCharacter] = _characters
-
-  /*** Returns the panels directly connected to this one.
-   *
-   * @return An ArrayBuffer of Panel instances that are adjacent to this panel.
-   */
-  def nextPanels: ArrayBuffer[Panel] = _nextPanels
+  def panelType: String
 
   /** Adds a character to this panel.
    * This method is called when a character lands on or passes through this panel.
@@ -75,18 +63,37 @@ trait Panel {
    *
    * @param panel The Panel to connect to this one.
    */
-  def addPanel(panel: Panel): Unit
+  def addNextPanel(panel: Panel): Unit
 
   /** Removes a connection to another panel.
    * This method is used to unlink this panel from another, disallowing movement between them.
    *
    * @param panel The Panel to disconnect from this one.
    */
-  def removePanel(panel: Panel): Unit
+  def removeNextPanel(panel: Panel): Unit
 
   /** Function with unique effects based on the class that is called upon
    *
    * @param player The player affected
    */
   def apply(player: PlayerCharacter): Unit
+
+  /** To tell if a certain panel contains a player in _characters
+   *
+   * @param player the player to check in the array
+   * @return true if a player is in the panel, false otherwise
+   */
+  def containsPlayer(player: PlayerCharacter): Boolean
+
+  /** To tell if there are panels next to the current one, ie, if the nextPanel
+   * is in _nextPanels
+   *
+   * @param nextPanel the panel to check in the array
+   * @return true if there are more panels, false otherwise.
+   */
+  def containsNextPanel(nextPanel: Panel): Boolean
+
+  def nextPanelsAmount: Int
+
+  def charactersAmount: Int
 }

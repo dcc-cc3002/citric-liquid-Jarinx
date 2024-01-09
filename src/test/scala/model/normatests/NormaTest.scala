@@ -1,19 +1,20 @@
 package cl.uchile.dcc.citric
 package model.normatests
 
-import model.gameunitstests.playercharacter.PlayerCharacter
+import model.gameunits.playercharacter.PlayerCharacter
 import model.norma.concretenormas._
 
+import cl.uchile.dcc.citric.model.panels.concretepanels.HomePanel
+
+import scala.util.Random
+
 class NormaTest extends munit.FunSuite {
-  val number = 2
-  val neededStars = 10
-  val neededWins = 1
-  var stars = 7
-  var wins = 1
-  val maxHp = 10
-  val attack = 1
-  val defense = 1
-  val evasion = 1
+  private val name = "Arthas"
+  private val maxHp = 10
+  private val attackPts = 1
+  private val defensePts = 1
+  private val evasionPts = 1
+  private val rng = new Random(11)
 
   var player: PlayerCharacter = _
   var norma2: Norma2 = _
@@ -21,6 +22,7 @@ class NormaTest extends munit.FunSuite {
   var norma4: Norma4 = _
   var norma5: Norma5 = _
   var norma6: Norma6 = _
+  var panelH: HomePanel = _
 
   override def beforeEach(context: BeforeEach): Unit = {
     norma2 = new Norma2
@@ -28,37 +30,70 @@ class NormaTest extends munit.FunSuite {
     norma4 = new Norma4
     norma5 = new Norma5
     norma6 = new Norma6
-    player = new PlayerCharacter(maxHp, attack, defense, evasion)
+    player = new PlayerCharacter(name, maxHp, attackPts, defensePts, evasionPts, rng)
+    panelH = new HomePanel(player)
   }
 
-  // in this test I check for methods normaCheck and normaClear
-  test("To level up to Norma 2, a player needs a certain amount of stars (10) or wins (1)"){
-    player.stars_(stars)
-    player.wins_(wins)
-    norma2.normaClear(player.stars, player.wins)
-    player.setNorma(2)
-    assertEquals(player.getNorma, 2)
+  test("Each Norma has a requirement to reach in order to level up"){
+    assertEquals(player.norma.neededStars, 10)
+    assertEquals(player.norma.neededWins, 1)
   }
 
-  test("A player may not meet the conditions to level up their Norma"){
-    player.stars_(5)
-    player.wins_(0)
-    assert(!norma2.normaClear(player.stars, player.wins))
+  test("With target set as stars, NormaCheck will check if the player can level up"){
+    player.target_(Some(1))
+    panelH.apply(player)
+    assert(player.norma._number == 1)
+
+    player.stars_(13)
+    panelH.apply(player)
+    assert(player.norma._number == 2)
   }
 
-  test("You can get the attributes"){
-    assertEquals(norma2.number, number)
-    assertEquals(norma2.neededStars, neededStars)
-    assertEquals(norma2.neededWins, neededWins)
+  test("With target set as wins, NormaCheck will check if the player can level up"){
+    player.target_(Some(2))
+    panelH.apply(player)
+    assert(player.norma._number == 1)
+
+    player.wins_(2)
+    panelH.apply(player)
+    assert(player.norma._number == 2)
+
+    player.wins_(10)
+    panelH.apply(player)
+    assert(player.norma._number == 3)
+
   }
 
-  test("You can set the attributes, if needed (although this shouldn´t happen), and then get them"){
-    norma2.number_(3)
-    norma2.needStars_(30)
-    norma2.needWins_(3)
-    assertEquals(norma2.number, number+1)
-    assertEquals(norma2.neededStars, neededStars+20)
-    assertEquals(norma2.neededWins, neededWins+2)
+  test("A player can keep leveling up to Norma 6, but no more than that"){
+    player.target_(Some(1))
+
+    // lvl up to norma2
+    player.stars_(10)
+    panelH.apply(player)
+    assert(player.norma._number == 2)
+    // lvl up to norma3
+    player.stars_(30)
+    panelH.apply(player)
+    assert(player.norma._number == 3)
+    // lvl up to norma4
+    player.stars_(70)
+    panelH.apply(player)
+    assert(player.norma._number == 4)
+    // lvl up to norma5
+    player.stars_(120)
+    panelH.apply(player)
+    assert(player.norma._number == 5)
+    // lvl up to norma 6
+    player.stars_(200)
+    panelH.apply(player)
+    assert(player.norma._number == 6)
+    // try to lvl up again
+    player.stars_(500)
+    panelH.apply(player)
+    assert(player.norma._number == 6)
   }
+
+
+
 
 }

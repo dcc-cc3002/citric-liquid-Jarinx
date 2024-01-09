@@ -8,7 +8,7 @@ import model.norma.{Norma, Normas}
  * @constructor Create a new Norma level 6 with predefined conditions.
  */
 class Norma6 extends Normas(200, 14){
-  override var _number: Int = 6
+  override val _number: Int = 6
   override def nextNorma: Norma = this
 
 }

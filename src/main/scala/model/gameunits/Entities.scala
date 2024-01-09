@@ -1,9 +1,9 @@
 package cl.uchile.dcc.citric
-package model.gameunitstests
+package model.gameunits
 
 import cl.uchile.dcc.citric.exceptions.Require
-import cl.uchile.dcc.citric.model.gameunitstests.playercharacter.PlayerCharacter
-import cl.uchile.dcc.citric.model.gameunitstests.wildunits.{TWildUnit, WildUnit}
+import cl.uchile.dcc.citric.model.gameunits.playercharacter.PlayerCharacter
+import cl.uchile.dcc.citric.model.gameunits.wildunits.{TWildUnit, WildUnit}
 
 import scala.util.Random
 
@@ -25,48 +25,50 @@ abstract class Entities (val _maxHp: Int,
   override var _currentHp: Int = _maxHp
   override var _stars: Int = 0
   override var _wins: Int = 0
-  override var _alive: Boolean = false
+  override var _dead: Boolean = false
 
   override def currentHp_(newCurrentHp: Int): Unit = {
-    _currentHp = math.min(0, newCurrentHp)
-    if (_currentHp == 0) {
-      _alive = false
+    _currentHp = math.max(0, newCurrentHp)
+    if (_currentHp > _maxHp) {
+      _currentHp = _maxHp
+    }
+    else if (_currentHp == 0) {
+      _dead = true
     }
     else {
-      _alive = true
+      _dead = false
     }
   }
 
   override def stars_(newStars: Int): Unit = {
-    _stars = math.min(0, newStars)
+    _stars = math.max(0, newStars)
   }
 
   override def wins_(newWins: Int): Unit = {
-    _wins = math.min(0, newWins)
+    _wins = math.max(0, newWins)
   }
 
   override def rollDice(): Int = {
     _randomNumberGenerator.nextInt(6) + 1
   }
 
-  override def inRecovery: Boolean = _alive
+  override def inRecovery: Boolean = _dead
 
-  override def takeDmg(qty: Int): Unit = {
+  override def takeDmg(qty: Int, option: Int): Unit = {
     if (qty < 0) {
       throw new IllegalArgumentException("Quantity of damage must be non-negative")
     }
     else {
-      val roll = rollDice()
-      if (roll > 3) {
+      if (option == 1) {
         defend(qty)
       }
-      else {
+      else if (option == 2){
         evade(qty)
       }
     }
   }
 
-  override def attack(someone: GameEntity): Unit = {
+  override def attack(someone: GameEntity): Int = {
     if (this.currentHp == 0) { // if the attacker is KO'd
       throw new IllegalArgumentException("You're in Recovery State (Unable to attack)")
     }
@@ -75,7 +77,7 @@ abstract class Entities (val _maxHp: Int,
     }
     else {
       val totalAtkPts: Int = attackPts + rollDice()
-      someone.takeDmg(totalAtkPts)
+      totalAtkPts
     }
   }
 
@@ -88,10 +90,11 @@ abstract class Entities (val _maxHp: Int,
     val roll: Int = rollDice()
     val eva: Int = roll + this.evasionPts
     if (eva > qty) {
-      takeDmg(0)
+      return
     }
     else {
-      takeDmg(qty)
+      val dmgReceived: Int = attackPts + roll
+      this.currentHp_(this.currentHp - attackPts)
     }
   }
 
