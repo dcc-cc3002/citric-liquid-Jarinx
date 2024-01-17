@@ -21,7 +21,7 @@ trait GameEntity {
   var _randomNumberGenerator: Random // For the dice rolls.
   var _stars: Int      // The number of stars associated with the entity.
   var _wins: Int       // The number of wins the entity has achieved.
-  var _dead: Boolean  // true if the entity is alive, false if it's 'dead'
+  var _isDead: Boolean  // true if the entity is alive, false if it's 'dead'
 
   /** Returns the maximum health points of the entity. */
   def maxHp: Int = _maxHp

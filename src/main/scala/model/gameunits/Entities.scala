@@ -25,7 +25,7 @@ abstract class Entities (val _maxHp: Int,
   override var _currentHp: Int = _maxHp
   override var _stars: Int = 0
   override var _wins: Int = 0
-  override var _dead: Boolean = false
+  override var _isDead: Boolean = false
 
   override def currentHp_(newCurrentHp: Int): Unit = {
     _currentHp = math.max(0, newCurrentHp)
@@ -33,10 +33,10 @@ abstract class Entities (val _maxHp: Int,
       _currentHp = _maxHp
     }
     else if (_currentHp == 0) {
-      _dead = true
+      _isDead = true
     }
     else {
-      _dead = false
+      _isDead = false
     }
   }
 
@@ -52,7 +52,7 @@ abstract class Entities (val _maxHp: Int,
     _randomNumberGenerator.nextInt(6) + 1
   }
 
-  override def inRecovery: Boolean = _dead
+  override def inRecovery: Boolean = _isDead
 
   override def takeDmg(qty: Int, option: Int): Unit = {
     if (qty < 0) {

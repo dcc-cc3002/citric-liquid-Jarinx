@@ -103,10 +103,10 @@ class PlayerCharacter(var _name: String,
    */
   def recover(requirement: Int): Unit = {
     if(rollDice() >= requirement){
-      _dead = false
+      _isDead = false
     }
     else {
-      _dead = true
+      _isDead = true
     }
   }
   /** Gets the target chosen by the player.

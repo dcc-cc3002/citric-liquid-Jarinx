@@ -32,7 +32,7 @@ class EntitiesTest extends munit.FunSuite {
     assertEquals(player1.currentHp, maxHp)
     assertEquals(player1.stars, 0)
     assertEquals(player1.wins, 0)
-    assertEquals(player1._dead, false)
+    assertEquals(player1._isDead, false)
   }
 
   test("An entity's HP goes from 0 to max HP"){
