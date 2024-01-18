@@ -36,35 +36,20 @@ class GameController {
   // STATES TRANSITIONS BELOW
 
   def startGame(): Unit = state.startGame()
-
   def newChapter(): Unit = state.newChapter()
-
   def isKo(): Unit = state.isKo()
-
   def insufficientRoll(): Unit = state.insufficientRoll()
-
   def sufficientRoll(): Unit = state.sufficientRoll()
-
   def playTurn(): Unit = state.playTurn()
-
   def rollDice(): Unit = state.rollDice()
-
   def choosePath(): Unit = state.choosePath()
-
   def stopMovement(): Unit = state.stopMovement()
-
   def outOfMovements(): Unit = state.outOfMovements()
-
   def attack(): Unit = state.attack()
-
   def defend(): Unit = state.defend()
-
   def evade(): Unit = state.evade()
-
   def endCombat(): Unit = state.endCombat()
-
   def doEffect(): Unit = state.doEffect()
-
   def norma6Reached(): Unit = state.norma6Reached()
 
 
