@@ -6,7 +6,9 @@ import model.gameunits.{Entities, GameEntity}
 import model.norma.Norma
 
 import cl.uchile.dcc.citric.model.norma.concretenormas.Norma1
+import cl.uchile.dcc.citric.observer.{Observer, Subject}
 
+import scala.collection.mutable.ArrayBuffer
 import scala.util.Random
 
 /** The `PlayerCharacter` class represents a character or avatar in the game, encapsulating
@@ -48,7 +50,8 @@ class PlayerCharacter(var _name: String,
                       override val _defensePts: Int,
                       override val _evasionPts: Int,
                       _randomNumberGenerator: Random = new Random())
-                      extends Entities(_maxHp, _attackPts, _defensePts, _evasionPts, _randomNumberGenerator){
+                      extends Entities(_maxHp, _attackPts, _defensePts, _evasionPts, _randomNumberGenerator)
+                      with Subject[PlayerCharacter] {
 
   /** The player starts with Norma 1. */
   var _norma: Norma = new Norma1
@@ -128,6 +131,19 @@ class PlayerCharacter(var _name: String,
     }
     else
       false
+  }
+
+  // ArrayBuffer for the observers of PlayerCharacter
+  private var observers: ArrayBuffer[Observer[PlayerCharacter]] = ArrayBuffer.empty
+
+  override def addObserver(observer: Observer[PlayerCharacter]): Unit = {
+    observers += observer
+  }
+
+  override def notifyObservers(value: PlayerCharacter): Unit = {
+    for (observer <- observers) {
+      observer.update(this, value)
+    }
   }
 
 }

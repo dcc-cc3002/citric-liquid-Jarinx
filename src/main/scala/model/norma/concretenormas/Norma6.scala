@@ -3,9 +3,8 @@ package model.norma.concretenormas
 
 import model.norma.{Norma, Normas}
 
-/** Represents the  final Norma level with specific conditions that a player must meet to advance.
+/** Represents the final Norma level.
  *
- * @constructor Create a new Norma level 6 with predefined conditions.
  */
 class Norma6 extends Normas(200, 14){
   override val _number: Int = 6

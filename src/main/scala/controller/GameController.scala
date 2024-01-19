@@ -5,6 +5,11 @@ import controller.states._
 
 import cl.uchile.dcc.citric.controller.states.lifecycle.PreGame
 import cl.uchile.dcc.citric.exceptions.InvalidTransitionException
+import cl.uchile.dcc.citric.factory.BoardBuilder
+import cl.uchile.dcc.citric.model.gameunits.playercharacter.PlayerCharacter
+import cl.uchile.dcc.citric.observer.{Observer, Subject}
+
+import scala.collection.mutable.ArrayBuffer
 
 
 /** Controller of the game Citric Liquid 99.7%:
@@ -20,10 +25,21 @@ import cl.uchile.dcc.citric.exceptions.InvalidTransitionException
  * d. The panel effects gets activated
  * e. The player's turn ends, passing on to the next player
  *
+ * The game ends when any of the players reaches Norma 6
+ *
  */
-class GameController {
+class GameController extends Observer[PlayerCharacter] {
 
   private var state: GameState = new PreGame(this) // initial state
+
+  val players: ArrayBuffer[PlayerCharacter] = ArrayBuffer.empty // array of players
+  val boardBuilder = new BoardBuilder(players) // factory for building the board
+  boardBuilder.buildBoard()
+  val board = boardBuilder.getBoard // the game board
+
+  var _winner: Option[PlayerCharacter] = None // the winner of the match
+
+
 
   /** Used for transitioning between states
    *
@@ -51,6 +67,18 @@ class GameController {
   def endCombat(): Unit = state.endCombat()
   def doEffect(): Unit = state.doEffect()
   def norma6Reached(): Unit = state.norma6Reached()
+
+  // GameController must be notified when a player reaches Norma 6
+  // Called when a player levels up their Norma
+  override def update(subject: Subject[PlayerCharacter], value: PlayerCharacter): Unit = {
+    var player = value
+    if (player.norma._number == 6){
+      _winner = Some(player)
+    }
+    else{
+      // select goal
+    }
+  }
 
 
 }

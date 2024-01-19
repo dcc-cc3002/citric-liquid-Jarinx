@@ -1,6 +1,7 @@
 package cl.uchile.dcc.citric
 package factory
 
+import cl.uchile.dcc.citric.exceptions.FactoryConfigError
 import cl.uchile.dcc.citric.factory.panelsfactory.concretepanelsfactory.{BonusPanelFactory, DropPanelFactory, EncounterPanelFactory, HomePanelFactory, NeutralPanelFactory}
 import cl.uchile.dcc.citric.model.gameunits.playercharacter.PlayerCharacter
 import cl.uchile.dcc.citric.model.panels.Panel
@@ -12,7 +13,7 @@ import scala.language.postfixOps
  *
  * @param players the players initialized beforehand
  */
-class BoardBuilder(players: Array[PlayerCharacter]) {
+class BoardBuilder(players: ArrayBuffer[PlayerCharacter]) {
   private val panels = ArrayBuffer.empty[Panel]
 
   private val neutralPanelFactory = new NeutralPanelFactory
@@ -22,6 +23,9 @@ class BoardBuilder(players: Array[PlayerCharacter]) {
   private val encounterPanelFactory = new EncounterPanelFactory
 
   def buildBoard(): Unit = {
+    if (players.length < 4){
+      throw new FactoryConfigError("4 players are needed to build the board")
+    }
     // Create panels using factories
     // 1. 20 neutral panels
     val n1 = neutralPanelFactory.createPanel()

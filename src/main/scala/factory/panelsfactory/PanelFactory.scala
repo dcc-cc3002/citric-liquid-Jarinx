@@ -16,7 +16,7 @@ trait PanelFactory[+T] {
    *              is required (rest of the panels), it's simply left empty
    * @return the panel
    */
-  def createPanel(owner: Option[PlayerCharacter] = None): T
+  def createPanel(owner: Option[PlayerCharacter]): T
 }
 
 
