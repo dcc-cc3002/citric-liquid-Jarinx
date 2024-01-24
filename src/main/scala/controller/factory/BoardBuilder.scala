@@ -1,8 +1,8 @@
 package cl.uchile.dcc.citric
-package factory
+package controller.factory
 
+import cl.uchile.dcc.citric.controller.factory.panelsfactory.concretepanelsfactory.{BonusPanelFactory, DropPanelFactory, EncounterPanelFactory, HomePanelFactory, NeutralPanelFactory}
 import cl.uchile.dcc.citric.exceptions.FactoryConfigError
-import cl.uchile.dcc.citric.factory.panelsfactory.concretepanelsfactory.{BonusPanelFactory, DropPanelFactory, EncounterPanelFactory, HomePanelFactory, NeutralPanelFactory}
 import cl.uchile.dcc.citric.model.gameunits.playercharacter.PlayerCharacter
 import cl.uchile.dcc.citric.model.panels.Panel
 
@@ -22,6 +22,9 @@ class BoardBuilder(players: ArrayBuffer[PlayerCharacter]) {
   private val dropPanelFactory = new DropPanelFactory
   private val encounterPanelFactory = new EncounterPanelFactory
 
+  /** Builds the game board, and initializes the players in their respective
+   * Home Panels
+   */
   def buildBoard(): Unit = {
     if (players.length < 4){
       throw new FactoryConfigError("4 players are needed to build the board")
@@ -55,6 +58,17 @@ class BoardBuilder(players: ArrayBuffer[PlayerCharacter]) {
     val h3 = homePanelFactory.createPanel(Some(players(2)))
     val h4 = homePanelFactory.createPanel(Some(players(3)))
 
+    // 2.1 Assigns players to their Home Panels
+    h1.addCharacter(players(0))
+    h2.addCharacter(players(1))
+    h3.addCharacter(players(2))
+    h4.addCharacter(players(3))
+
+    players(0).standingIn_(h1)
+    players(1).standingIn_(h2)
+    players(2).standingIn_(h3)
+    players(3).standingIn_(h4)
+
     // 3. 4 encounter panels
     val e1 = encounterPanelFactory.createPanel()
     val e2 = encounterPanelFactory.createPanel()
@@ -69,6 +83,8 @@ class BoardBuilder(players: ArrayBuffer[PlayerCharacter]) {
     // 5. 2 drop panels
     val d1 = dropPanelFactory.createPanel()
     val d2 = dropPanelFactory.createPanel()
+
+
 
     // Connect all the panels according to the board layout:
     //
@@ -158,4 +174,5 @@ class BoardBuilder(players: ArrayBuffer[PlayerCharacter]) {
   }
 
   def getBoard: ArrayBuffer[Panel] = panels
+
 }

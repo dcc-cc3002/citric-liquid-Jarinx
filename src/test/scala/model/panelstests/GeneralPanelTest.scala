@@ -72,62 +72,13 @@ class GeneralPanelTest extends munit.FunSuite {
     assert(panelN.containsNextPanel(panelH))
   }
 
-//
-//  // tests for Home Panel
-//
-//  test("A Home Panel has an owner, whose name you can retrieve"){
-//    panelH.owner_(player1)
-//    assertEquals(panelH._owner, player1)
-//    assertEquals(panelH.owner, player1)
-//  }
-//
-//  test("A Home Panel associates a number to its owner, which you can retrieve") {
-//    panelH.setPlayerNum(1)
-//    assertEquals(panelH.playerNum, 1)
-//    assertEquals(panelH.getPlayerNum, 1)
-//  }
-//
-//  test("Once any player end up in a Home Panel, they get restored 1 HP"){
-//    player1.currentHp_(5)
-//    panelH.restoreHP(player1)
-//    assertEquals(player1.currentHp, 6)
-//  }
-//
-//  // tests for Bonus Panel
-//
-//  test("Once a player falls in a Bonus Panel, they gain stars"){
-//    player1.stars_(stars)
-//    player1.setNorma(norma)
-//    panelB.gainStars(player1, roll)
-//    assertEquals(player1.stars, 10)
-//  }
-//
-//  // tests for Drop Panel
-//
-//  test("Once a player falls in a Drop Panel, they lose stars") {
-//    player1.stars_(10)
-//    player1.setNorma(norma)
-//    panelD.loseStars(player1, roll)
-//    assertEquals(player1.stars, 2)
-//  }
-//
-//  test("A player can't end up with a negative number of stars"){
-//    player1.stars_(stars)
-//    player1.setNorma(norma)
-//    panelD.loseStars(player1, roll)
-//    assertEquals(player1.stars, 0)
-//  }
-//
-//  // tests for Encounter Panel
-//
-//  test("An Encounter Panel has a Wild Unit waiting to fight in it, which type you can retrieve"){
-//    panelE.enemy_(angryBirb)
-//    assertEquals(panelE.enemy, angryBirb)
-//  }
-//
-//  test("You can set a new Wild Unit in the Encounter Panel"){
-//    var rudeBirb = new Seagull
-//    panelE.enemy_(rudeBirb)
-//    assertEquals(panelE.enemy, rudeBirb)
-//  }
+  test("The owner of a Home Panel is determined in the init of each Home Panel"){
+    assert(!panelN.ownerInPanel(player1))
+  }
+
+  test("Only the Encounter Panels can spawn a wild unit"){
+    assert(panelN.enemy_().isEmpty)
+  }
+
+
 }

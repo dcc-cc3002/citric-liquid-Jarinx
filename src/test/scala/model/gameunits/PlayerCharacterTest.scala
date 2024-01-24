@@ -3,8 +3,10 @@ package model.gameunits
 
 import model.gameunits.playercharacter.PlayerCharacter
 
+import cl.uchile.dcc.citric.controller.GameController
 import cl.uchile.dcc.citric.model.norma.Norma
 import cl.uchile.dcc.citric.model.norma.concretenormas.Norma1
+import cl.uchile.dcc.citric.model.panels.concretepanels.HomePanel
 
 import scala.util.Random
 
@@ -21,12 +23,17 @@ class PlayerCharacterTest extends munit.FunSuite {
   private var player1: PlayerCharacter = _  // <- x = _ is the same as x = null
   private var player2: PlayerCharacter = _
 
+  private var panelH: HomePanel = _
+
   private val norma1 : Norma = new Norma1
+
+  private val observer: GameController = new GameController
 
 
   override def beforeEach(context: BeforeEach): Unit = {
     player1 = new PlayerCharacter(name1, maxHp, attackPts, defensePts, evasionPts, rng)
     player2 = new PlayerCharacter(name2, maxHp, attackPts, defensePts, evasionPts)
+    panelH = new HomePanel(player1)
   }
 
 
@@ -74,6 +81,19 @@ class PlayerCharacterTest extends munit.FunSuite {
 
   test("A player cannot choose as target anything else than stars or wins (1 or 2)"){
     assert(!player1.target_(Some(3)))
+  }
+
+  test("A player is standing at a certain panel"){
+    player1.standingIn_(panelH)
+    assertEquals(player1.standingIn, player1._standingIn)
+  }
+
+  test("A player can add observers"){
+    player1.addObserver(observer)
+    assert(player1.observers().isDefinedAt(0))
+
+
+
   }
 
 

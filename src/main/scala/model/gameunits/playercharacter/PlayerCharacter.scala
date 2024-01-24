@@ -5,8 +5,10 @@ import model.gameunits.wildunits.TWildUnit
 import model.gameunits.{Entities, GameEntity}
 import model.norma.Norma
 
+import cl.uchile.dcc.citric.controller.observer.{Observer, Subject}
 import cl.uchile.dcc.citric.model.norma.concretenormas.Norma1
-import cl.uchile.dcc.citric.observer.{Observer, Subject}
+import cl.uchile.dcc.citric.model.panels.Panel
+import cl.uchile.dcc.citric.model.panels.concretepanels.HomePanel
 
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Random
@@ -44,19 +46,25 @@ import scala.util.Random
   * @author [[https://github.com/Seivier/ Vicente González B.]]
   * @author [[https://github.com/~Your github account~/ Julieta Ayelli]]
   */
-class PlayerCharacter(var _name: String,
+class PlayerCharacter(override val _name: String,
                       override val _maxHp: Int,
                       override val _attackPts: Int,
                       override val _defensePts: Int,
                       override val _evasionPts: Int,
                       _randomNumberGenerator: Random = new Random())
-                      extends Entities(_maxHp, _attackPts, _defensePts, _evasionPts, _randomNumberGenerator)
+                      extends Entities(_name, _maxHp, _attackPts, _defensePts, _evasionPts, _randomNumberGenerator)
                       with Subject[PlayerCharacter] {
 
-  /** The player starts with Norma 1. */
-  var _norma: Norma = new Norma1
+  override var _canChooseCounter: Boolean = true
 
-  var _target: Option[Int] = None // The target set for leveling up by the player; 1 for stars, 2 for wins
+  /** The player starts with Norma 1. */
+  private var _norma: Norma = new Norma1
+
+  private var _target: Option[Int] = None // The target set for leveling up by the player; 1 for stars, 2 for wins
+
+  var _standingIn: Option[Panel] = None // tells which panel the player is currently standing in
+
+  private var _player: PlayerCharacter = this
 
   /** Gets the current player's Norma */
   def norma: Norma = _norma
@@ -65,10 +73,6 @@ class PlayerCharacter(var _name: String,
   def norma_(newNorma: Norma) : Unit = {
     _norma = newNorma
   }
-
-  /** Gets the name of the player character. */
-  def name: String = _name
-
 
   /** Checks if the player can level up their Norma.
    *
@@ -134,16 +138,25 @@ class PlayerCharacter(var _name: String,
   }
 
   // ArrayBuffer for the observers of PlayerCharacter
-  private var observers: ArrayBuffer[Observer[PlayerCharacter]] = ArrayBuffer.empty
+  private var _observers: ArrayBuffer[Observer[PlayerCharacter]] = ArrayBuffer.empty
+
+  def observers(): ArrayBuffer[Observer[PlayerCharacter]] = _observers
 
   override def addObserver(observer: Observer[PlayerCharacter]): Unit = {
-    observers += observer
+    _observers += observer
   }
 
   override def notifyObservers(value: PlayerCharacter): Unit = {
-    for (observer <- observers) {
+    for (observer <- _observers) {
       observer.update(this, value)
     }
   }
+
+  def standingIn: Option[Panel] = _standingIn
+
+  def standingIn_(newPanel: Panel): Unit = {
+    _standingIn = Some(newPanel)
+  }
+
 
 }

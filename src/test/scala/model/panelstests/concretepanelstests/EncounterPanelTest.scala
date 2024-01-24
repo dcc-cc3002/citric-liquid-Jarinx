@@ -26,6 +26,12 @@ class EncounterPanelTest extends munit.FunSuite {
     assert(panelE.enemy.isDefined)
   }
 
+  test("If there is already an active wild unit, no new wu gets spawned"){
+    panelE.enemy_()
+    assertEquals(panelE.enemy_().get, panelE.enemy.get)
+  }
+
+
   // PROVISORIO
   test("nothing happens to the player yet"){
     var prevHp = player.currentHp

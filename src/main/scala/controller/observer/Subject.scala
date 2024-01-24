@@ -1,5 +1,5 @@
 package cl.uchile.dcc.citric
-package observer
+package controller.observer
 
 import scala.collection.mutable.ArrayBuffer
 

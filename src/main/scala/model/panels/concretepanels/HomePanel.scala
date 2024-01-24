@@ -23,5 +23,14 @@ class HomePanel(val _owner: PlayerCharacter) extends Panels("Home") {
     player.normaClear()
   }
 
+  override def ownerInPanel(player: PlayerCharacter): Boolean = {
+    if (player == owner) {
+      true
+    }
+    else {
+      false
+    }
+  }
+
 }
 

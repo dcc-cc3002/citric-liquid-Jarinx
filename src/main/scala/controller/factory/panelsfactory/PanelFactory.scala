@@ -1,5 +1,5 @@
 package cl.uchile.dcc.citric
-package factory.panelsfactory
+package controller.factory.panelsfactory
 
 import model.panels.Panels
 

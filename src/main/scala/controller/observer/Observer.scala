@@ -1,5 +1,5 @@
 package cl.uchile.dcc.citric
-package observer
+package controller.observer
 
 /** An Observer is subscribed to a Subject, which notifies them of any changes
  */

@@ -28,7 +28,7 @@ class WildUnitTest extends munit.FunSuite {
   }
 
   test("A wild unit should have correctly set their attributes") {
-    assertEquals(badBirb.enemy, "Chicken")
+    assertEquals(badBirb.name, "Chicken")
     assertEquals(badBirb.maxHp, 3)
     assertEquals(badBirb.attackPts, -1)
     assertEquals(badBirb.defensePts, -1)

@@ -1,7 +1,7 @@
 package cl.uchile.dcc.citric
 package controller
 
-import cl.uchile.dcc.citric.factory.gameunitsfactory.PlayerCharacterFactory
+import cl.uchile.dcc.citric.controller.factory.gameunitsfactory.PlayerCharacterFactory
 
 class PlayerCharacterFactoryTest extends munit.FunSuite {
   var playerFactory: PlayerCharacterFactory = _

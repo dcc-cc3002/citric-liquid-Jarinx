@@ -2,7 +2,7 @@ package cl.uchile.dcc.citric
 package model.panels
 
 import cl.uchile.dcc.citric.model.gameunits.playercharacter.PlayerCharacter
-import cl.uchile.dcc.citric.model.gameunits.wildunits.WildUnit
+import cl.uchile.dcc.citric.model.gameunits.wildunits.{TWildUnit, WildUnit}
 
 import scala.collection.mutable.ArrayBuffer
 import scala.math._
@@ -96,4 +96,18 @@ trait Panel {
   def nextPanelsAmount: Int
 
   def charactersAmount: Int
+
+  /** Useful for knowing if the player currently passing through
+   * this Home Panel is its owner or not
+   *
+   * @param player the player to check
+   * @return true if the player is the owner, false otherwise
+   */
+  def ownerInPanel(player: PlayerCharacter): Boolean
+
+  /** Generates a new wild unit if there isn't any defined beforehand
+   *
+   * @return the wild unit
+   */
+  def enemy_(): Option[TWildUnit]
 }

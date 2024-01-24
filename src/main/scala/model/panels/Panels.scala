@@ -2,6 +2,8 @@ package cl.uchile.dcc.citric
 package model.panels
 
 import cl.uchile.dcc.citric.model.gameunits.playercharacter.PlayerCharacter
+import cl.uchile.dcc.citric.model.gameunits.wildunits.TWildUnit
+
 import scala.collection.mutable.ArrayBuffer
 
 /** Abstract class that serves as a base for different types of panels on the game board.
@@ -67,4 +69,8 @@ abstract class Panels (val _panelType: String) extends Panel {
   override def nextPanelsAmount: Int = _nextPanels.size
 
   override def charactersAmount: Int = _characters.size
+
+  override def ownerInPanel(player: PlayerCharacter): Boolean = false
+
+  override def enemy_(): Option[TWildUnit] = None
 }

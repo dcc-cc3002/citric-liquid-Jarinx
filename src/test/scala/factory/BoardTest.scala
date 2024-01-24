@@ -1,8 +1,8 @@
 package cl.uchile.dcc.citric
 package factory
 
-import factory.gameunitsfactory.PlayerCharacterFactory
-
+import cl.uchile.dcc.citric.controller.factory.BoardBuilder
+import cl.uchile.dcc.citric.controller.factory.gameunitsfactory.PlayerCharacterFactory
 import cl.uchile.dcc.citric.exceptions.FactoryConfigError
 import cl.uchile.dcc.citric.model.gameunits.playercharacter.PlayerCharacter
 
@@ -16,7 +16,7 @@ class BoardTest extends munit.FunSuite {
   override def beforeEach(context: BeforeEach): Unit = {
     playerFactory = new PlayerCharacterFactory
     boardBuilder = new BoardBuilder(players)
-
+    players.clear()
   }
 
   test("A board can be built if all 4 players were created"){

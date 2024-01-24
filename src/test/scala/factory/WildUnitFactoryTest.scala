@@ -3,7 +3,7 @@ package controller
 
 import exceptions.FactoryConfigError
 
-import cl.uchile.dcc.citric.factory.gameunitsfactory.WildUnitFactory
+import cl.uchile.dcc.citric.controller.factory.gameunitsfactory.WildUnitFactory
 
 class WildUnitFactoryTest extends munit.FunSuite {
   var wildUnitFactory: WildUnitFactory = _

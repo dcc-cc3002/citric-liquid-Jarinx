@@ -13,6 +13,7 @@ import scala.util.Random
  */
 
 trait GameEntity {
+  val _name: String    // The name of the entity
   val _maxHp: Int      // The maximum health points of the entity.
   var _currentHp: Int  // The current health points of the entity.
   val _attackPts: Int  // The attack points of the entity.
@@ -22,6 +23,10 @@ trait GameEntity {
   var _stars: Int      // The number of stars associated with the entity.
   var _wins: Int       // The number of wins the entity has achieved.
   var _isDead: Boolean  // true if the entity is alive, false if it's 'dead'
+  var _canChooseCounter: Boolean // true if the entity can choose the parry, false otherwise
+
+  /** Gets the name of the player character. */
+  def name: String = _name
 
   /** Returns the maximum health points of the entity. */
   def maxHp: Int = _maxHp
@@ -79,7 +84,7 @@ trait GameEntity {
    * @param qty The quantity of damage to take.
    * @throws IllegalArgumentException If the damage quantity is negative.
    */
-  def takeDmg(qty: Int, option: Int): Unit
+  def takeDmg(qty: Int, option: Int): Boolean
 
   /** Performs an attack on another game entity.
    *
@@ -92,13 +97,13 @@ trait GameEntity {
    *
    * @param qty The quantity of the damage.
    */
-  def defend(qty: Int): Unit
+  def defend(qty: Int): Boolean
 
   /** Attempts to evade an attack from another game entity.
    *
    * @param qty The quantity of the damage.
    */
-  def evade(qty: Int): Unit
+  def evade(qty: Int): Boolean
 
   /** When an entity defeats a player, they'll get rewarded
    * a certain amount of stars and wins from the player.

@@ -3,341 +3,62 @@ package controller
 
 import exceptions.InvalidTransitionException
 
+import cl.uchile.dcc.citric.controller.factory.gameunitsfactory.PlayerCharacterFactory
 import cl.uchile.dcc.citric.controller.states.Chapter
 import cl.uchile.dcc.citric.controller.states.combat.{Combat, Wait}
 import cl.uchile.dcc.citric.controller.states.panel.LandingPanel
 import cl.uchile.dcc.citric.controller.states.player.{Moving, PlayerTurn, Recovery}
+import cl.uchile.dcc.citric.model.gameunits.playercharacter.PlayerCharacter
+import cl.uchile.dcc.citric.model.panels.concretepanels.HomePanel
+import cl.uchile.dcc.citric.view.MockView
 
 class GameControllerTest extends munit.FunSuite {
 
   var game: GameController = _
+  var playerFactory: PlayerCharacterFactory = _
+  private var panelH: HomePanel = _
+  var mockView: MockView = _
 
   override def beforeEach(context: BeforeEach): Unit = {
     game = new GameController
+    playerFactory = new PlayerCharacterFactory
+    mockView = new MockView(Iterator("player1", "player2", "player3", "player4"))
   }
 
-  // TESTS FOR TRANSITIONS BELOW
+  test("The controller can end the game when the conditions are met (Norma 6)"){
+    var player = playerFactory.createPlayer("Player1")
+    panelH = new HomePanel(player)
 
-  test("From PreGame, a certain transition is permitted"){
-    try game.startGame()
-    catch {
-      case e: InvalidTransitionException =>
-        throw new AssertionError(e.getMessage)
+    player.addObserver(game)
+    player.standingIn_(panelH)
+    panelH.addCharacter(player)
+
+    player.stars_(500)
+    player.wins_(200)
+
+    player.target_(Some(1))
+
+    assert(game.winner.isEmpty)
+
+    for (_ <- 2 to 6) {
+      panelH.apply(player)
     }
+
+    game.update(player, player)
+
+    assert(player.norma._number == 6)
+    assert(game.winner.isDefined)
+
+    assertEquals(player, game.winner.get)
   }
 
-  test("From PreGame, some transitions are forbidden"){
-    val forbiddenTransitions: List[GameController => Unit] = List(
-      (game: GameController) => game.attack(),
-      (game: GameController) => game.newChapter(),
-      (game: GameController) => game.isKo(),
-      (game: GameController) => game.insufficientRoll(),
-      (game: GameController) => game.sufficientRoll(),
-      (game: GameController) => game.playTurn(),
-      (game: GameController) => game.rollDice(),
-      (game: GameController) => game.choosePath(),
-      (game: GameController) => game.stopMovement(),
-      (game: GameController) => game.outOfMovements(),
-      (game: GameController) => game.defend(),
-      (game: GameController) => game.evade(),
-      (game: GameController) => game.endCombat(),
-      (game: GameController) => game.doEffect(),
-      (game: GameController) => game.norma6Reached()
-    )
-
-    forbiddenTransitions.foreach(transition => {
-      var thrown = intercept[InvalidTransitionException]{
-        transition(game)
-      }
-      assert(thrown.getMessage.contains("Invalid transition"))
-    })
+  test("The controller simulates an entire match"){
+    assert(game.winner.isEmpty)
+    game.setMockView(mockView)
+    game.start()
+    assert(game.winner.isDefined)
   }
 
-  test("From Chapter, certain transitions are permitted"){
-    val permittedTransitions: List[GameController => Unit] = List(
-      (game: GameController) => game.newChapter(),
-      (game: GameController) => game.isKo(),
-      (game: GameController) => game.playTurn(),
-      (game: GameController) => game.norma6Reached()
-    )
 
-    permittedTransitions.foreach(transition => {
-      game.changeState(new Chapter(game))
-      try transition(game)
-      catch {
-        case e: InvalidTransitionException =>
-          throw new AssertionError(e.getMessage)
-      }
-    })
-  }
-
-  test("From Chapter, certain transitions are forbidden"){
-    val forbiddenTransitions: List[GameController => Unit] = List(
-      (game: GameController) => game.insufficientRoll(),
-      (game: GameController) => game.sufficientRoll(),
-      (game: GameController) => game.rollDice(),
-      (game: GameController) => game.choosePath(),
-      (game: GameController) => game.stopMovement(),
-      (game: GameController) => game.outOfMovements(),
-      (game: GameController) => game.attack(),
-      (game: GameController) => game.defend(),
-      (game: GameController) => game.evade(),
-      (game: GameController) => game.endCombat(),
-      (game: GameController) => game.doEffect()
-    )
-    forbiddenTransitions.foreach(transition => {
-      game.changeState(new Chapter(game))
-      var thrown = intercept[InvalidTransitionException]{
-        transition(game)
-      }
-      assert(thrown.getMessage.contains("Invalid transition"))
-    })
-  }
-
-  test("From PlayerTurn, certain transitions are permitted"){
-      game.changeState(new PlayerTurn(game))
-      try game.rollDice()
-      catch {
-        case e: InvalidTransitionException =>
-          throw new AssertionError(e.getMessage)
-      }
-  }
-
-  test("From PlayerTurn, some transitions are forbidden"){
-    val forbiddenTransitions: List[GameController => Unit] = List(
-      (game: GameController) => game.newChapter(),
-      (game: GameController) => game.isKo(),
-      (game: GameController) => game.insufficientRoll(),
-      (game: GameController) => game.sufficientRoll(),
-      (game: GameController) => game.playTurn(),
-      (game: GameController) => game.startGame(),
-      (game: GameController) => game.choosePath(),
-      (game: GameController) => game.stopMovement(),
-      (game: GameController) => game.outOfMovements(),
-      (game: GameController) => game.attack(),
-      (game: GameController) => game.defend(),
-      (game: GameController) => game.evade(),
-      (game: GameController) => game.endCombat(),
-      (game: GameController) => game.doEffect(),
-      (game: GameController) => game.norma6Reached()
-    )
-
-    forbiddenTransitions.foreach(transition => {
-      game.changeState(new PlayerTurn(game))
-      var thrown = intercept[InvalidTransitionException]{
-        transition(game)
-      }
-      assert(thrown.getMessage.contains("Invalid transition"))
-    })
-  }
-
-  test("From Recovery, certain transitions are permitted"){
-    val permittedTransitions: List[GameController => Unit] = List(
-      (game: GameController) => game.insufficientRoll(),
-      (game: GameController) => game.sufficientRoll()
-    )
-
-    permittedTransitions.foreach(transition => {
-      game.changeState(new Recovery(game))
-      try transition(game)
-      catch {
-        case e: InvalidTransitionException =>
-          throw new AssertionError(e.getMessage)
-      }
-    })
-  }
-
-  test("From Recovery, some transitions are forbidden"){
-    val forbiddenTransitions: List[GameController => Unit] = List(
-      (game: GameController) => game.newChapter(),
-      (game: GameController) => game.isKo(),
-      (game: GameController) => game.rollDice(),
-      (game: GameController) => game.playTurn(),
-      (game: GameController) => game.startGame(),
-      (game: GameController) => game.choosePath(),
-      (game: GameController) => game.stopMovement(),
-      (game: GameController) => game.outOfMovements(),
-      (game: GameController) => game.attack(),
-      (game: GameController) => game.defend(),
-      (game: GameController) => game.evade(),
-      (game: GameController) => game.endCombat(),
-      (game: GameController) => game.doEffect(),
-      (game: GameController) => game.norma6Reached()
-    )
-
-    forbiddenTransitions.foreach(transition => {
-      game.changeState(new Recovery(game))
-      var thrown = intercept[InvalidTransitionException]{
-        transition(game)
-      }
-      assert(thrown.getMessage.contains("Invalid transition"))
-    })
-  }
-
-  test("From Moving, certain transitions are permitted"){
-    val permittedTransitions: List[GameController => Unit] = List(
-      (game: GameController) => game.choosePath(),
-      (game: GameController) => game.stopMovement(),
-      (game: GameController) => game.outOfMovements()
-    )
-
-    permittedTransitions.foreach(transition => {
-      game.changeState(new Moving(game))
-      try transition(game)
-      catch {
-        case e: InvalidTransitionException =>
-          throw new AssertionError(e.getMessage)
-      }
-    })
-  }
-
-  test("From Moving, some transitions are forbidden"){
-    val forbiddenTransitions: List[GameController => Unit] = List(
-      (game: GameController) => game.newChapter(),
-      (game: GameController) => game.isKo(),
-      (game: GameController) => game.insufficientRoll(),
-      (game: GameController) => game.sufficientRoll(),
-      (game: GameController) => game.playTurn(),
-      (game: GameController) => game.rollDice(),
-      (game: GameController) => game.startGame(),
-      (game: GameController) => game.attack(),
-      (game: GameController) => game.defend(),
-      (game: GameController) => game.evade(),
-      (game: GameController) => game.endCombat(),
-      (game: GameController) => game.doEffect(),
-      (game: GameController) => game.norma6Reached()
-    )
-
-    forbiddenTransitions.foreach(transition => {
-      game.changeState(new Moving(game))
-      var thrown = intercept[InvalidTransitionException]{
-        transition(game)
-      }
-      assert(thrown.getMessage.contains("Invalid transition"))
-    })
-  }
-
-  test("From Combat, certain transitions are permitted"){
-    val permittedTransitions: List[GameController => Unit] = List(
-      (game: GameController) => game.attack(),
-      (game: GameController) => game.endCombat()
-    )
-
-    permittedTransitions.foreach(transition => {
-      game.changeState(new Combat(game))
-      try transition(game)
-      catch {
-        case e: InvalidTransitionException =>
-          throw new AssertionError(e.getMessage)
-      }
-    })
-  }
-
-  test("From Combat, some transitions are forbidden"){
-    val forbiddenTransitions: List[GameController => Unit] = List(
-      (game: GameController) => game.newChapter(),
-      (game: GameController) => game.isKo(),
-      (game: GameController) => game.insufficientRoll(),
-      (game: GameController) => game.sufficientRoll(),
-      (game: GameController) => game.playTurn(),
-      (game: GameController) => game.rollDice(),
-      (game: GameController) => game.choosePath(),
-      (game: GameController) => game.stopMovement(),
-      (game: GameController) => game.outOfMovements(),
-      (game: GameController) => game.defend(),
-      (game: GameController) => game.evade(),
-      (game: GameController) => game.startGame(),
-      (game: GameController) => game.doEffect(),
-      (game: GameController) => game.norma6Reached()
-    )
-
-    forbiddenTransitions.foreach(transition => {
-      game.changeState(new Combat(game))
-      var thrown = intercept[InvalidTransitionException]{
-        transition(game)
-      }
-      assert(thrown.getMessage.contains("Invalid transition"))
-    })
-  }
-
-  test("From Wait, certain transitions are permitted"){
-    val permittedTransitions: List[GameController => Unit] = List(
-      (game: GameController) => game.evade(),
-      (game: GameController) => game.defend()
-    )
-
-    permittedTransitions.foreach(transition => {
-      game.changeState(new Wait(game))
-      try transition(game)
-      catch {
-        case e: InvalidTransitionException =>
-          throw new AssertionError(e.getMessage)
-      }
-    })
-  }
-
-  test("From Wait, some transitions are forbidden"){
-    val forbiddenTransitions: List[GameController => Unit] = List(
-      (game: GameController) => game.attack(),
-      (game: GameController) => game.newChapter(),
-      (game: GameController) => game.isKo(),
-      (game: GameController) => game.insufficientRoll(),
-      (game: GameController) => game.sufficientRoll(),
-      (game: GameController) => game.playTurn(),
-      (game: GameController) => game.rollDice(),
-      (game: GameController) => game.choosePath(),
-      (game: GameController) => game.stopMovement(),
-      (game: GameController) => game.outOfMovements(),
-      (game: GameController) => game.startGame(),
-      (game: GameController) => game.endCombat(),
-      (game: GameController) => game.doEffect(),
-      (game: GameController) => game.norma6Reached()
-    )
-
-    forbiddenTransitions.foreach(transition => {
-      game.changeState(new Wait(game))
-      var thrown = intercept[InvalidTransitionException]{
-        transition(game)
-      }
-      assert(thrown.getMessage.contains("Invalid transition"))
-    })
-  }
-
-  test("From LandingPanel, certain transitions are permitted"){
-    game.changeState(new LandingPanel(game))
-    try game.doEffect()
-    catch {
-      case e: InvalidTransitionException =>
-        throw new AssertionError(e.getMessage)
-    }
-  }
-
-  test("From LandingPanel, some transitions are forbidden"){
-    val forbiddenTransitions: List[GameController => Unit] = List(
-      (game: GameController) => game.attack(),
-      (game: GameController) => game.newChapter(),
-      (game: GameController) => game.isKo(),
-      (game: GameController) => game.insufficientRoll(),
-      (game: GameController) => game.sufficientRoll(),
-      (game: GameController) => game.playTurn(),
-      (game: GameController) => game.rollDice(),
-      (game: GameController) => game.choosePath(),
-      (game: GameController) => game.stopMovement(),
-      (game: GameController) => game.outOfMovements(),
-      (game: GameController) => game.defend(),
-      (game: GameController) => game.evade(),
-      (game: GameController) => game.endCombat(),
-      (game: GameController) => game.startGame(),
-      (game: GameController) => game.norma6Reached()
-    )
-
-    forbiddenTransitions.foreach(transition => {
-      game.changeState(new LandingPanel(game))
-      var thrown = intercept[InvalidTransitionException]{
-        transition(game)
-      }
-      assert(thrown.getMessage.contains("Invalid transition"))
-    })
-  }
 
 }

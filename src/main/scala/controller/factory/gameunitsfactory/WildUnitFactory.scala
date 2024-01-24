@@ -1,5 +1,5 @@
 package cl.uchile.dcc.citric
-package factory.gameunitsfactory
+package controller.factory.gameunitsfactory
 
 import exceptions.FactoryConfigError
 import model.gameunits.wildunits.WildUnit

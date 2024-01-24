@@ -1,9 +1,8 @@
 package cl.uchile.dcc.citric
 package factory
 
-import factory.panelsfactory.concretepanelsfactory._
-
-import cl.uchile.dcc.citric.factory.gameunitsfactory.PlayerCharacterFactory
+import cl.uchile.dcc.citric.controller.factory.gameunitsfactory.PlayerCharacterFactory
+import cl.uchile.dcc.citric.controller.factory.panelsfactory.concretepanelsfactory.{BonusPanelFactory, DropPanelFactory, EncounterPanelFactory, HomePanelFactory, NeutralPanelFactory}
 import cl.uchile.dcc.citric.model.gameunits.playercharacter.PlayerCharacter
 import cl.uchile.dcc.citric.model.panels.concretepanels._
 

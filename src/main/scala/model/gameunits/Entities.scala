@@ -15,7 +15,8 @@ import scala.util.Random
  * @param _defensePts The defense points of the entity.
  * @param _evasionPts The evasion points of the entity.
  */
-abstract class Entities (val _maxHp: Int,
+abstract class Entities (val _name: String,
+                         val _maxHp: Int,
                          val _attackPts: Int,
                          val _defensePts: Int,
                          val _evasionPts: Int,
@@ -26,6 +27,8 @@ abstract class Entities (val _maxHp: Int,
   override var _stars: Int = 0
   override var _wins: Int = 0
   override var _isDead: Boolean = false
+
+  override def name: String = _name
 
   override def currentHp_(newCurrentHp: Int): Unit = {
     _currentHp = math.max(0, newCurrentHp)
@@ -54,15 +57,17 @@ abstract class Entities (val _maxHp: Int,
 
   override def inRecovery: Boolean = _isDead
 
-  override def takeDmg(qty: Int, option: Int): Unit = {
+  def takeDmg(qty: Int, option: Int): Boolean = {
     if (qty < 0) {
       throw new IllegalArgumentException("Quantity of damage must be non-negative")
     }
     else {
+      // player chose option 1: to defend
       if (option == 1) {
         defend(qty)
       }
-      else if (option == 2){
+      // player chose option 2: to evade
+      else{
         evade(qty)
       }
     }
@@ -81,20 +86,27 @@ abstract class Entities (val _maxHp: Int,
     }
   }
 
-  override def defend(qty: Int): Unit = {
+  override def defend(qty: Int): Boolean = {
     val dmgReceived: Int = math.max(1, qty - (rollDice() + this.defensePts))
     this.currentHp_(this.currentHp - dmgReceived)
+    if (this.currentHp > 0) {
+      true
+    }
+    else {
+      false
+    }
   }
 
-  override def evade(qty: Int): Unit = {
+  override def evade(qty: Int): Boolean = {
     val roll: Int = rollDice()
     val eva: Int = roll + this.evasionPts
     if (eva > qty) {
-      return
+      true
     }
     else {
       val dmgReceived: Int = attackPts + roll
       this.currentHp_(this.currentHp - attackPts)
+      false
     }
   }
 

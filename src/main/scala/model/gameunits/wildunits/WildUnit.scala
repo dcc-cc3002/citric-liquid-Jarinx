@@ -19,23 +19,19 @@ abstract class WildUnit (maxHp: Int,
                          attackPts: Int,
                          defensePts: Int,
                          evasionPts: Int,
-                         var _enemy: String)
-                        extends Entities(maxHp, attackPts, defensePts, evasionPts)
+                         name: String)
+                        extends Entities(name, maxHp, attackPts, defensePts, evasionPts)
                         with TWildUnit {
+
+  override var _canChooseCounter: Boolean = false
 
   def bonusStars: Int = _bonusStars
 
-  /** Returns the current type of the wild unit.
-   *
-   * @return A string representing the type of enemy.
-   */
-  def enemy: String = _enemy
-
-  override def overthrownBy(attacker: GameEntity): Unit = {
+  def overthrownBy(attacker: GameEntity): Unit = {
     attacker.rewardFromWU(this)
   }
 
-  override def rewardFromPlayer(player: PlayerCharacter): Unit = {
+  def rewardFromPlayer(player: PlayerCharacter): Unit = {
     this.stars_(this.stars + player.stars / 2)
     player.stars_(player.stars - player.stars / 2)
   }
@@ -46,7 +42,7 @@ abstract class WildUnit (maxHp: Int,
    * @throws WildUnitException because of the reason stated above.
    *
    */
-  override def rewardFromWU(wildUnit: TWildUnit): Unit = {
+  def rewardFromWU(wildUnit: TWildUnit): Unit = {
     throw new WildUnitException("A Wild Unit cannot fight another Wild Unit")
   }
 
