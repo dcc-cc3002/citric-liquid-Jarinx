@@ -16,6 +16,8 @@ import scala.collection.mutable.ArrayBuffer
   */
 trait Panel {
 
+  val panelType: String /** corresponde al tipo del panel (neutral, home, bonus, drop o encounter) */
+
   /** Array of the characters currently positioned on this panel.
     *
     * In the game, multiple characters might be on the same panel at once, e.g., if multiple players
@@ -47,4 +49,35 @@ trait Panel {
     * @param player The player character to remove from this panel.
     */
   def removeCharacter(player: PlayerCharacter): Unit
+}
+
+class neutralPanel(){
+}
+
+class homePanel(){
+  /** atributos:
+   *  - owner: String -> de qué jugador es el panel
+   *  - number: Int -> el número asociado al player
+   *
+   *  métodos:
+   *  - restoreHP: Unit -> cada vez que se pasa por el panel se suma 1 al HP del jugador
+   *  - nomraCheck: Boolean -> se checkea si el jugador tiene las estrellas suficientes
+   */
+}
+class bonusPanel(){
+  /** métodos:
+   * - gainStars: Unit -> dependiendo del roll, gana 'x' estrellas
+   */
+}
+
+class dropPanel(){
+  /** métodos:
+   * - loseStards: Unit -> dependiendo del roll, pierde 'y' estrellas
+   */
+}
+
+class encounterPanel(){
+  /** métodos:
+   * - battle: Boolean -> True si gana el jugador, False si gana el Wild Unit
+   */
 }
