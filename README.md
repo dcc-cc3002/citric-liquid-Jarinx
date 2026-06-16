@@ -23,3 +23,9 @@ contributions, the design decisions you've made, and any other information you d
 This project is licensed under the [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
 
 ---
+
+## State Diagram
+
+![state drawio](https://github.com/dcc-cc3002/citric-liquid-Jarinx/assets/144623039/3b405dc0-e432-47b0-a3e9-7307dcd7bbfd)
+
+
