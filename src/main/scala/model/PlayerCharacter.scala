@@ -2,6 +2,7 @@ package cl.uchile.dcc.citric
 package model
 
 import scala.util.Random
+import cl.uchile.dcc.citric.model.Entity
 
 /** The `PlayerCharacter` class represents a character or avatar in the game, encapsulating
   * several attributes such as health points, attack strength, defense capability,
@@ -35,17 +36,77 @@ import scala.util.Random
   * @author [[https://github.com/joelriquelme/ Joel Riquelme P.]]
   * @author [[https://github.com/r8vnhill/ Ignacio Slater M.]]
   * @author [[https://github.com/Seivier/ Vicente González B.]]
-  * @author [[https://github.com/~Your github account~/ ~Your Name~]]
+  * @author [[https://github.com/~Your github account~/ Julieta Ayelli]]
   */
-class PlayerCharacter(val name: String,
-              val maxHp: Int,
-              val attack: Int,
-              val defense: Int,
-              val evasion: Int,
-              val randomNumberGenerator: Random = new Random()) {
+class PlayerCharacter(
+              var _name: String,
+              var _num: Int,
+              var _randomNumberGenerator: Random = new Random(),
+              var _stars: Int,
+              var _wins: Int,
+              var _norma: Int) extends Entity {
+  /** gets the name of the player */
+  def name: String = _name
+
+  /** gets the number associated with the player */
+  def num: Int = _num
+
+  /** gets the roll number (1 to 6) */
+  def randomNumberGenerator: Random = _randomNumberGenerator
+
+  /** gets the current stars of the player */
+  def stars: Int = _stars
+
+  /** gets the curent wins of the player */
+  def wins: Int = _wins
+
+  /** gets the current norma of the player */
+  def norma: Int = _norma
+
+  /** sets (updates) the name of a player
+   * it's protected because it shouldn't change throughout the match */
+  protected def setName(newName: String): String = {
+    _name = newName
+    return _name
+  }
+
+  /** sets (updates) the number associated with a player
+   * it's protected because it shouldn't change throughout the match */
+  protected def setNum(newNum: Int): Int = {
+    _num = newNum
+    return _num
+  }
+
+  /** sets (updates) the roll number of a player
+   * it's protected because it shouldn't change once the dice is thrown */
+  protected def setRNG(newRNG: Random): Random = {
+    _randomNumberGenerator = newRNG
+    return _randomNumberGenerator
+  }
+
+  /** sets (updates) the stars of a player
+   * it's protected because only subclasses should access it to change it */
+  protected def setStars(newStars: Int): Int = {
+    _stars = newStars
+    return _stars
+  }
+
+  /** sets (updates) the wins of a player
+   * it's protected because only subclasses should access it to change it */
+  protected def setWins(newWins: Int): Int = {
+    _wins = newWins
+    return  _wins
+  }
+
+  /** sets (updates) the norma number of a player
+   * it's protected because only subclasses should access it to change it */
+  protected def setNorma(newNorma: Int): Int = {
+    _norma = newNorma
+    return _norma
+  }
 
   /** Rolls a dice and returns a value between 1 to 6. */
   def rollDice(): Int = {
-    randomNumberGenerator.nextInt(6) + 1
+    _randomNumberGenerator.nextInt(6) + 1
   }
 }
